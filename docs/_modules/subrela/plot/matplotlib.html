@@ -1,0 +1,828 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>subrela.plot.matplotlib &#8212; SubRelA 0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../index.html">Table of Contents</a></h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_hierarchy.html">API</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for subrela.plot.matplotlib</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2020 Nobuya Sato</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Visualization using Matplotlib.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.ticker</span>
+
+<span class="kn">from</span> <span class="nn">._utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">assign_tree_color</span><span class="p">,</span> <span class="n">check_angle</span><span class="p">,</span> <span class="n">check_location</span><span class="p">,</span>
+                     <span class="n">check_orientation</span><span class="p">)</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;draw_dendrogram&quot;</span><span class="p">,</span> <span class="s2">&quot;draw_node_info&quot;</span><span class="p">,</span> <span class="s2">&quot;draw_node_marker&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;draw_trace&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="draw_dendrogram"><a class="viewcode-back" href="../../../api/subrela.plot.matplotlib.draw_dendrogram.html#subrela.plot.matplotlib.draw_dendrogram">[docs]</a><span class="k">def</span> <span class="nf">draw_dendrogram</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span> <span class="n">tree_kws</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cut_kws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Draw a dendrogram.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : matplotlib.axes.Axes</span>
+<span class="sd">        Subplot on which a dendrogram is drawn.</span>
+<span class="sd">    leaf_data : pandas.DataFrame</span>
+<span class="sd">        Data of leaves returned by `subrela.plot.get_dendrogram_data` function.</span>
+<span class="sd">    tree_data : pandas.DataFrame</span>
+<span class="sd">        Data of tree lines returned by `subrela.plot.get_dendrogram_data`</span>
+<span class="sd">        function.</span>
+<span class="sd">    cut_data : pandas.DataFrame</span>
+<span class="sd">        Data of cut lines returned by `subrela.plot.get_dendrogram_data`</span>
+<span class="sd">        function.</span>
+<span class="sd">    palette : list or None, optional</span>
+<span class="sd">        Color palette for groups. If ``None``, taken from</span>
+<span class="sd">        ``matplotlib.rcParams[&#39;axes.prop_cycle&#39;]``.</span>
+<span class="sd">    orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="sd">        Orientation of a tree. If ``&#39;vertical&#39;``, the height direction of a</span>
+<span class="sd">        tree corresponds to the y axis. If ``&#39;horizontal&#39;``, it corresponds to</span>
+<span class="sd">        the x axis.</span>
+<span class="sd">    tree_kws : dict or None, optional</span>
+<span class="sd">        Keyword argumsnts passed to `matplotlib.axes.Axes.plot` method for</span>
+<span class="sd">        drawing tree lines.</span>
+<span class="sd">    cut_kws : dict or None, optional</span>
+<span class="sd">        Keyword arguments passed to `matplotlib.axes.Axes.plot` method for</span>
+<span class="sd">        drawing cut lines.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tree_lines : list[matplotlib.lines.Line2D]</span>
+<span class="sd">        Tree lines.</span>
+<span class="sd">    cut_lines : list[matplotlib.lines.Line2D]</span>
+<span class="sd">        Cut lines.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    A default color of a tree is ``tree_kws[&#39;color&#39;]``. If it does not exist,</span>
+<span class="sd">    ``palette[0]`` is used and group colors are selected from ``palette[1:]``.</span>
+
+<span class="sd">    If neither key ``&#39;color&#39;`` nor key ``&#39;c&#39;`` is in ``cut_kws``, ``&#39;k&#39;`` is</span>
+<span class="sd">    set to ``&#39;color&#39;``. If neither key ``&#39;linestyle&#39;`` nor key ``&#39;ls&#39;`` is in</span>
+<span class="sd">    ``cut_kws``, ``&#39;--&#39;`` is set to ``&#39;linestyle&#39;``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, _, tree_data, cut_data = get_dendrogram_data(</span>
+<span class="sd">           Z, groups=[0, 5, 6])</span>
+
+<span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
+<span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+
+<span class="sd">    Change colors:</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, _, tree_data, cut_data = get_dendrogram_data(</span>
+<span class="sd">           Z, groups=[0, 5, 6])</span>
+
+<span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
+<span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data, palette=[&#39;m&#39;, &#39;c&#39;])</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+
+<span class="sd">    Draw horizontally:</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, _, tree_data, cut_data = get_dendrogram_data(</span>
+<span class="sd">           Z, groups=[0, 5, 6])</span>
+
+<span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
+<span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data,</span>
+<span class="sd">                       orientation=&#39;horizontal&#39;)</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_vertical</span> <span class="o">=</span> <span class="n">check_orientation</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span>
+
+    <span class="n">tree_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tree_kws</span><span class="p">)</span> <span class="k">if</span> <span class="n">tree_kws</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">tree_color</span> <span class="o">=</span> <span class="n">tree_kws</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">default_palette</span> <span class="o">=</span> <span class="p">[</span><span class="n">prop</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+                       <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;axes.prop_cycle&quot;</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">tree_color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tree_color</span> <span class="o">=</span> <span class="n">default_palette</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">palette</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">default_palette</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">palette</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">default_palette</span>
+
+    <span class="n">cut_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cut_kws</span><span class="p">)</span> <span class="k">if</span> <span class="n">cut_kws</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">kw</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cut_kws</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">]):</span>
+        <span class="n">cut_kws</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;k&quot;</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">kw</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cut_kws</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;linestyle&quot;</span><span class="p">,</span> <span class="s2">&quot;ls&quot;</span><span class="p">]):</span>
+        <span class="n">cut_kws</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;linestyle&quot;</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">)</span>
+
+    <span class="n">tree_data</span> <span class="o">=</span> <span class="n">tree_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">assign_tree_color</span><span class="p">(</span><span class="n">tree_data</span><span class="p">,</span> <span class="n">palette</span><span class="p">,</span> <span class="n">tree_color</span><span class="p">)</span>
+
+    <span class="n">baxis</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span> <span class="k">if</span> <span class="n">is_vertical</span> <span class="k">else</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span>
+    <span class="n">baxis</span><span class="o">.</span><span class="n">major</span><span class="o">.</span><span class="n">locator</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span>
+        <span class="n">leaf_data</span><span class="p">[</span><span class="s2">&quot;breadth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+    <span class="n">baxis</span><span class="o">.</span><span class="n">major</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FixedFormatter</span><span class="p">(</span>
+        <span class="n">leaf_data</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+
+    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">tree_data</span><span class="p">[[</span><span class="s2">&quot;breadths&quot;</span><span class="p">,</span> <span class="s2">&quot;heights&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span>
+    <span class="n">tree_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="o">**</span><span class="n">tree_kws</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                  <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">])]</span>
+
+    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">cut_data</span><span class="p">[[</span><span class="s2">&quot;breadths&quot;</span><span class="p">,</span> <span class="s2">&quot;heights&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span>
+    <span class="n">cut_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">cut_kws</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">tree_lines</span><span class="p">,</span> <span class="n">cut_lines</span></div>
+
+
+<div class="viewcode-block" id="draw_node_marker"><a class="viewcode-back" href="../../../api/subrela.plot.matplotlib.draw_node_marker.html#subrela.plot.matplotlib.draw_node_marker">[docs]</a><span class="k">def</span> <span class="nf">draw_node_marker</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">node_data</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span> <span class="n">kws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Draw markers of nodes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : matplotlib.axes.Axes</span>
+<span class="sd">        Subplot on which markers are drawn.</span>
+<span class="sd">    node_data : pandas.DataFrame</span>
+<span class="sd">        Data of nodes returned by `subrela.plot.get_dendrogram_data` function.</span>
+<span class="sd">    orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="sd">        Orientation of a tree. If ``&#39;vertical&#39;``, the height direction of a</span>
+<span class="sd">        tree corresponds to the y axis. If ``&#39;horizontal&#39;``, it corresponds to</span>
+<span class="sd">        the x axis.</span>
+<span class="sd">    kws : dict or None, optional</span>
+<span class="sd">        Keyword arguments passed to `matplotlib.axes.Axes.scatter` method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    scatter : matplotlib.collections.PathCollection</span>
+<span class="sd">        Markers.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The default value for ``kws[&#39;marker&#39;]`` is ``&#39;None&#39;``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram, draw_node_marker</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)</span>
+
+<span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
+<span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
+<span class="sd">       draw_node_marker(ax, node_data, kws={&#39;marker&#39;: &#39;o&#39;})</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_vertical</span> <span class="o">=</span> <span class="n">check_orientation</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span>
+
+    <span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kws</span><span class="p">)</span> <span class="k">if</span> <span class="n">kws</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="n">kws</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;marker&quot;</span><span class="p">,</span> <span class="s2">&quot;None&quot;</span><span class="p">)</span>
+
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">node_data</span><span class="p">[[</span><span class="s2">&quot;breadth&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span>
+    <span class="n">scatter</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">scatter</span></div>
+
+
+<div class="viewcode-block" id="draw_node_info"><a class="viewcode-back" href="../../../api/subrela.plot.matplotlib.draw_node_info.html#subrela.plot.matplotlib.draw_node_info">[docs]</a><span class="k">def</span> <span class="nf">draw_node_info</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">node_data</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">formatter</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                   <span class="n">location</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">,</span> <span class="n">x_offset</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">y_offset</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                   <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span> <span class="n">kws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Draw node information as texts.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : matplotlib.axes.Axes</span>
+<span class="sd">        Subplot on which texts are drawn.</span>
+<span class="sd">    node_data : pandas.DataFrame</span>
+<span class="sd">        Data of nodes returned by `subrela.plot.get_dendrogram_data` function.</span>
+<span class="sd">    info : pandas.Series</span>
+<span class="sd">        Node information. Its index is a cluster index.</span>
+<span class="sd">    formatter : callable, optional</span>
+<span class="sd">        Function for converting a value of ``info`` into `str`.</span>
+<span class="sd">    angle : {0, 90, -90}, optional</span>
+<span class="sd">        Angle of a text from the x axis in degrees.</span>
+<span class="sd">    location : {&#39;first&#39;, &#39;last&#39;, &#39;inner&#39;, &#39;outer&#39;}, optional</span>
+<span class="sd">        Side on which a text is located. If &#39;first&#39; and &#39;last&#39;, a text is</span>
+<span class="sd">        located on the side near to the first and the last leaf, respectively.</span>
+<span class="sd">        If &#39;inner&#39;, and &#39;outer&#39;, a text is located on the side near to and far</span>
+<span class="sd">        from a parent node, respectively.</span>
+<span class="sd">    x_offset : float, optional</span>
+<span class="sd">        Offset from a tree line along the x axis in pixels.</span>
+<span class="sd">    y_offset : float, optional</span>
+<span class="sd">        Offset from a tree line along the y axis in pixels.</span>
+<span class="sd">    orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="sd">        Orientation of a tree. If ``&#39;vertical&#39;``, the height direction of a</span>
+<span class="sd">        tree corresponds to the y axis. If ``&#39;horizontal&#39;``, it corresponds to</span>
+<span class="sd">        the x axis.</span>
+<span class="sd">    kws : dict or None, optional</span>
+<span class="sd">        Keyword arguments passed to `matplotlib.axes.Axes.annotate` method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    texts : list[matplotlib.text.Annotation]</span>
+<span class="sd">        Texts of nodes.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If ``kws`` contains key ``&#39;xytext&#39;``, ``&#39;textcoords&#39;``,</span>
+<span class="sd">        ``&#39;horizontalalignment&#39;``, ``&#39;verticalalignment&#39;``, ``&#39;rotation&#39;``, and</span>
+<span class="sd">        ``&#39;rotation_mode&#39;``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram, draw_node_info</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)</span>
+
+<span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
+<span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
+<span class="sd">       draw_node_info(ax, node_data, node_data[&#39;height&#39;])</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+
+<span class="sd">    Change a format of texts:</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram, draw_node_info</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)</span>
+
+<span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
+<span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
+<span class="sd">       draw_node_info(ax, node_data, node_data[&#39;height&#39;],</span>
+<span class="sd">                      formatter=&#39;{:.1f}&#39;.format)</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+
+<span class="sd">    Rotate texts:</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram, draw_node_info</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)</span>
+
+<span class="sd">       _, axes = matplotlib.pyplot.subplots(nrows=2, ncols=2,</span>
+<span class="sd">                                            figsize=(7.5, 7.5))</span>
+<span class="sd">       for ax, angle in zip(axes.flat, [90, -90, 0]):</span>
+<span class="sd">           ax.set_title(&#39;angle = {}&#39;.format(angle))</span>
+<span class="sd">           draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
+<span class="sd">           draw_node_info(ax, node_data, node_data[&#39;height&#39;],</span>
+<span class="sd">                          formatter=&#39;{:.1f}&#39;.format, angle=angle)</span>
+<span class="sd">       axes[1, 1].set_visible(False)</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+
+<span class="sd">    Change locations of texts:</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram, draw_node_info</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)</span>
+
+<span class="sd">       _, axes = matplotlib.pyplot.subplots(nrows=2, ncols=2,</span>
+<span class="sd">                                            figsize=(7.5, 7.5))</span>
+<span class="sd">       for ax, location in zip(axes.flat, [&#39;first&#39;, &#39;last&#39;, &#39;inner&#39;, &#39;outer&#39;]):</span>
+<span class="sd">           ax.set_title(&#39;location = &quot;{}&quot;&#39;.format(location))</span>
+<span class="sd">           draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
+<span class="sd">           draw_node_info(ax, node_data, node_data[&#39;height&#39;],</span>
+<span class="sd">                          formatter=&#39;{:.1f}&#39;.format, location=location)</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+
+<span class="sd">    Offset texts:</span>
+
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram, draw_node_info</span>
+
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)</span>
+
+<span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
+<span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
+<span class="sd">       draw_node_info(ax, node_data, node_data[&#39;height&#39;],</span>
+<span class="sd">                      formatter=&#39;{:.1f}&#39;.format, x_offset=5, y_offset=10)</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">check_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">location</span> <span class="o">=</span> <span class="n">check_location</span><span class="p">(</span><span class="n">location</span><span class="p">)</span>
+    <span class="n">is_vertical</span> <span class="o">=</span> <span class="n">check_orientation</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span>
+    <span class="n">is_flipped_x</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis_inverted</span><span class="p">()</span>
+    <span class="n">is_flipped_y</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis_inverted</span><span class="p">()</span>
+
+    <span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kws</span><span class="p">)</span> <span class="k">if</span> <span class="n">kws</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;xytext&quot;</span><span class="p">,</span> <span class="s2">&quot;textcoords&quot;</span><span class="p">,</span> <span class="s2">&quot;horizontalalignment&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;verticalalignment&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">,</span> <span class="s2">&quot;rotation_mode&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">kws</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;kws&#39; must not contain key &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kw</span><span class="p">))</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">node_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;info_text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+                         <span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">]:</span>
+        <span class="n">conds</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;side&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">side</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">conds</span><span class="p">,</span> <span class="s2">&quot;x_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_x_offset</span><span class="p">(</span><span class="n">x_offset</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span>
+                                                    <span class="n">is_vertical</span><span class="p">,</span> <span class="n">is_flipped_x</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">conds</span><span class="p">,</span> <span class="s2">&quot;y_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_y_offset</span><span class="p">(</span><span class="n">y_offset</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span>
+                                                    <span class="n">is_vertical</span><span class="p">,</span> <span class="n">is_flipped_y</span><span class="p">)</span>
+
+    <span class="n">texts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">]:</span>
+        <span class="n">subdata</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;side&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">side</span><span class="p">]</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">subdata</span><span class="p">[[</span><span class="s2">&quot;breadth&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_vertical</span><span class="p">:</span>
+            <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span>
+        <span class="n">horizontalalignment</span> <span class="o">=</span> <span class="n">_get_horizontalalignment</span><span class="p">(</span>
+            <span class="n">angle</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">is_vertical</span><span class="p">,</span> <span class="n">is_flipped_x</span><span class="p">,</span> <span class="n">is_flipped_y</span><span class="p">)</span>
+        <span class="n">verticalalignment</span> <span class="o">=</span> <span class="n">_get_verticalalignment</span><span class="p">(</span>
+            <span class="n">angle</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">is_vertical</span><span class="p">,</span> <span class="n">is_flipped_x</span><span class="p">,</span> <span class="n">is_flipped_y</span><span class="p">)</span>
+        <span class="n">texts</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="n">xytext</span><span class="p">,</span>
+                                 <span class="n">textcoords</span><span class="o">=</span><span class="s2">&quot;offset pixels&quot;</span><span class="p">,</span>
+                                 <span class="n">horizontalalignment</span><span class="o">=</span><span class="n">horizontalalignment</span><span class="p">,</span>
+                                 <span class="n">verticalalignment</span><span class="o">=</span><span class="n">verticalalignment</span><span class="p">,</span>
+                                 <span class="n">rotation</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span> <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;anchor&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+                     <span class="k">for</span> <span class="n">text</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xytext</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                         <span class="n">subdata</span><span class="p">[</span><span class="s2">&quot;info_text&quot;</span><span class="p">],</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span>
+                         <span class="n">subdata</span><span class="p">[[</span><span class="s2">&quot;x_offset&quot;</span><span class="p">,</span> <span class="s2">&quot;y_offset&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()))</span>
+
+    <span class="k">return</span> <span class="n">texts</span></div>
+
+
+<div class="viewcode-block" id="draw_trace"><a class="viewcode-back" href="../../../api/subrela.plot.matplotlib.draw_trace.html#subrela.plot.matplotlib.draw_trace">[docs]</a><span class="k">def</span> <span class="nf">draw_trace</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">trace_data</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span> <span class="n">kws</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Draw trace lines.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : matplotlib.axes.Axes</span>
+<span class="sd">        Subplot on which trace lines are drawn.</span>
+<span class="sd">    trace_data : pandas.DataFrame</span>
+<span class="sd">        Data of trace lines returned by `subrela.plot.get_trace_data` function.</span>
+<span class="sd">    orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="sd">        Orientation of a tree. If ``&#39;vertical&#39;``, the height direction of a</span>
+<span class="sd">        tree corresponds to the y axis. If ``&#39;horizontal&#39;``, it corresponds to</span>
+<span class="sd">        the x axis.</span>
+<span class="sd">    kws : dict or None, optional</span>
+<span class="sd">        Keyword arguments passed to `matplotlib.axes.Axes.plot` method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lines : list[matplotlib.lines.Line2D]</span>
+<span class="sd">        Trace lines.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If neither key ``&#39;color&#39;`` nor key ``&#39;c&#39;`` is in ``kws``, ``&#39;k&#39;`` is set to</span>
+<span class="sd">    ``&#39;color&#39;``. If neither key ``&#39;linewidth&#39;`` nor key ``&#39;lw&#39;`` is in ``kws``,</span>
+<span class="sd">    ``2`` is set to ``&#39;linewidth&#39;``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    .. plot::</span>
+
+<span class="sd">       import numpy</span>
+<span class="sd">       import matplotlib.pyplot</span>
+<span class="sd">       from subrela.records import from_arrays</span>
+<span class="sd">       from subrela.clustering import get_clusters</span>
+<span class="sd">       from subrela.analysis import get_strong_relevances, get_weak_relevances</span>
+<span class="sd">       from subrela.plot import get_dendrogram_data, get_trace_data</span>
+<span class="sd">       from subrela.plot.matplotlib import draw_dendrogram, draw_trace</span>
+
+<span class="sd">       scores = from_arrays([[False, False, False, True, True],</span>
+<span class="sd">                             [True, False, False, True, True],</span>
+<span class="sd">                             [False, True, False, True, True],</span>
+<span class="sd">                             [True, True, False, True, True],</span>
+<span class="sd">                             [False, False, True, True, True],</span>
+<span class="sd">                             [True, False, True, True, True],</span>
+<span class="sd">                             [False, True, True, True, True],</span>
+<span class="sd">                             [True, True, True, True, True]],</span>
+<span class="sd">                            [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])</span>
+<span class="sd">       X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+
+<span class="sd">       Z = get_clusters(X)</span>
+<span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(</span>
+<span class="sd">           Z, groups=[0, 5, 6])</span>
+<span class="sd">       sr = get_strong_relevances(scores, Z, clusters=[5])</span>
+<span class="sd">       wr = get_weak_relevances(scores, Z, 5)</span>
+<span class="sd">       trace_data = get_trace_data(node_data, cut_data, sr, wr, tol=0.1)</span>
+
+<span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
+<span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
+<span class="sd">       draw_trace(ax, trace_data)</span>
+<span class="sd">       matplotlib.pyplot.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_vertical</span> <span class="o">=</span> <span class="n">check_orientation</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span>
+
+    <span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kws</span><span class="p">)</span> <span class="k">if</span> <span class="n">kws</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">kw</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kws</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">]):</span>
+        <span class="n">kws</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;k&quot;</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">kw</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kws</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;linewidth&quot;</span><span class="p">,</span> <span class="s2">&quot;lw&quot;</span><span class="p">]):</span>
+        <span class="n">kws</span><span class="p">[</span><span class="s2">&quot;linewidth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">trace_data</span><span class="p">[[</span><span class="s2">&quot;breadths&quot;</span><span class="p">,</span> <span class="s2">&quot;heights&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">lines</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_x_offset</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">is_vertical</span><span class="p">,</span> <span class="n">is_flipped_x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return an offset along the x axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : float</span>
+<span class="sd">    location : {&#39;first&#39;, &#39;last&#39;, &#39;inner&#39;, &#39;outer&#39;}</span>
+<span class="sd">    side : {&#39;first&#39;, &#39;last&#39;}</span>
+<span class="sd">    is_vertical : bool</span>
+<span class="sd">    is_flipped_x : bool</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_flipped_x</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="n">value</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_flipped_x</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span> <span class="nf">_get_y_offset</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">is_vertical</span><span class="p">,</span> <span class="n">is_flipped_y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return an offset along the y axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : float</span>
+<span class="sd">    location : {&#39;first&#39;, &#39;last&#39;, &#39;inner&#39;, &#39;outer&#39;}</span>
+<span class="sd">    side : {&#39;first&#39;, &#39;last&#39;}</span>
+<span class="sd">    is_vertical : bool</span>
+<span class="sd">    is_flipped_y : bool</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_flipped_y</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="n">value</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">is_flipped_y</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="k">def</span> <span class="nf">_get_horizontalalignment</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">is_vertical</span><span class="p">,</span> <span class="n">is_flipped_x</span><span class="p">,</span>
+                             <span class="n">is_flipped_y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return horizontal alignment of a text.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    angle : {0, 90, -90}</span>
+<span class="sd">    location : {&#39;first&#39;, &#39;last&#39;, &#39;inner&#39;, &#39;outer&#39;}</span>
+<span class="sd">    side : {&#39;first&#39;, &#39;last&#39;}</span>
+<span class="sd">    is_vertical : bool</span>
+<span class="sd">    is_flipped_x : bool</span>
+<span class="sd">    is_flipped_y : bool</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    {&#39;left&#39;, &#39;right&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_x</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">==</span> <span class="mi">90</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_y</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">==</span> <span class="o">-</span><span class="mi">90</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_y</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_x</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">==</span> <span class="mi">90</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_y</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">==</span> <span class="o">-</span><span class="mi">90</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_y</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;left&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;right&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">_get_verticalalignment</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">is_vertical</span><span class="p">,</span> <span class="n">is_flipped_x</span><span class="p">,</span>
+                           <span class="n">is_flipped_y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return vertical alignment along the y axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    angle : {0, 90, -90}</span>
+<span class="sd">    location : {&#39;first&#39;, &#39;last&#39;, &#39;inner&#39;, &#39;outer&#39;}</span>
+<span class="sd">    side : {&#39;first&#39;, &#39;last&#39;}</span>
+<span class="sd">    is_vertical : bool</span>
+<span class="sd">    is_flipped_x : bool</span>
+<span class="sd">    is_flipped_y : bool</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    {&#39;baseline&#39;, &#39;top&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_vertical</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_y</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">==</span> <span class="mi">90</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_x</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">==</span> <span class="o">-</span><span class="mi">90</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_x</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_y</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;first&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">side</span> <span class="o">==</span> <span class="s2">&quot;last&quot;</span> <span class="ow">and</span> <span class="n">location</span> <span class="o">==</span> <span class="s2">&quot;outer&quot;</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">==</span> <span class="mi">90</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_x</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+        <span class="k">elif</span> <span class="n">angle</span> <span class="o">==</span> <span class="o">-</span><span class="mi">90</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_flipped_x</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;top&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s2">&quot;baseline&quot;</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Nobuya Sato.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.1.
+    </div>
+  </body>
+</html>

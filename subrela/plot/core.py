@@ -1,3 +1,19 @@
+# Copyright 2020 Nobuya Sato
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""Core tools for visualization."""
+
 import itertools
 
 import pandas
@@ -12,7 +28,8 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
     Parameters
     ----------
     Z : pandas.DataFrame
-        Data of clusters returned by `subrela.clustering.get_clusters`.
+        Data of clusters returned by `subrela.clustering.get_clusters`
+        function.
     labels : list[str] or None, optional
         Labels of leaves in the order of leaf index. If ``None``, a leaf index
         is used.
@@ -41,81 +58,176 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
 
     Notes
     -----
-    Indices and columns of returned `pandas.DataFrame`s are as follows:
+    An index and columns of ``leaf_data`` are as follows:
 
-    - leaf_data
-      leaf_data.index : int
-          Cluster index. The name is 'leaf'.
+        ``leaf_data.index`` : int
+            Cluster index. The name is 'leaf'.
 
-      leaf_data['label'] : str
-          Labels.
+        ``leaf_data['label']`` : str
+            Labels.
 
-      leaf_data['breadth'] : float
-          Positions. along the breadth direction.
+        ``leaf_data['breadth']`` : float
+            Positions. along the breadth direction.
 
-    - node_data
-      node_data.index : int
-          Cluster index. The name is 'cluster'.
+    An index and columns of ``node_data`` are as follows:
 
-      node_data['breadth'] : float
-          Positions along the breadth direction.
+        ``node_data.index`` : int
+            Cluster index. The name is 'cluster'.
 
-      node_data['height'] : float
-          Positions along the height direction.
+        ``node_data['breadth']`` : float
+            Positions along the breadth direction.
 
-      node_data['children'] : (2,) list[int]
-          Cluster indices of child nodes.
+        ``node_data['height']`` : float
+            Positions along the height direction.
 
-      node_data['side'] : {'first', 'last'}
-          Side in which a node located among sibling nodes. 'first' means that
-          its value of the breadth is less than the other. 'last' means that
-          its value of the breadth is greater than the other.
+        ``node_data['children']`` : (2,) list[int]
+            Cluster indices of child nodes.
 
-      node_data['is_group'] : bool
-          ``True`` if a node is a group cluster.
+        ``node_data['side']`` : {'first', 'last'}
+            Side in which a node located among sibling nodes. 'first' means
+            that its value of the breadth is less than the other. 'last' means
+            that its value of the breadth is greater than the other.
 
-    - tree_data
-      tree_data.index
-          No meaning.
+        ``node_data['is_group']`` : bool
+            ``True`` if a node is a group cluster.
 
-      tree_data['cluster'] : int
-          Cluster index from which a line descends to a child.
+    An index and columns of ``tree_data`` are as follows:
 
-      tree_data['side'] : {'first', 'last'}
-          Side of a child to which a line descends. 'first' means that a line
-          descends to a child whose value of the breadth is less. 'last' means
-          that a line descends to a child whose value of the breadth is
-          greater.
+        ``tree_data.index``
+            No meaning.
 
-      tree_data['breadths'] : (3,) list[float]
-          Positions of start, corner, and end points along the breadth
-          direction.
+        ``tree_data['cluster']`` : int
+            Cluster index from which a line descends to a child.
 
-      tree_data['heights'] : (3,) list[float]
-          Positions of start, corner, and end points along the height
-          direction.
+        ``tree_data['side']`` : {'first', 'last'}
+            Side of a child to which a line descends. 'first' means that a line
+            descends to a child whose value of the breadth is less. 'last'
+            means that a line descends to a child whose value of the breadth is
+            greater.
 
-      tree_data['group'] : int
-          Cluster index of a group to which a line belongs.
+        ``tree_data['breadths']`` : (3,) list[float]
+            Positions of start, corner, and end points along the breadth
+            direction.
 
-    - cut_data
-      cut_data.index : int
-          Cluster index of a group. The name is 'group'.
+        ``tree_data['heights']`` : (3,) list[float]
+            Positions of start, corner, and end points along the height
+            direction.
 
-      cut_data['breadths'] : (2,) list[float]
-          Positions of start and end points along the breadth direction.
+        ``tree_data['group']`` : int
+            Cluster index of a group to which a line belongs.
 
-      cut_data['heights'] : (2,) list[float]
-          Positions of start and end points along the height direction.
+    An index and columns of ``cut_data`` are as follows:
+
+        ``cut_data.index`` : int
+            Cluster index of a group. The name is 'group'.
+
+        ``cut_data['breadths']`` : (2,) list[float]
+            Positions of start and end points along the breadth direction.
+
+        ``cut_data['heights']`` : (2,) list[float]
+            Positions of start and end points along the height direction.
+
+    Examples
+    --------
+    >>> # just for the output format
+    >>> pandas.set_option('display.max_colwidth', 29)
+
+    >>> import numpy
+    >>> from subrela.clustering import get_clusters
+    >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
+    >>> Z = get_clusters(X)
+    >>> leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)
+    >>> leaf_data
+         label  breadth
+    leaf               
+    0        0        2
+    1        1        3
+    2        2        4
+    3        3        0
+    4        4        1
+    >>> node_data
+             breadth    height children   side  is_group
+    cluster                                             
+    0          2.000  0.000000       []  first     False
+    1          3.000  0.000000       []  first     False
+    2          4.000  0.000000       []   last     False
+    3          0.000  0.000000       []  first     False
+    4          1.000  0.000000       []   last     False
+    5          3.500  2.000000   [1, 2]   last     False
+    6          0.500  4.000000   [3, 4]  first     False
+    7          2.750  5.099020   [0, 5]   last     False
+    8          1.625  6.324555   [6, 7]   last     False
+    >>> tree_data
+       cluster   side             breadths                       heights  group
+    0        5  first          [3.5, 3, 3]               [2.0, 2.0, 0.0]   <NA>
+    1        5   last          [3.5, 4, 4]               [2.0, 2.0, 0.0]   <NA>
+    2        6  first          [0.5, 0, 0]               [4.0, 4.0, 0.0]   <NA>
+    3        6   last          [0.5, 1, 1]               [4.0, 4.0, 0.0]   <NA>
+    4        7  first         [2.75, 2, 2]  [5.0990195135927845, 5.09...   <NA>
+    5        7   last     [2.75, 3.5, 3.5]  [5.0990195135927845, 5.09...   <NA>
+    6        8  first    [1.625, 0.5, 0.5]  [6.324555320336759, 6.324...   <NA>
+    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324...   <NA>
+    >>> cut_data
+    Empty DataFrame
+    Columns: [breadths, heights]
+    Index: []
+
+    >>> leaf_data, _, _, _ = get_dendrogram_data(
+    ...     Z, labels=['A', 'B', 'C', 'D', 'E'])
+    >>> leaf_data
+         label  breadth
+    leaf               
+    0        A        2
+    1        B        3
+    2        C        4
+    3        D        0
+    4        E        1
+
+    >>> _, node_data, tree_data, cut_data = get_dendrogram_data(
+    ...     Z, groups=[0, 5, 6])
+    >>> node_data
+             breadth    height children   side  is_group
+    cluster                                             
+    0          2.000  0.000000       []  first      True
+    1          3.000  0.000000       []  first     False
+    2          4.000  0.000000       []   last     False
+    3          0.000  0.000000       []  first     False
+    4          1.000  0.000000       []   last     False
+    5          3.500  2.000000   [1, 2]   last      True
+    6          0.500  4.000000   [3, 4]  first      True
+    7          2.750  5.099020   [0, 5]   last     False
+    8          1.625  6.324555   [6, 7]   last     False
+    >>> tree_data
+       cluster   side             breadths                       heights  group
+    0        5  first          [3.5, 3, 3]               [2.0, 2.0, 0.0]      5
+    1        5   last          [3.5, 4, 4]               [2.0, 2.0, 0.0]      5
+    2        6  first          [0.5, 0, 0]               [4.0, 4.0, 0.0]      6
+    3        6   last          [0.5, 1, 1]               [4.0, 4.0, 0.0]      6
+    4        7  first         [2.75, 2, 2]  [5.0990195135927845, 5.09...   <NA>
+    5        7   last     [2.75, 3.5, 3.5]  [5.0990195135927845, 5.09...   <NA>
+    6        8  first    [1.625, 0.5, 0.5]  [6.324555320336759, 6.324...   <NA>
+    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324...   <NA>
+    >>> cut_data
+              breadths                       heights
+    group                                           
+    0       [1.5, 2.5]  [4.549509756796392, 4.549...
+    5       [2.5, 4.5]  [4.549509756796392, 4.549...
+    6      [-0.5, 1.5]  [4.549509756796392, 4.549...
+
+    >>> _, _, _, cut_data = get_dendrogram_data(
+    ...     Z, groups=[0, 5, 6], cut_bounds_min=1.5)
+    >>> cut_data
+              breadths                       heights
+    group                                           
+    0       [1.5, 2.5]  [3.5495097567963922, 3.54...
+    5       [2.5, 4.5]  [3.5495097567963922, 3.54...
+    6      [-0.5, 1.5]  [5.16227766016838, 5.1622...
     """
-
     if labels is None:
         labels = [str(leaf) for leaf in range(Z.index.min())]
 
     if groups is None:
         groups = []
-    elif pandas.api.types.is_number(groups):
-        groups = _get_groups(Z, float(groups))
 
     for group1, group2 in itertools.combinations(groups, 2):
         leaves1 = Z.loc[group1, "leaves"] if group1 in Z.index else [group1]
@@ -136,20 +248,22 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
     return leaf_data, node_data, tree_data, cut_data
 
 
-def get_trace_data(node_data, cut_data, strong_relevances, weak_relevances,
-                   tol=0.):
+def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
     """Calculate data for drawing trace lines.
 
     Parameters
     ----------
     node_data : pandas.DataFrame
-        Data of nodes returned by `subrela.plot.get_dendrogram_data`.
+        Data of nodes returned by `subrela.plot.get_dendrogram_data` function.
     cut_data : pandas.DataFrame
-        Data of cut lines returned by `subrela.plot.get_dendrogram_data`.
-    strong_relevances : pandas.Series
-        Strong relevances of groups.
-    weak_relevances : pandas.Series
-        Weak relevances of subgroups.
+        Data of cut lines returned by `subrela.plot.get_dendrogram_data`
+        function.
+    sr : pandas.DataFrame
+        Strong relevances of groups returned by
+        `subrela.analysis.get_strong_relevances` function.
+    wr : pandas.DataFrame
+        Weak relevances of subgroups, which is a concatenation of returns of
+        `subrela.analysis.get_weak_relevances` function.
     tol : float, optional
         Tolerance of difference in the weak relevance from a group.
 
@@ -160,24 +274,51 @@ def get_trace_data(node_data, cut_data, strong_relevances, weak_relevances,
 
     Notes
     -----
-    ``strong_relevances`` and ``weak_relevances`` contain ``float`` values and
-    their index are the cluster indices.
+    An index and columns of ``trace_data`` are as follows:
 
-    Index and columns of ``trace_data`` are as follows:
+        ``trace_data.index``
+            No meaning.
 
-    trace_data.index
-        No meaning.
+        ``trace_data['breadths']`` : list[float]
+            Positions of start, corner, and end points along the breadth
+            direction.
 
-    trace_data['breadths']
-        Positions of start, corner, and end points along the breadth direction.
+        ``trace_data['heights']`` : list[float]
+            Positions of start, corner, and end points along the heights
+            direction.
 
-    trace_data['heights']
-        Positions of start, corner, and end points along the heights direction.
+        ``trace_data['group']`` : int
+            Cluster index of a group to which a trace line belongs
 
-    trace_data['group']
-        Cluster index of a group to which a trace line belongs
+    Examples
+    --------
+    >>> import numpy
+    >>> from subrela.records import from_arrays
+    >>> from subrela.clustering import get_clusters
+    >>> from subrela.analysis import get_strong_relevances, get_weak_relevances
+    >>> scores = from_arrays([[False, False, False, True, True],
+    ...                       [True, False, False, True, True],
+    ...                       [False, True, False, True, True],
+    ...                       [True, True, False, True, True],
+    ...                       [False, False, True, True, True],
+    ...                       [True, False, True, True, True],
+    ...                       [False, True, True, True, True],
+    ...                       [True, True, True, True, True]],
+    ...                      [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
+    >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
+    >>> Z = get_clusters(X)
+    >>> _, node_data, _, cut_data = get_dendrogram_data(Z, groups=[5])
+    >>> sr = get_strong_relevances(scores, Z, clusters=[5])
+    >>> wr = get_weak_relevances(scores, Z, 5)
+    >>> get_trace_data(node_data, cut_data, sr, wr)
+         breadths                    heights  group
+    0  [3.5, 3.5]  [3.5495097567963922, 2.0]      5
+
+    >>> get_trace_data(node_data, cut_data, sr, wr, tol=0.1)
+              breadths                    heights  group
+    0       [3.5, 3.5]  [3.5495097567963922, 2.0]      5
+    1  [3.5, 4.0, 4.0]            [2.0, 2.0, 0.0]      5
     """
-
     groups = node_data.loc[node_data["is_group"]].index
 
     gs = []
@@ -185,12 +326,12 @@ def get_trace_data(node_data, cut_data, strong_relevances, weak_relevances,
     heights = []
     for group in groups:
         traces = _get_traces(node_data, group)
-        if group not in strong_relevances.index:
+        if group not in sr.index:
             continue
-        if group not in weak_relevances.index:
+        if group not in wr.index:
             continue
-        group_sr = strong_relevances.loc[group, "relevance"]
-        group_wr = weak_relevances.loc[group, "relevance"]
+        group_sr = sr.loc[group, "relevance"]
+        group_wr = wr.loc[group, "relevance"]
         if group_wr < group_sr:
             continue
         group_b, group_h = node_data.loc[group, ["breadth", "height"]]
@@ -201,10 +342,10 @@ def get_trace_data(node_data, cut_data, strong_relevances, weak_relevances,
         for trace in traces:
             b, h = group_b, group_h
             for cluster in trace[1:]:
-                if cluster not in weak_relevances.index:
+                if cluster not in wr.index:
                     break
-                wr = weak_relevances.loc[cluster, "relevance"]
-                if tol < group_wr - wr:
+                cluster_wr = wr.loc[cluster, "relevance"]
+                if tol < group_wr - cluster_wr:
                     break
                 prev_b, prev_h = b, h
                 b, h = node_data.loc[cluster, ["breadth", "height"]]
@@ -219,7 +360,7 @@ def get_trace_data(node_data, cut_data, strong_relevances, weak_relevances,
 
 
 def _get_leaf_data(labels, order):
-    """
+    """Return data of leaves.
 
     Parameters
     ----------
@@ -232,7 +373,6 @@ def _get_leaf_data(labels, order):
     -------
     df : pandas.DataFrame
     """
-
     df = pandas.DataFrame({"label": labels},
                           index=pandas.RangeIndex(len(labels), name="leaf"))
     df["breadth"] = pandas.Series(dict(zip(order, range(len(labels)))))
@@ -241,7 +381,7 @@ def _get_leaf_data(labels, order):
 
 
 def _get_node_data(ZZ, leaf_data, groups):
-    """
+    """Return data of nodes.
 
     Parameters
     ----------
@@ -253,7 +393,6 @@ def _get_node_data(ZZ, leaf_data, groups):
     -------
     df : pandas.DataFrame
     """
-
     df = leaf_data["breadth"].to_frame()
     df["height"] = 0.
     df["children"] = [[] for _ in range(len(df))]
@@ -272,7 +411,7 @@ def _get_node_data(ZZ, leaf_data, groups):
 
 
 def _get_tree_data(ZZ, leaf_data, groups):
-    """
+    """Return data of tree lines.
 
     Parameters
     ----------
@@ -284,7 +423,6 @@ def _get_tree_data(ZZ, leaf_data, groups):
     -------
     df : pandas.DataFrame
     """
-
     ZZ = ZZ.sort_index()
 
     leaves = ZZ.loc[ZZ.index.isin(groups), "leaves"].apply(set)
@@ -313,7 +451,7 @@ def _get_tree_data(ZZ, leaf_data, groups):
 
 
 def _get_cut_data(ZZ, leaf_data, groups, bounds_min):
-    """
+    """Return data of cut lines.
 
     Parameters
     ----------
@@ -326,7 +464,6 @@ def _get_cut_data(ZZ, leaf_data, groups, bounds_min):
     -------
     df : pandas.DataFrame
     """
-
     ZZ = ZZ.sort_index()
 
     groups = [group for group in groups if group != ZZ.index.max()]
@@ -382,35 +519,8 @@ def _get_cut_data(ZZ, leaf_data, groups, bounds_min):
     return df
 
 
-def _get_groups(Z, threshold):
-    """
-
-    Parameters
-    ----------
-    Z : pandas.DataFrame
-    threshold : float
-
-    Returns
-    -------
-    groups : list[int]
-    """
-
-    groups = []
-    for children, distance in (
-            Z[["children", "distance"]].itertuples(index=False)):
-        if distance < threshold:
-            continue
-        for child in children:
-            child_distance = (Z.loc[child, "distance"] if child in Z.index
-                              else 0.)
-            if child_distance < threshold:
-                groups.append(child)
-
-    return groups
-
-
 def _get_cluster_coords(Z, leaf_data):
-    """
+    """Return coordinates of clusters.
 
     Parameters
     ----------
@@ -421,7 +531,6 @@ def _get_cluster_coords(Z, leaf_data):
     -------
     pandas.DataFrame
     """
-
     Z = Z.sort_index()
 
     breadths = pandas.Series([None] * len(Z), index=Z.index, dtype=float)
@@ -436,7 +545,7 @@ def _get_cluster_coords(Z, leaf_data):
 
 
 def _get_traces(node_data, group):
-    """
+    """Return data of trace lines.
 
     Parameters
     ----------
@@ -447,7 +556,6 @@ def _get_traces(node_data, group):
     -------
     traces : list[list[int]]
     """
-
     traces = [[group]]
     k = 0
     while k < len(traces):

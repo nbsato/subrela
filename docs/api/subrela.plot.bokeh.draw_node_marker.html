@@ -1,0 +1,188 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>subrela.plot.bokeh.draw_node_marker function &#8212; SubRelA 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="subrela.plot.bokeh.draw_trace function" href="subrela.plot.bokeh.draw_trace.html" />
+    <link rel="prev" title="subrela.plot.bokeh.draw_node_info function" href="subrela.plot.bokeh.draw_node_info.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="subrela.plot.bokeh.draw_trace.html" title="subrela.plot.bokeh.draw_trace function"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="subrela.plot.bokeh.draw_node_info.html" title="subrela.plot.bokeh.draw_node_info function"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="subrela.plot.html" >subrela.plot module</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="subrela.plot.bokeh.html" accesskey="U">subrela.plot.bokeh module</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="subrela.plot.bokeh.html">subrela.plot.bokeh module</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="subrela.plot.bokeh.draw_dendrogram.html">subrela.plot.bokeh.draw_dendrogram function</a></li>
+<li class="toctree-l5"><a class="reference internal" href="subrela.plot.bokeh.draw_node_info.html">subrela.plot.bokeh.draw_node_info function</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#">subrela.plot.bokeh.draw_node_marker function</a></li>
+<li class="toctree-l5"><a class="reference internal" href="subrela.plot.bokeh.draw_trace.html">subrela.plot.bokeh.draw_trace function</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.matplotlib.html">subrela.plot.matplotlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_dendrogram_data.html">subrela.plot.get_dendrogram_data function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_trace_data.html">subrela.plot.get_trace_data function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="subrela.plot.bokeh.draw_node_info.html"
+                        title="previous chapter">subrela.plot.bokeh.draw_node_info function</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="subrela.plot.bokeh.draw_trace.html"
+                        title="next chapter">subrela.plot.bokeh.draw_trace function</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="subrela-plot-bokeh-draw-node-marker-function">
+<h1>subrela.plot.bokeh.draw_node_marker function<a class="headerlink" href="#subrela-plot-bokeh-draw-node-marker-function" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="subrela.plot.bokeh.draw_node_marker">
+<code class="sig-prename descclassname">subrela.plot.bokeh.</code><code class="sig-name descname">draw_node_marker</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fig</span></em>, <em class="sig-param"><span class="n">node_data</span></em>, <em class="sig-param"><span class="n">orientation</span><span class="o">=</span><span class="default_value">'vertical'</span></em>, <em class="sig-param"><span class="n">kws</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/subrela/plot/bokeh.html#draw_node_marker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subrela.plot.bokeh.draw_node_marker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw markers of nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.figure.Figure" title="(in Bokeh v2.0.1)"><em>bokeh.plotting.figure.Figure</em></a>) – Figure on which markers are drawn.</p></li>
+<li><p><strong>node_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)"><em>pandas.DataFrame</em></a>) – Data of nodes returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
+<li><p><strong>orientation</strong> (<em>{'vertical'</em><em>, </em><em>'horizontal'}</em><em>, </em><em>optional</em>) – Orientation of a tree. If <code class="docutils literal notranslate"><span class="pre">'vertical'</span></code>, the height direction of a
+tree corresponds to the y axis. If <code class="docutils literal notranslate"><span class="pre">'horizontal'</span></code>, it corresponds to
+the x axis.</p></li>
+<li><p><strong>kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.figure.Figure.scatter" title="(in Bokeh v2.0.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure.scatter</span></code></a>
+method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>scatter</strong> (<em>bokeh.models.renderers.GlyphRenderer</em>) – Renderer for markers.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kws</span></code> contains keys <code class="docutils literal notranslate"><span class="pre">'x'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>.</p>
+</dd>
+</dl>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>The default value for <code class="docutils literal notranslate"><span class="pre">kws['color']</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</div>
+<p class="rubric">Examples</p>
+
+<script src="bokeh-plot-cbe171e2574d49e1805ab1951b9fa44d-external-api-subrela.plot.bokeh.draw_node_marker.js" id="fc9d324f-a5be-4654-afaf-7c43a2f34942"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
+<span class="kn">import</span> <span class="nn">bokeh.io</span>
+<span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
+<span class="kn">from</span> <span class="nn">subrela.plot</span> <span class="kn">import</span> <span class="n">get_dendrogram_data</span>
+<span class="kn">from</span> <span class="nn">subrela.plot.bokeh</span> <span class="kn">import</span> <span class="n">draw_dendrogram</span><span class="p">,</span> <span class="n">draw_node_marker</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">leaf_data</span><span class="p">,</span> <span class="n">node_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">draw_dendrogram</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">)</span>
+<span class="n">draw_node_marker</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">node_data</span><span class="p">,</span> <span class="n">kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">})</span>
+<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="subrela.plot.bokeh.draw_trace.html" title="subrela.plot.bokeh.draw_trace function"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="subrela.plot.bokeh.draw_node_info.html" title="subrela.plot.bokeh.draw_node_info function"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="subrela.plot.html" >subrela.plot module</a> &#187;</li>
+          <li class="nav-item nav-item-4"><a href="subrela.plot.bokeh.html" >subrela.plot.bokeh module</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Nobuya Sato.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.1.
+    </div>
+  </body>
+</html>

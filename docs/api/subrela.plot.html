@@ -1,0 +1,164 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>subrela.plot module &#8212; SubRelA 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="subrela.plot.bokeh module" href="subrela.plot.bokeh.html" />
+    <link rel="prev" title="subrela.clustering.get_subgroups function" href="subrela.clustering.get_subgroups.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="subrela.plot.bokeh.html" title="subrela.plot.bokeh module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="subrela.clustering.get_subgroups.html" title="subrela.clustering.get_subgroups function"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="subrela.html" accesskey="U">subrela package</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">subrela.plot module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.bokeh.html">subrela.plot.bokeh module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.matplotlib.html">subrela.plot.matplotlib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_dendrogram_data.html">subrela.plot.get_dendrogram_data function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_trace_data.html">subrela.plot.get_trace_data function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="subrela.clustering.get_subgroups.html"
+                        title="previous chapter">subrela.clustering.get_subgroups function</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="subrela.plot.bokeh.html"
+                        title="next chapter">subrela.plot.bokeh module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-subrela.plot">
+<span id="subrela-plot-module"></span><h1>subrela.plot module<a class="headerlink" href="#module-subrela.plot" title="Permalink to this headline">¶</a></h1>
+<p>Tools for visualization.</p>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="subrela.plot.bokeh.html#module-subrela.plot.bokeh" title="subrela.plot.bokeh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh</span></code></a></p></td>
+<td><p>Visualization using Bokeh.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subrela.plot.matplotlib.html#module-subrela.plot.matplotlib" title="subrela.plot.matplotlib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib</span></code></a></p></td>
+<td><p>Visualization using Matplotlib.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dendrogram_data</span></code></a>(Z[, labels, groups, …])</p></td>
+<td><p>Calculate data for drawing a dendrogram.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subrela.plot.get_trace_data.html#subrela.plot.get_trace_data" title="subrela.plot.get_trace_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trace_data</span></code></a>(node_data, cut_data, sr, wr)</p></td>
+<td><p>Calculate data for drawing trace lines.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="subrela.plot.bokeh.html" title="subrela.plot.bokeh module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="subrela.clustering.get_subgroups.html" title="subrela.clustering.get_subgroups function"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Nobuya Sato.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.1.
+    </div>
+  </body>
+</html>

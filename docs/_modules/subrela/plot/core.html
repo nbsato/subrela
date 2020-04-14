@@ -1,0 +1,660 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>subrela.plot.core &#8212; SubRelA 0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../../index.html">Table of Contents</a></h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_hierarchy.html">API</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for subrela.plot.core</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2020 Nobuya Sato</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Core tools for visualization.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;get_dendrogram_data&quot;</span><span class="p">,</span> <span class="s2">&quot;get_trace_data&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="get_dendrogram_data"><a class="viewcode-back" href="../../../api/subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data">[docs]</a><span class="k">def</span> <span class="nf">get_dendrogram_data</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cut_bounds_min</span><span class="o">=</span><span class="mf">0.</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate data for drawing a dendrogram.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    Z : pandas.DataFrame</span>
+<span class="sd">        Data of clusters returned by `subrela.clustering.get_clusters`</span>
+<span class="sd">        function.</span>
+<span class="sd">    labels : list[str] or None, optional</span>
+<span class="sd">        Labels of leaves in the order of leaf index. If ``None``, a leaf index</span>
+<span class="sd">        is used.</span>
+<span class="sd">    groups : list[int] or None, optional</span>
+<span class="sd">        Cluster indices of groups. If ``None``, a dendrogram is not separated</span>
+<span class="sd">        into groups.</span>
+<span class="sd">    cut_bounds_min : float, optional</span>
+<span class="sd">        Minimum distance between nodes around a cut line. A cut line is</span>
+<span class="sd">        splitted to satisfy this condition if possible.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    leaf_data : pandas.DataFrame</span>
+<span class="sd">        Data of leaves.</span>
+<span class="sd">    node_data : pandas.DataFrame</span>
+<span class="sd">        Data of nodes.</span>
+<span class="sd">    tree_data : pandas.DataFrame</span>
+<span class="sd">        Data of tree lines.</span>
+<span class="sd">    cut_data : pandas.DataFrame</span>
+<span class="sd">        Data of cut lines.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If clusters in ``groups`` are not disjoint.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    An index and columns of ``leaf_data`` are as follows:</span>
+
+<span class="sd">        ``leaf_data.index`` : int</span>
+<span class="sd">            Cluster index. The name is &#39;leaf&#39;.</span>
+
+<span class="sd">        ``leaf_data[&#39;label&#39;]`` : str</span>
+<span class="sd">            Labels.</span>
+
+<span class="sd">        ``leaf_data[&#39;breadth&#39;]`` : float</span>
+<span class="sd">            Positions. along the breadth direction.</span>
+
+<span class="sd">    An index and columns of ``node_data`` are as follows:</span>
+
+<span class="sd">        ``node_data.index`` : int</span>
+<span class="sd">            Cluster index. The name is &#39;cluster&#39;.</span>
+
+<span class="sd">        ``node_data[&#39;breadth&#39;]`` : float</span>
+<span class="sd">            Positions along the breadth direction.</span>
+
+<span class="sd">        ``node_data[&#39;height&#39;]`` : float</span>
+<span class="sd">            Positions along the height direction.</span>
+
+<span class="sd">        ``node_data[&#39;children&#39;]`` : (2,) list[int]</span>
+<span class="sd">            Cluster indices of child nodes.</span>
+
+<span class="sd">        ``node_data[&#39;side&#39;]`` : {&#39;first&#39;, &#39;last&#39;}</span>
+<span class="sd">            Side in which a node located among sibling nodes. &#39;first&#39; means</span>
+<span class="sd">            that its value of the breadth is less than the other. &#39;last&#39; means</span>
+<span class="sd">            that its value of the breadth is greater than the other.</span>
+
+<span class="sd">        ``node_data[&#39;is_group&#39;]`` : bool</span>
+<span class="sd">            ``True`` if a node is a group cluster.</span>
+
+<span class="sd">    An index and columns of ``tree_data`` are as follows:</span>
+
+<span class="sd">        ``tree_data.index``</span>
+<span class="sd">            No meaning.</span>
+
+<span class="sd">        ``tree_data[&#39;cluster&#39;]`` : int</span>
+<span class="sd">            Cluster index from which a line descends to a child.</span>
+
+<span class="sd">        ``tree_data[&#39;side&#39;]`` : {&#39;first&#39;, &#39;last&#39;}</span>
+<span class="sd">            Side of a child to which a line descends. &#39;first&#39; means that a line</span>
+<span class="sd">            descends to a child whose value of the breadth is less. &#39;last&#39;</span>
+<span class="sd">            means that a line descends to a child whose value of the breadth is</span>
+<span class="sd">            greater.</span>
+
+<span class="sd">        ``tree_data[&#39;breadths&#39;]`` : (3,) list[float]</span>
+<span class="sd">            Positions of start, corner, and end points along the breadth</span>
+<span class="sd">            direction.</span>
+
+<span class="sd">        ``tree_data[&#39;heights&#39;]`` : (3,) list[float]</span>
+<span class="sd">            Positions of start, corner, and end points along the height</span>
+<span class="sd">            direction.</span>
+
+<span class="sd">        ``tree_data[&#39;group&#39;]`` : int</span>
+<span class="sd">            Cluster index of a group to which a line belongs.</span>
+
+<span class="sd">    An index and columns of ``cut_data`` are as follows:</span>
+
+<span class="sd">        ``cut_data.index`` : int</span>
+<span class="sd">            Cluster index of a group. The name is &#39;group&#39;.</span>
+
+<span class="sd">        ``cut_data[&#39;breadths&#39;]`` : (2,) list[float]</span>
+<span class="sd">            Positions of start and end points along the breadth direction.</span>
+
+<span class="sd">        ``cut_data[&#39;heights&#39;]`` : (2,) list[float]</span>
+<span class="sd">            Positions of start and end points along the height direction.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
+<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.max_colwidth&#39;, 29)</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy</span>
+<span class="sd">    &gt;&gt;&gt; from subrela.clustering import get_clusters</span>
+<span class="sd">    &gt;&gt;&gt; X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+<span class="sd">    &gt;&gt;&gt; Z = get_clusters(X)</span>
+<span class="sd">    &gt;&gt;&gt; leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)</span>
+<span class="sd">    &gt;&gt;&gt; leaf_data</span>
+<span class="sd">         label  breadth</span>
+<span class="sd">    leaf               </span>
+<span class="sd">    0        0        2</span>
+<span class="sd">    1        1        3</span>
+<span class="sd">    2        2        4</span>
+<span class="sd">    3        3        0</span>
+<span class="sd">    4        4        1</span>
+<span class="sd">    &gt;&gt;&gt; node_data</span>
+<span class="sd">             breadth    height children   side  is_group</span>
+<span class="sd">    cluster                                             </span>
+<span class="sd">    0          2.000  0.000000       []  first     False</span>
+<span class="sd">    1          3.000  0.000000       []  first     False</span>
+<span class="sd">    2          4.000  0.000000       []   last     False</span>
+<span class="sd">    3          0.000  0.000000       []  first     False</span>
+<span class="sd">    4          1.000  0.000000       []   last     False</span>
+<span class="sd">    5          3.500  2.000000   [1, 2]   last     False</span>
+<span class="sd">    6          0.500  4.000000   [3, 4]  first     False</span>
+<span class="sd">    7          2.750  5.099020   [0, 5]   last     False</span>
+<span class="sd">    8          1.625  6.324555   [6, 7]   last     False</span>
+<span class="sd">    &gt;&gt;&gt; tree_data</span>
+<span class="sd">       cluster   side             breadths                       heights  group</span>
+<span class="sd">    0        5  first          [3.5, 3, 3]               [2.0, 2.0, 0.0]   &lt;NA&gt;</span>
+<span class="sd">    1        5   last          [3.5, 4, 4]               [2.0, 2.0, 0.0]   &lt;NA&gt;</span>
+<span class="sd">    2        6  first          [0.5, 0, 0]               [4.0, 4.0, 0.0]   &lt;NA&gt;</span>
+<span class="sd">    3        6   last          [0.5, 1, 1]               [4.0, 4.0, 0.0]   &lt;NA&gt;</span>
+<span class="sd">    4        7  first         [2.75, 2, 2]  [5.0990195135927845, 5.09...   &lt;NA&gt;</span>
+<span class="sd">    5        7   last     [2.75, 3.5, 3.5]  [5.0990195135927845, 5.09...   &lt;NA&gt;</span>
+<span class="sd">    6        8  first    [1.625, 0.5, 0.5]  [6.324555320336759, 6.324...   &lt;NA&gt;</span>
+<span class="sd">    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324...   &lt;NA&gt;</span>
+<span class="sd">    &gt;&gt;&gt; cut_data</span>
+<span class="sd">    Empty DataFrame</span>
+<span class="sd">    Columns: [breadths, heights]</span>
+<span class="sd">    Index: []</span>
+
+<span class="sd">    &gt;&gt;&gt; leaf_data, _, _, _ = get_dendrogram_data(</span>
+<span class="sd">    ...     Z, labels=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; leaf_data</span>
+<span class="sd">         label  breadth</span>
+<span class="sd">    leaf               </span>
+<span class="sd">    0        A        2</span>
+<span class="sd">    1        B        3</span>
+<span class="sd">    2        C        4</span>
+<span class="sd">    3        D        0</span>
+<span class="sd">    4        E        1</span>
+
+<span class="sd">    &gt;&gt;&gt; _, node_data, tree_data, cut_data = get_dendrogram_data(</span>
+<span class="sd">    ...     Z, groups=[0, 5, 6])</span>
+<span class="sd">    &gt;&gt;&gt; node_data</span>
+<span class="sd">             breadth    height children   side  is_group</span>
+<span class="sd">    cluster                                             </span>
+<span class="sd">    0          2.000  0.000000       []  first      True</span>
+<span class="sd">    1          3.000  0.000000       []  first     False</span>
+<span class="sd">    2          4.000  0.000000       []   last     False</span>
+<span class="sd">    3          0.000  0.000000       []  first     False</span>
+<span class="sd">    4          1.000  0.000000       []   last     False</span>
+<span class="sd">    5          3.500  2.000000   [1, 2]   last      True</span>
+<span class="sd">    6          0.500  4.000000   [3, 4]  first      True</span>
+<span class="sd">    7          2.750  5.099020   [0, 5]   last     False</span>
+<span class="sd">    8          1.625  6.324555   [6, 7]   last     False</span>
+<span class="sd">    &gt;&gt;&gt; tree_data</span>
+<span class="sd">       cluster   side             breadths                       heights  group</span>
+<span class="sd">    0        5  first          [3.5, 3, 3]               [2.0, 2.0, 0.0]      5</span>
+<span class="sd">    1        5   last          [3.5, 4, 4]               [2.0, 2.0, 0.0]      5</span>
+<span class="sd">    2        6  first          [0.5, 0, 0]               [4.0, 4.0, 0.0]      6</span>
+<span class="sd">    3        6   last          [0.5, 1, 1]               [4.0, 4.0, 0.0]      6</span>
+<span class="sd">    4        7  first         [2.75, 2, 2]  [5.0990195135927845, 5.09...   &lt;NA&gt;</span>
+<span class="sd">    5        7   last     [2.75, 3.5, 3.5]  [5.0990195135927845, 5.09...   &lt;NA&gt;</span>
+<span class="sd">    6        8  first    [1.625, 0.5, 0.5]  [6.324555320336759, 6.324...   &lt;NA&gt;</span>
+<span class="sd">    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324...   &lt;NA&gt;</span>
+<span class="sd">    &gt;&gt;&gt; cut_data</span>
+<span class="sd">              breadths                       heights</span>
+<span class="sd">    group                                           </span>
+<span class="sd">    0       [1.5, 2.5]  [4.549509756796392, 4.549...</span>
+<span class="sd">    5       [2.5, 4.5]  [4.549509756796392, 4.549...</span>
+<span class="sd">    6      [-0.5, 1.5]  [4.549509756796392, 4.549...</span>
+
+<span class="sd">    &gt;&gt;&gt; _, _, _, cut_data = get_dendrogram_data(</span>
+<span class="sd">    ...     Z, groups=[0, 5, 6], cut_bounds_min=1.5)</span>
+<span class="sd">    &gt;&gt;&gt; cut_data</span>
+<span class="sd">              breadths                       heights</span>
+<span class="sd">    group                                           </span>
+<span class="sd">    0       [1.5, 2.5]  [3.5495097567963922, 3.54...</span>
+<span class="sd">    5       [2.5, 4.5]  [3.5495097567963922, 3.54...</span>
+<span class="sd">    6      [-0.5, 1.5]  [5.16227766016838, 5.1622...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">leaf</span><span class="p">)</span> <span class="k">for</span> <span class="n">leaf</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">())]</span>
+
+    <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">group1</span><span class="p">,</span> <span class="n">group2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">leaves1</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group1</span><span class="p">,</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">group1</span> <span class="ow">in</span> <span class="n">Z</span><span class="o">.</span><span class="n">index</span> <span class="k">else</span> <span class="p">[</span><span class="n">group1</span><span class="p">]</span>
+        <span class="n">leaves2</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group2</span><span class="p">,</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">group2</span> <span class="ow">in</span> <span class="n">Z</span><span class="o">.</span><span class="n">index</span> <span class="k">else</span> <span class="p">[</span><span class="n">group2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">leaves1</span><span class="p">)</span><span class="o">.</span><span class="n">isdisjoint</span><span class="p">(</span><span class="n">leaves2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;clusters </span><span class="si">{}</span><span class="s2"> and </span><span class="si">{}</span><span class="s2"> in &#39;groups&#39; are not disjoint&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">group1</span><span class="p">,</span> <span class="n">group2</span><span class="p">))</span>
+
+    <span class="n">leaf_data</span> <span class="o">=</span> <span class="n">_get_leaf_data</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">Z</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="s2">&quot;leaves&quot;</span><span class="p">])</span>
+
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">_get_cluster_coords</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">)</span>
+    <span class="n">ZZ</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">Z</span><span class="p">[[</span><span class="s2">&quot;children&quot;</span><span class="p">,</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]],</span> <span class="n">coords</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+
+    <span class="n">node_data</span> <span class="o">=</span> <span class="n">_get_node_data</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+    <span class="n">tree_data</span> <span class="o">=</span> <span class="n">_get_tree_data</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+    <span class="n">cut_data</span> <span class="o">=</span> <span class="n">_get_cut_data</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">cut_bounds_min</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">node_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span></div>
+
+
+<div class="viewcode-block" id="get_trace_data"><a class="viewcode-back" href="../../../api/subrela.plot.get_trace_data.html#subrela.plot.get_trace_data">[docs]</a><span class="k">def</span> <span class="nf">get_trace_data</span><span class="p">(</span><span class="n">node_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">wr</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate data for drawing trace lines.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    node_data : pandas.DataFrame</span>
+<span class="sd">        Data of nodes returned by `subrela.plot.get_dendrogram_data` function.</span>
+<span class="sd">    cut_data : pandas.DataFrame</span>
+<span class="sd">        Data of cut lines returned by `subrela.plot.get_dendrogram_data`</span>
+<span class="sd">        function.</span>
+<span class="sd">    sr : pandas.DataFrame</span>
+<span class="sd">        Strong relevances of groups returned by</span>
+<span class="sd">        `subrela.analysis.get_strong_relevances` function.</span>
+<span class="sd">    wr : pandas.DataFrame</span>
+<span class="sd">        Weak relevances of subgroups, which is a concatenation of returns of</span>
+<span class="sd">        `subrela.analysis.get_weak_relevances` function.</span>
+<span class="sd">    tol : float, optional</span>
+<span class="sd">        Tolerance of difference in the weak relevance from a group.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    trace_data : pandas.DataFrame</span>
+<span class="sd">        Data of trace lines.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    An index and columns of ``trace_data`` are as follows:</span>
+
+<span class="sd">        ``trace_data.index``</span>
+<span class="sd">            No meaning.</span>
+
+<span class="sd">        ``trace_data[&#39;breadths&#39;]`` : list[float]</span>
+<span class="sd">            Positions of start, corner, and end points along the breadth</span>
+<span class="sd">            direction.</span>
+
+<span class="sd">        ``trace_data[&#39;heights&#39;]`` : list[float]</span>
+<span class="sd">            Positions of start, corner, and end points along the heights</span>
+<span class="sd">            direction.</span>
+
+<span class="sd">        ``trace_data[&#39;group&#39;]`` : int</span>
+<span class="sd">            Cluster index of a group to which a trace line belongs</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy</span>
+<span class="sd">    &gt;&gt;&gt; from subrela.records import from_arrays</span>
+<span class="sd">    &gt;&gt;&gt; from subrela.clustering import get_clusters</span>
+<span class="sd">    &gt;&gt;&gt; from subrela.analysis import get_strong_relevances, get_weak_relevances</span>
+<span class="sd">    &gt;&gt;&gt; scores = from_arrays([[False, False, False, True, True],</span>
+<span class="sd">    ...                       [True, False, False, True, True],</span>
+<span class="sd">    ...                       [False, True, False, True, True],</span>
+<span class="sd">    ...                       [True, True, False, True, True],</span>
+<span class="sd">    ...                       [False, False, True, True, True],</span>
+<span class="sd">    ...                       [True, False, True, True, True],</span>
+<span class="sd">    ...                       [False, True, True, True, True],</span>
+<span class="sd">    ...                       [True, True, True, True, True]],</span>
+<span class="sd">    ...                      [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])</span>
+<span class="sd">    &gt;&gt;&gt; X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+<span class="sd">    &gt;&gt;&gt; Z = get_clusters(X)</span>
+<span class="sd">    &gt;&gt;&gt; _, node_data, _, cut_data = get_dendrogram_data(Z, groups=[5])</span>
+<span class="sd">    &gt;&gt;&gt; sr = get_strong_relevances(scores, Z, clusters=[5])</span>
+<span class="sd">    &gt;&gt;&gt; wr = get_weak_relevances(scores, Z, 5)</span>
+<span class="sd">    &gt;&gt;&gt; get_trace_data(node_data, cut_data, sr, wr)</span>
+<span class="sd">         breadths                    heights  group</span>
+<span class="sd">    0  [3.5, 3.5]  [3.5495097567963922, 2.0]      5</span>
+
+<span class="sd">    &gt;&gt;&gt; get_trace_data(node_data, cut_data, sr, wr, tol=0.1)</span>
+<span class="sd">              breadths                    heights  group</span>
+<span class="sd">    0       [3.5, 3.5]  [3.5495097567963922, 2.0]      5</span>
+<span class="sd">    1  [3.5, 4.0, 4.0]            [2.0, 2.0, 0.0]      5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">node_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">node_data</span><span class="p">[</span><span class="s2">&quot;is_group&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">index</span>
+
+    <span class="n">gs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">breadths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">heights</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+        <span class="n">traces</span> <span class="o">=</span> <span class="n">_get_traces</span><span class="p">(</span><span class="n">node_data</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sr</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wr</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">group_sr</span> <span class="o">=</span> <span class="n">sr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;relevance&quot;</span><span class="p">]</span>
+        <span class="n">group_wr</span> <span class="o">=</span> <span class="n">wr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;relevance&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">group_wr</span> <span class="o">&lt;</span> <span class="n">group_sr</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">group_b</span><span class="p">,</span> <span class="n">group_h</span> <span class="o">=</span> <span class="n">node_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;breadth&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">]]</span>
+        <span class="n">cut_h</span> <span class="o">=</span> <span class="n">cut_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;heights&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">gs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="n">breadths</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">group_b</span><span class="p">,</span> <span class="n">group_b</span><span class="p">])</span>
+        <span class="n">heights</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">cut_h</span><span class="p">,</span> <span class="n">group_h</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">trace</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+            <span class="n">b</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">group_b</span><span class="p">,</span> <span class="n">group_h</span>
+            <span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="n">trace</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="n">cluster</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wr</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">cluster_wr</span> <span class="o">=</span> <span class="n">wr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cluster</span><span class="p">,</span> <span class="s2">&quot;relevance&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">tol</span> <span class="o">&lt;</span> <span class="n">group_wr</span> <span class="o">-</span> <span class="n">cluster_wr</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">prev_b</span><span class="p">,</span> <span class="n">prev_h</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span>
+                <span class="n">b</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">node_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cluster</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;breadth&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">]]</span>
+                <span class="n">gs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+                <span class="n">breadths</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prev_b</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
+                <span class="n">heights</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">prev_h</span><span class="p">,</span> <span class="n">prev_h</span><span class="p">,</span> <span class="n">h</span><span class="p">])</span>
+
+    <span class="n">trace_data</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;breadths&quot;</span><span class="p">:</span> <span class="n">breadths</span><span class="p">,</span> <span class="s2">&quot;heights&quot;</span><span class="p">:</span> <span class="n">heights</span><span class="p">,</span>
+                                   <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="n">gs</span><span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">trace_data</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_leaf_data</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return data of leaves.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    labels : list[str]</span>
+<span class="sd">        Labels of leaves in the order of the leaf index.</span>
+<span class="sd">    order : list[int]</span>
+<span class="sd">        Positions of leaves in the order of the leaf index.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">labels</span><span class="p">},</span>
+                          <span class="n">index</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">RangeIndex</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;leaf&quot;</span><span class="p">))</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;breadth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)))))</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="k">def</span> <span class="nf">_get_node_data</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">groups</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return data of nodes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ZZ : pandas.DataFrame</span>
+<span class="sd">    leaf_data : pandas.DataFrame</span>
+<span class="sd">    groups : list[int]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">leaf_data</span><span class="p">[</span><span class="s2">&quot;breadth&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;children&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))]</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">ZZ</span><span class="p">[[</span><span class="s2">&quot;breadth&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="s2">&quot;children&quot;</span><span class="p">]]])</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;cluster&quot;</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;side&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;first&quot;</span> <span class="k">if</span> <span class="n">is_first</span> <span class="k">else</span> <span class="s2">&quot;last&quot;</span>
+        <span class="k">for</span> <span class="n">is_first</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">ZZ</span><span class="p">[</span><span class="s2">&quot;children&quot;</span><span class="p">]</span>
+                                      <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">children</span><span class="p">:</span> <span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;is_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="k">def</span> <span class="nf">_get_tree_data</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">groups</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return data of tree lines.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ZZ : pandas.DataFrame</span>
+<span class="sd">    leaf_data : pandas.DataFrame</span>
+<span class="sd">    groups : list[int]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ZZ</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+    <span class="n">leaves</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ZZ</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">groups</span><span class="p">),</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+
+    <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">lvs</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="n">ZZ</span><span class="p">[[</span><span class="s2">&quot;children&quot;</span><span class="p">,</span> <span class="s2">&quot;breadth&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">itertuples</span><span class="p">()):</span>
+        <span class="n">child_bs</span> <span class="o">=</span> <span class="p">[</span><span class="n">ZZ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">child</span><span class="p">,</span> <span class="s2">&quot;breadth&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">index</span>
+                    <span class="k">else</span> <span class="n">leaf_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">child</span><span class="p">,</span> <span class="s2">&quot;breadth&quot;</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">]</span>
+        <span class="n">child_hs</span> <span class="o">=</span> <span class="p">[</span><span class="n">ZZ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">child</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">index</span> <span class="k">else</span> <span class="mf">0.</span>
+                    <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">]</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">g</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">ls</span> <span class="ow">in</span> <span class="n">leaves</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">ls</span><span class="o">.</span><span class="n">issuperset</span><span class="p">(</span><span class="n">lvs</span><span class="p">)),</span>
+                     <span class="kc">None</span><span class="p">)</span>
+        <span class="n">records</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="n">cluster</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="p">[</span><span class="n">b</span><span class="p">,</span> <span class="n">child_b</span><span class="p">,</span> <span class="n">child_b</span><span class="p">],</span> <span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">child_h</span><span class="p">],</span>
+                        <span class="n">group</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">side</span><span class="p">,</span> <span class="n">child_b</span><span class="p">,</span> <span class="n">child_h</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">],</span>
+                                                         <span class="n">child_bs</span><span class="p">,</span> <span class="n">child_hs</span><span class="p">))</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span>
+                                       <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span> <span class="s2">&quot;side&quot;</span><span class="p">,</span> <span class="s2">&quot;breadths&quot;</span><span class="p">,</span>
+                                                <span class="s2">&quot;heights&quot;</span><span class="p">,</span> <span class="s2">&quot;group&quot;</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="s2">&quot;Int64&quot;</span><span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="k">def</span> <span class="nf">_get_cut_data</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">bounds_min</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return data of cut lines.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ZZ : pandas.DataFrame</span>
+<span class="sd">    leaf_data : pandas.DataFrame</span>
+<span class="sd">    groups : list[int]</span>
+<span class="sd">    bounds_min : float</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ZZ</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+    <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">group</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">if</span> <span class="n">group</span> <span class="o">!=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+
+    <span class="n">levels</span> <span class="o">=</span> <span class="n">groups</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">height_bounds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">levels</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">level</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">index</span> <span class="k">else</span> <span class="mf">0.</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="p">(</span><span class="n">ZZ</span><span class="p">[</span><span class="s2">&quot;children&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">children</span><span class="p">:</span> <span class="n">level</span> <span class="ow">in</span> <span class="n">children</span><span class="p">)</span>
+                  <span class="o">.</span><span class="n">idxmax</span><span class="p">())</span>
+        <span class="n">parent_h</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">parent</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">]</span>
+        <span class="n">height_bounds</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">h</span><span class="p">,</span> <span class="n">parent_h</span><span class="p">])</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="p">[[</span><span class="n">group</span><span class="p">]</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">children</span> <span class="ow">in</span> <span class="n">ZZ</span><span class="p">[</span><span class="s2">&quot;children&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">child</span> <span class="ow">in</span> <span class="n">levels</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="p">[</span><span class="n">levels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">]</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">height_bounds</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">]</span>
+        <span class="n">h_min</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">bds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">bds</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">)</span>
+        <span class="n">h_max</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">bds</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">)</span>
+        <span class="n">dh</span> <span class="o">=</span> <span class="n">h_max</span> <span class="o">-</span> <span class="n">h_min</span>
+        <span class="k">if</span> <span class="n">dh</span> <span class="o">&lt;=</span> <span class="mf">0.</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">dh</span> <span class="o">&lt;</span> <span class="n">bounds_min</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">dh</span> <span class="o">&lt;</span> <span class="n">bds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">bds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">bds</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">ks</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">:</span>
+            <span class="n">levels</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="n">height_bounds</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="n">levels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cluster</span><span class="p">)</span>
+        <span class="n">height_bounds</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">h_min</span><span class="p">,</span> <span class="n">h_max</span><span class="p">])</span>
+        <span class="n">groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">groups</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ks</span><span class="p">)))</span>
+    <span class="n">heights</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">bds</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">bds</span><span class="p">)</span> <span class="k">for</span> <span class="n">bds</span> <span class="ow">in</span> <span class="n">height_bounds</span><span class="p">]</span>
+
+    <span class="n">heights</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">gs</span><span class="p">)</span> <span class="k">for</span> <span class="n">gs</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">heights</span><span class="p">))</span>
+    <span class="n">heights</span> <span class="o">=</span> <span class="p">[[</span><span class="n">h</span><span class="p">,</span> <span class="n">h</span><span class="p">]</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">heights</span><span class="p">]</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">groups</span><span class="p">))</span>
+
+    <span class="n">breadths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+        <span class="n">leaves</span> <span class="o">=</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">ZZ</span><span class="o">.</span><span class="n">index</span> <span class="k">else</span> <span class="p">[</span><span class="n">group</span><span class="p">]</span>
+        <span class="n">b_min</span> <span class="o">=</span> <span class="n">leaf_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leaves</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;breadth&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span>
+        <span class="n">b_max</span> <span class="o">=</span> <span class="n">leaf_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leaves</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;breadth&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span>
+        <span class="n">breadths</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">b_min</span><span class="p">,</span> <span class="n">b_max</span><span class="p">])</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;breadths&quot;</span><span class="p">:</span> <span class="n">breadths</span><span class="p">,</span> <span class="s2">&quot;heights&quot;</span><span class="p">:</span> <span class="n">heights</span><span class="p">},</span>
+                          <span class="n">index</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">groups</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;group&quot;</span><span class="p">))</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="k">def</span> <span class="nf">_get_cluster_coords</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return coordinates of clusters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : pandas.DataFrame</span>
+<span class="sd">    leaf_data : pandas.DataFrame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+    <span class="n">breadths</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">Z</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">Z</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">children</span> <span class="ow">in</span> <span class="n">Z</span><span class="p">[</span><span class="s2">&quot;children&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">bs</span> <span class="o">=</span> <span class="p">[</span><span class="n">breadths</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="k">if</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">breadths</span><span class="o">.</span><span class="n">index</span>
+              <span class="k">else</span> <span class="n">leaf_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">child</span><span class="p">,</span> <span class="s2">&quot;breadth&quot;</span><span class="p">]</span>
+              <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">]</span>
+        <span class="n">breadths</span><span class="p">[</span><span class="n">cluster</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;breadth&quot;</span><span class="p">:</span> <span class="n">breadths</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="n">Z</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]},</span>
+                            <span class="n">index</span><span class="o">=</span><span class="n">Z</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_traces</span><span class="p">(</span><span class="n">node_data</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return data of trace lines.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    node_data : pandas.DataFrame</span>
+<span class="sd">    group : int</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    traces : list[list[int]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">traces</span> <span class="o">=</span> <span class="p">[[</span><span class="n">group</span><span class="p">]]</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">traces</span><span class="p">):</span>
+        <span class="n">front</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">node_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">front</span><span class="p">,</span> <span class="s2">&quot;children&quot;</span><span class="p">]:</span>
+            <span class="n">traces</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">traces</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">child</span><span class="p">]</span>
+                             <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">node_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">front</span><span class="p">,</span> <span class="s2">&quot;children&quot;</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">traces</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Nobuya Sato.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.1.
+    </div>
+  </body>
+</html>

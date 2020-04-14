@@ -1,1 +1,6 @@
 __pycache__/
+
+/docs_src/api/*.rst
+!/docs_src/api/subrela.rst
+!/docs_src/api/subrela.plot.rst
+/docs_src/_build/
