@@ -151,8 +151,9 @@ def draw_dendrogram(ax, leaf_data, tree_data, cut_data, palette=None,
     if all(kw not in cut_kws for kw in ["linestyle", "ls"]):
         cut_kws.setdefault("linestyle", "--")
 
-    tree_data = tree_data.copy()
+    tree_data = tree_data.sort_values("cluster")
     assign_tree_color(tree_data, palette, tree_color)
+    tree_data.sort_values("cluster", ascending=False, inplace=True)
 
     baxis = ax.xaxis if is_vertical else ax.yaxis
     baxis.major.locator = matplotlib.ticker.FixedLocator(

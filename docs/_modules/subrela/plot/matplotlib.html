@@ -215,8 +215,9 @@
     <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">kw</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cut_kws</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;linestyle&quot;</span><span class="p">,</span> <span class="s2">&quot;ls&quot;</span><span class="p">]):</span>
         <span class="n">cut_kws</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;linestyle&quot;</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">)</span>
 
-    <span class="n">tree_data</span> <span class="o">=</span> <span class="n">tree_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">tree_data</span> <span class="o">=</span> <span class="n">tree_data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;cluster&quot;</span><span class="p">)</span>
     <span class="n">assign_tree_color</span><span class="p">(</span><span class="n">tree_data</span><span class="p">,</span> <span class="n">palette</span><span class="p">,</span> <span class="n">tree_color</span><span class="p">)</span>
+    <span class="n">tree_data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">baxis</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span> <span class="k">if</span> <span class="n">is_vertical</span> <span class="k">else</span> <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span>
     <span class="n">baxis</span><span class="o">.</span><span class="n">major</span><span class="o">.</span><span class="n">locator</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span>
@@ -822,7 +823,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Nobuya Sato.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
     </div>
   </body>
 </html>

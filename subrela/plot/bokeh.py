@@ -167,8 +167,9 @@ def draw_dendrogram(fig, leaf_data, tree_data, cut_data, palette=None,
         cut_kws.setdefault("line_color", "black")
     cut_kws.setdefault("line_dash", "dashed")
 
-    tree_data = tree_data.copy()
+    tree_data = tree_data.sort_values("cluster")
     assign_tree_color(tree_data, palette, tree_color)
+    tree_data.sort_values("cluster", ascending=False, inplace=True)
     tree_data = {name: s.to_numpy() for name, s in tree_data.items()}
     tree_source = bokeh.models.ColumnDataSource(tree_data)
 

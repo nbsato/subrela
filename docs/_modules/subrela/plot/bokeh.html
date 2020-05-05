@@ -231,8 +231,9 @@
         <span class="n">cut_kws</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;line_color&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">)</span>
     <span class="n">cut_kws</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;line_dash&quot;</span><span class="p">,</span> <span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
 
-    <span class="n">tree_data</span> <span class="o">=</span> <span class="n">tree_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">tree_data</span> <span class="o">=</span> <span class="n">tree_data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;cluster&quot;</span><span class="p">)</span>
     <span class="n">assign_tree_color</span><span class="p">(</span><span class="n">tree_data</span><span class="p">,</span> <span class="n">palette</span><span class="p">,</span> <span class="n">tree_color</span><span class="p">)</span>
+    <span class="n">tree_data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;cluster&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">tree_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">tree_data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
     <span class="n">tree_source</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">tree_data</span><span class="p">)</span>
 
@@ -882,7 +883,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Nobuya Sato.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
     </div>
   </body>
 </html>
