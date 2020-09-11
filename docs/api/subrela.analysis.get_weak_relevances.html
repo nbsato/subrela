@@ -1,0 +1,205 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>subrela.analysis.get_weak_relevances function &#8212; SubRelA 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="subrela.clustering module" href="subrela.clustering.html" />
+    <link rel="prev" title="subrela.analysis.get_strong_relevances function" href="subrela.analysis.get_strong_relevances.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="subrela.clustering.html" title="subrela.clustering module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="subrela.analysis.get_strong_relevances.html" title="subrela.analysis.get_strong_relevances function"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="subrela.analysis.html" accesskey="U">subrela.analysis module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.analysis.get_weak_relevances function</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="subrela-analysis-get-weak-relevances-function">
+<h1>subrela.analysis.get_weak_relevances function<a class="headerlink" href="#subrela-analysis-get-weak-relevances-function" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="subrela.analysis.get_weak_relevances">
+<code class="sig-prename descclassname">subrela.analysis.</code><code class="sig-name descname">get_weak_relevances</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scores</span></em>, <em class="sig-param"><span class="n">Z</span></em>, <em class="sig-param"><span class="n">group</span></em>, <em class="sig-param"><span class="n">subgroups</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/subrela/analysis.html#get_weak_relevances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subrela.analysis.get_weak_relevances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate weak relevance scores of subgroups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scores</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.1.2)"><em>pandas.Series</em></a>) – Scores for feature subsets.</p></li>
+<li><p><strong>Z</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of clusters returned by <a class="reference internal" href="subrela.clustering.get_clusters.html#subrela.clustering.get_clusters" title="subrela.clustering.get_clusters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.clustering.get_clusters</span></code></a>
+function.</p></li>
+<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Cluster index of a group.</p></li>
+<li><p><strong>subgroups</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Cluster indices of subgroups whose weak relevance scores are
+calculated. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, weak relevance scores are calculated for all
+subgroups.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>wr</strong> (<em>pandas.DataFrame</em>) – Weak relevance scores.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If a cluster in <code class="docutils literal notranslate"><span class="pre">subgroups</span></code> is not a subgroup of cluster <code class="docutils literal notranslate"><span class="pre">group</span></code>.</p>
+</dd>
+</dl>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>An index and columns of <code class="docutils literal notranslate"><span class="pre">wr</span></code> are as follows:</p>
+<blockquote>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">wr.index</span></code><span class="classifier">int</span></dt><dd><p>Cluster index.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wr['score']</span></code><span class="classifier">float</span></dt><dd><p>Best score among feature subsets icluding at least one feature in a
+subgroup but not including features in a group out of subgroup.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wr['score_ref']</span></code><span class="classifier">float</span></dt><dd><p>Best score among feature subsets not including features in a group.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">wr['relevance']</span></code><span class="classifier">float</span></dt><dd><p>Weak relevance score, which is <code class="docutils literal notranslate"><span class="pre">wr['score']</span> <span class="pre">-</span> <span class="pre">wr['score_ref']</span></code>.</p>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">subrela.records</span> <span class="kn">import</span> <span class="n">from_arrays</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scores</span> <span class="o">=</span> <span class="n">from_arrays</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
+<span class="gp">... </span>                      <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">]],</span>
+<span class="gp">... </span>                     <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_weak_relevances</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">          score  score_ref  relevance</span>
+<span class="go">subgroup</span>
+<span class="go">5           1.0        0.7        0.3</span>
+<span class="go">1           0.8        0.7        0.1</span>
+<span class="go">2           0.9        0.7        0.2</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_weak_relevances</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">subgroups</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">          score  score_ref  relevance</span>
+<span class="go">subgroup</span>
+<span class="go">1           0.8        0.7        0.1</span>
+<span class="go">2           0.9        0.7        0.2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="subrela.analysis.get_strong_relevances.html">subrela.analysis.get_strong_relevances function</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.analysis.get_weak_relevances function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="subrela.analysis.get_strong_relevances.html"
+                        title="previous chapter">subrela.analysis.get_strong_relevances function</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="subrela.clustering.html"
+                        title="next chapter">subrela.clustering module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="subrela.clustering.html" title="subrela.clustering module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="subrela.analysis.get_strong_relevances.html" title="subrela.analysis.get_strong_relevances function"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="subrela.analysis.html" >subrela.analysis module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.analysis.get_weak_relevances function</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Nobuya Sato.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>

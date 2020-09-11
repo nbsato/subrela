@@ -1,0 +1,330 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>subrela.analysis &#8212; SubRelA 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.analysis</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for subrela.analysis</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2020 Nobuya Sato</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Tools for analysis.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span>
+
+<span class="kn">from</span> <span class="nn">.clustering</span> <span class="kn">import</span> <span class="n">get_subgroups</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;get_strong_relevances&quot;</span><span class="p">,</span> <span class="s2">&quot;get_weak_relevances&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="get_strong_relevances"><a class="viewcode-back" href="../../api/subrela.analysis.get_strong_relevances.html#subrela.analysis.get_strong_relevances">[docs]</a><span class="k">def</span> <span class="nf">get_strong_relevances</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">clusters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">descendants</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate strong relevance scores of clusters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scores : pandas.Series</span>
+<span class="sd">        Scores for feature subsets.</span>
+<span class="sd">    Z : pandas.DataFrame</span>
+<span class="sd">        Data of clusters returned by `subrela.clustering.get_clusters`</span>
+<span class="sd">        function.</span>
+<span class="sd">    clusters : list[int] or None, optional</span>
+<span class="sd">        Cluster indices whose strong relevance scores are calculated. If</span>
+<span class="sd">        ``None``, strong relevance scores are calculated for all clusters.</span>
+<span class="sd">    descendants : bool, optional</span>
+<span class="sd">        If ``True``, strong relevance scores are calculated also for descendant</span>
+<span class="sd">        clusters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sr : pandas.DataFrame</span>
+<span class="sd">        Strong relevance scores.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    An index and columns of ``sr`` are as follows:</span>
+
+<span class="sd">        ``sr.index`` : int</span>
+<span class="sd">            Cluster index.</span>
+
+<span class="sd">        ``sr[&#39;score_ref&#39;]`` : float</span>
+<span class="sd">            Best score among all feature subsets.</span>
+
+<span class="sd">        ``sr[&#39;score&#39;]`` : float</span>
+<span class="sd">            Best score among feature subsets not including features in a</span>
+<span class="sd">            cluster.</span>
+
+<span class="sd">        ``sr[&#39;relevance&#39;]`` : float</span>
+<span class="sd">            Strong relevance score, which is ``sr[&#39;score_ref&#39;] - sr[&#39;score&#39;]``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy</span>
+<span class="sd">    &gt;&gt;&gt; from subrela.records import from_arrays</span>
+<span class="sd">    &gt;&gt;&gt; from subrela.clustering import get_clusters</span>
+<span class="sd">    &gt;&gt;&gt; scores = from_arrays([[False, False, False, True, True],</span>
+<span class="sd">    ...                       [True, False, False, True, True],</span>
+<span class="sd">    ...                       [False, True, False, True, True],</span>
+<span class="sd">    ...                       [True, True, False, True, True],</span>
+<span class="sd">    ...                       [False, False, True, True, True],</span>
+<span class="sd">    ...                       [True, False, True, True, True],</span>
+<span class="sd">    ...                       [False, True, True, True, True],</span>
+<span class="sd">    ...                       [True, True, True, True, True]],</span>
+<span class="sd">    ...                      [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])</span>
+<span class="sd">    &gt;&gt;&gt; X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+<span class="sd">    &gt;&gt;&gt; Z = get_clusters(X)</span>
+<span class="sd">    &gt;&gt;&gt; get_strong_relevances(scores, Z)</span>
+<span class="sd">             score_ref  score  relevance</span>
+<span class="sd">    cluster                             </span>
+<span class="sd">    0              1.0    1.0        0.0</span>
+<span class="sd">    1              1.0    0.9        0.1</span>
+<span class="sd">    2              1.0    0.8        0.2</span>
+<span class="sd">    3              1.0    NaN        NaN</span>
+<span class="sd">    4              1.0    NaN        NaN</span>
+<span class="sd">    5              1.0    0.7        0.3</span>
+<span class="sd">    6              1.0    NaN        NaN</span>
+<span class="sd">    7              1.0    0.7        0.3</span>
+<span class="sd">    8              1.0    NaN        NaN</span>
+
+<span class="sd">    &gt;&gt;&gt; get_strong_relevances(scores, Z, clusters=[5, 6])</span>
+<span class="sd">             score_ref  score  relevance</span>
+<span class="sd">    cluster                             </span>
+<span class="sd">    5              1.0    0.7        0.3</span>
+<span class="sd">    6              1.0    NaN        NaN</span>
+
+<span class="sd">    &gt;&gt;&gt; get_strong_relevances(scores, Z, clusters=[5, 6], descendants=True)</span>
+<span class="sd">             score_ref  score  relevance</span>
+<span class="sd">    cluster                             </span>
+<span class="sd">    1              1.0    0.9        0.1</span>
+<span class="sd">    2              1.0    0.8        0.2</span>
+<span class="sd">    3              1.0    NaN        NaN</span>
+<span class="sd">    4              1.0    NaN        NaN</span>
+<span class="sd">    5              1.0    0.7        0.3</span>
+<span class="sd">    6              1.0    NaN        NaN</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">clusters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">clusters</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">descendants</span><span class="p">:</span>
+        <span class="n">clusters</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
+            <span class="n">get_subgroups</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">cluster</span><span class="p">)</span> <span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">)</span>
+        <span class="n">clusters</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">clusters</span><span class="p">))</span>
+
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+
+    <span class="n">ss</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">:</span>
+        <span class="n">i_features</span> <span class="o">=</span> <span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cluster</span><span class="p">,</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="n">Z</span><span class="o">.</span><span class="n">index</span>
+                      <span class="k">else</span> <span class="p">[</span><span class="n">cluster</span><span class="p">])</span>
+        <span class="n">conds</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">flags</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i_features</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">conds</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">ss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+    <span class="n">sr</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;score_ref&quot;</span><span class="p">:</span> <span class="n">scores</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">ss</span><span class="p">},</span>
+                          <span class="n">index</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cluster&quot;</span><span class="p">))</span>
+    <span class="n">sr</span><span class="p">[</span><span class="s2">&quot;relevance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sr</span><span class="p">[</span><span class="s2">&quot;score_ref&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">sr</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">sr</span></div>
+
+
+<div class="viewcode-block" id="get_weak_relevances"><a class="viewcode-back" href="../../api/subrela.analysis.get_weak_relevances.html#subrela.analysis.get_weak_relevances">[docs]</a><span class="k">def</span> <span class="nf">get_weak_relevances</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">subgroups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate weak relevance scores of subgroups.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scores : pandas.Series</span>
+<span class="sd">        Scores for feature subsets.</span>
+<span class="sd">    Z : pandas.DataFrame</span>
+<span class="sd">        Data of clusters returned by `subrela.clustering.get_clusters`</span>
+<span class="sd">        function.</span>
+<span class="sd">    group : int</span>
+<span class="sd">        Cluster index of a group.</span>
+<span class="sd">    subgroups : list[int] or None, optional</span>
+<span class="sd">        Cluster indices of subgroups whose weak relevance scores are</span>
+<span class="sd">        calculated. If ``None``, weak relevance scores are calculated for all</span>
+<span class="sd">        subgroups.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    wr : pandas.DataFrame</span>
+<span class="sd">        Weak relevance scores.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If a cluster in ``subgroups`` is not a subgroup of cluster ``group``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    An index and columns of ``wr`` are as follows:</span>
+
+<span class="sd">        ``wr.index`` : int</span>
+<span class="sd">            Cluster index.</span>
+
+<span class="sd">        ``wr[&#39;score&#39;]`` : float</span>
+<span class="sd">            Best score among feature subsets icluding at least one feature in a</span>
+<span class="sd">            subgroup but not including features in a group out of subgroup.</span>
+
+<span class="sd">        ``wr[&#39;score_ref&#39;]`` : float</span>
+<span class="sd">            Best score among feature subsets not including features in a group.</span>
+
+<span class="sd">        ``wr[&#39;relevance&#39;]`` : float</span>
+<span class="sd">            Weak relevance score, which is ``wr[&#39;score&#39;] - wr[&#39;score_ref&#39;]``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import numpy</span>
+<span class="sd">    &gt;&gt;&gt; from subrela.records import from_arrays</span>
+<span class="sd">    &gt;&gt;&gt; from subrela.clustering import get_clusters</span>
+<span class="sd">    &gt;&gt;&gt; scores = from_arrays([[False, False, False, True, True],</span>
+<span class="sd">    ...                       [True, False, False, True, True],</span>
+<span class="sd">    ...                       [False, True, False, True, True],</span>
+<span class="sd">    ...                       [True, True, False, True, True],</span>
+<span class="sd">    ...                       [False, False, True, True, True],</span>
+<span class="sd">    ...                       [True, False, True, True, True],</span>
+<span class="sd">    ...                       [False, True, True, True, True],</span>
+<span class="sd">    ...                       [True, True, True, True, True]],</span>
+<span class="sd">    ...                      [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])</span>
+<span class="sd">    &gt;&gt;&gt; X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])</span>
+<span class="sd">    &gt;&gt;&gt; Z = get_clusters(X)</span>
+<span class="sd">    &gt;&gt;&gt; get_weak_relevances(scores, Z, 5)</span>
+<span class="sd">              score  score_ref  relevance</span>
+<span class="sd">    subgroup                             </span>
+<span class="sd">    5           1.0        0.7        0.3</span>
+<span class="sd">    1           0.8        0.7        0.1</span>
+<span class="sd">    2           0.9        0.7        0.2</span>
+
+<span class="sd">    &gt;&gt;&gt; get_weak_relevances(scores, Z, 5, subgroups=[1, 2])</span>
+<span class="sd">              score  score_ref  relevance</span>
+<span class="sd">    subgroup                             </span>
+<span class="sd">    1           0.8        0.7        0.1</span>
+<span class="sd">    2           0.9        0.7        0.2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">subgroups</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">subgroups</span> <span class="o">=</span> <span class="n">get_subgroups</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+
+    <span class="n">i_group_features</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">Z</span><span class="o">.</span><span class="n">index</span> <span class="k">else</span> <span class="p">[</span><span class="n">group</span><span class="p">]</span>
+
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">conds</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">flags</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i_group_features</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+    <span class="n">score_ref</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">conds</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+    <span class="n">ss</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">subgroup</span> <span class="ow">in</span> <span class="n">subgroups</span><span class="p">:</span>
+        <span class="n">i_subgroup_features</span> <span class="o">=</span> <span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">subgroup</span><span class="p">,</span> <span class="s2">&quot;leaves&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">subgroup</span> <span class="ow">in</span> <span class="n">Z</span><span class="o">.</span><span class="n">index</span>
+                               <span class="k">else</span> <span class="p">[</span><span class="n">subgroup</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="n">i_group_features</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">i_subgroup_features</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;cluster </span><span class="si">{}</span><span class="s2"> in &#39;subgroups&#39; is not subgroup of &quot;</span>
+                             <span class="s2">&quot;&#39;group&#39;&quot;</span><span class="p">)</span>
+        <span class="n">i_subgroup_compl_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">i_group_features</span>
+                                     <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">i_subgroup_features</span><span class="p">]</span>
+        <span class="n">conds</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">flags</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i_subgroup_features</span><span class="p">]</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+            <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="n">flags</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="n">i_subgroup_compl_features</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">))</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="n">conds</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">ss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+
+    <span class="n">wr</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">ss</span><span class="p">,</span> <span class="s2">&quot;score_ref&quot;</span><span class="p">:</span> <span class="n">score_ref</span><span class="p">},</span>
+                          <span class="n">index</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">subgroups</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;subgroup&quot;</span><span class="p">))</span>
+    <span class="n">wr</span><span class="p">[</span><span class="s2">&quot;relevance&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wr</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">wr</span><span class="p">[</span><span class="s2">&quot;score_ref&quot;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">wr</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html">Example codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_hierarchy.html">API</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.analysis</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Nobuya Sato.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>

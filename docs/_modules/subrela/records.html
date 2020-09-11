@@ -1,0 +1,458 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>subrela.records &#8212; SubRelA 1.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.records</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for subrela.records</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2020 Nobuya Sato</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="sd">&quot;&quot;&quot;Tools for handling score records.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;add_features&quot;</span><span class="p">,</span> <span class="s2">&quot;from_arrays&quot;</span><span class="p">,</span> <span class="s2">&quot;integrate&quot;</span><span class="p">,</span> <span class="s2">&quot;iterate_missing&quot;</span><span class="p">,</span>
+           <span class="s2">&quot;n_missing&quot;</span><span class="p">,</span> <span class="s2">&quot;remove_features&quot;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="from_arrays"><a class="viewcode-back" href="../../api/subrela.records.from_arrays.html#subrela.records.from_arrays">[docs]</a><span class="k">def</span> <span class="nf">from_arrays</span><span class="p">(</span><span class="n">flags</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make score records from flags and scores.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    flags : (M, N) list[list[bool]]</span>
+<span class="sd">        Used features in subsets. Each row corresponds to a subset. Each</span>
+<span class="sd">        column corresponds to a feature.</span>
+<span class="sd">    scores : (M,) list[float]</span>
+<span class="sd">        Scores for feature subsets.</span>
+<span class="sd">    features : (N,) list[str] or None, optional</span>
+<span class="sd">        Feature names. If ``None``, features are named as ``feature_0``,</span>
+<span class="sd">        ``feature_1``, etc.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.Series</span>
+<span class="sd">        Score records.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the number of rows in ``flags`` is not equal to the size of</span>
+<span class="sd">        ``scores``. If the number of columns in ``flags`` is not equal to the</span>
+<span class="sd">        size of ``features``.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    An index of returned `pandas.Series` is a `pandas.MultiIndex` indicating</span>
+<span class="sd">    used features. Levels of the index are features.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
+<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
+
+<span class="sd">    &gt;&gt;&gt; from_arrays([[True, False, False], [True, False, True]], [0.2, 0.8])</span>
+<span class="sd">    feature_0  feature_1  feature_2</span>
+<span class="sd">    True       False      False        0.2</span>
+<span class="sd">    True       False      True         0.8</span>
+<span class="sd">    dtype: float64</span>
+
+<span class="sd">    &gt;&gt;&gt; from_arrays([[True, False, False], [True, False, True]], [0.2, 0.8],</span>
+<span class="sd">    ...             features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
+<span class="sd">    A     B      C    </span>
+<span class="sd">    True  False  False    0.2</span>
+<span class="sd">    True  False  True     0.8</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;feature_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;number of rows in &#39;flags&#39; must be equal to size of &quot;</span>
+                         <span class="s2">&quot;&#39;scores&#39;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span> <span class="k">for</span> <span class="n">fs</span> <span class="ow">in</span> <span class="n">flags</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;number of columns in &#39;flags&#39; must be equal to size &quot;</span>
+                         <span class="s2">&quot;of &#39;features&#39;&quot;</span><span class="p">)</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span><span class="n">flags</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="integrate"><a class="viewcode-back" href="../../api/subrela.records.integrate.html#subrela.records.integrate">[docs]</a><span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Integrate two score records.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s1 : pandas.Series</span>
+<span class="sd">        First score records.</span>
+<span class="sd">    s2 : pandas.Series</span>
+<span class="sd">        Second score records.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.Series</span>
+<span class="sd">        Integrated score records.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
+<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
+
+<span class="sd">    &gt;&gt;&gt; s1 = from_arrays([[True, False]], [0.2], features=[&#39;A&#39;, &#39;B&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; s2 = from_arrays([[False, True]], [0.4], features=[&#39;A&#39;, &#39;B&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; s1</span>
+<span class="sd">    A     B    </span>
+<span class="sd">    True  False    0.2</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &gt;&gt;&gt; s2</span>
+<span class="sd">    A      B   </span>
+<span class="sd">    False  True    0.4</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &gt;&gt;&gt; integrate(s1, s2)</span>
+<span class="sd">    A      B    </span>
+<span class="sd">    True   False    0.2</span>
+<span class="sd">    False  True     0.4</span>
+<span class="sd">    dtype: float64</span>
+
+<span class="sd">    &gt;&gt;&gt; s3 = from_arrays([[True, True]], [0.8], features=[&#39;A&#39;, &#39;C&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; s3</span>
+<span class="sd">    A     C   </span>
+<span class="sd">    True  True    0.8</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &gt;&gt;&gt; integrate(s1, s3)</span>
+<span class="sd">    A     B      C    </span>
+<span class="sd">    True  False  False    0.2</span>
+<span class="sd">    True  False  True     0.8</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">and_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">s1</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
+                    <span class="k">if</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">s2</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">]</span>
+    <span class="n">xor1_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">s1</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
+                     <span class="k">if</span> <span class="n">feature</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">and_features</span><span class="p">]</span>
+    <span class="n">xor2_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">s2</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span>
+                     <span class="k">if</span> <span class="n">feature</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">and_features</span><span class="p">]</span>
+    <span class="n">all_features</span> <span class="o">=</span> <span class="n">and_features</span> <span class="o">+</span> <span class="n">xor1_features</span> <span class="o">+</span> <span class="n">xor2_features</span>
+
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">feature</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">xor2_features</span><span class="p">})</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">all_features</span><span class="p">]</span>
+    <span class="n">s1</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_frame</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">feature</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">xor1_features</span><span class="p">})</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[</span><span class="n">all_features</span><span class="p">]</span>
+    <span class="n">s2</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_frame</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">],</span> <span class="n">verify_integrity</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="add_features"><a class="viewcode-back" href="../../api/subrela.records.add_features.html#subrela.records.add_features">[docs]</a><span class="k">def</span> <span class="nf">add_features</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add features.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : pandas.Series</span>
+<span class="sd">        Score records</span>
+<span class="sd">    features : list[str]</span>
+<span class="sd">        Names of added features.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.Series</span>
+<span class="sd">        New score records.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If a feature in ``features`` already exists.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    subrela.records.remove_features</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
+<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
+
+<span class="sd">    &gt;&gt;&gt; s = from_arrays([[True, False, False], [True, False, True]],</span>
+<span class="sd">    ...                 [0.2, 0.8],</span>
+<span class="sd">    ...                 features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; s</span>
+<span class="sd">    A     B      C    </span>
+<span class="sd">    True  False  False    0.2</span>
+<span class="sd">    True  False  True     0.8</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &gt;&gt;&gt; add_features(s, [&#39;X&#39;, &#39;Y&#39;])</span>
+<span class="sd">    A     B      C      X      Y    </span>
+<span class="sd">    True  False  False  False  False    0.2</span>
+<span class="sd">    True  False  True   False  False    0.8</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;feature &#39;</span><span class="si">{}</span><span class="s2">&#39; already exists&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">feature</span><span class="p">))</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">feature</span><span class="p">:</span> <span class="kc">False</span> <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">})</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_frame</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+<div class="viewcode-block" id="remove_features"><a class="viewcode-back" href="../../api/subrela.records.remove_features.html#subrela.records.remove_features">[docs]</a><span class="k">def</span> <span class="nf">remove_features</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove features.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : pandas.Series</span>
+<span class="sd">        Score records.</span>
+<span class="sd">    features : list[str]</span>
+<span class="sd">        Names of removed features.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.Series</span>
+<span class="sd">        New score records.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If a feature in ``features`` does not exist.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    subrela.records.add_features</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    A record using a removed feature is dropped.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
+<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
+
+<span class="sd">    &gt;&gt;&gt; s = from_arrays([[True, False, False], [True, False, True]],</span>
+<span class="sd">    ...                 [0.2, 0.8],</span>
+<span class="sd">    ...                 features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; s</span>
+<span class="sd">    A     B      C    </span>
+<span class="sd">    True  False  False    0.2</span>
+<span class="sd">    True  False  True     0.8</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &gt;&gt;&gt; remove_features(s, [&#39;B&#39;])</span>
+<span class="sd">    A     C    </span>
+<span class="sd">    True  False    0.2</span>
+<span class="sd">    True  True     0.8</span>
+<span class="sd">    dtype: float64</span>
+
+<span class="sd">    &gt;&gt;&gt; remove_features(s, [&#39;B&#39;, &#39;C&#39;])</span>
+<span class="sd">    A</span>
+<span class="sd">    True    0.2</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">feature</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;feature &#39;</span><span class="si">{}</span><span class="s2">&#39; does not exist&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">feature</span><span class="p">))</span>
+
+    <span class="n">flags</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="n">conds</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="n">flags</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">features</span><span class="p">)])</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;columns&quot;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">conds</span><span class="p">]</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">droplevel</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+<div class="viewcode-block" id="n_missing"><a class="viewcode-back" href="../../api/subrela.records.n_missing.html#subrela.records.n_missing">[docs]</a><span class="k">def</span> <span class="nf">n_missing</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the number of missing feature subsets.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : pandas.Series</span>
+<span class="sd">        Score records.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    subrela.records.iterate_missing : Iterate missing feature subsets.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
+<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
+
+<span class="sd">    &gt;&gt;&gt; s = from_arrays([[True, False, False], [True, False, True]],</span>
+<span class="sd">    ...                 [0.2, 0.8],</span>
+<span class="sd">    ...                 features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; s</span>
+<span class="sd">    A     B      C    </span>
+<span class="sd">    True  False  False    0.2</span>
+<span class="sd">    True  False  True     0.8</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &gt;&gt;&gt; n_missing(s)</span>
+<span class="sd">    5</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="iterate_missing"><a class="viewcode-back" href="../../api/subrela.records.iterate_missing.html#subrela.records.iterate_missing">[docs]</a><span class="k">def</span> <span class="nf">iterate_missing</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Iterate missing feature subsets.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : pandas.Series</span>
+<span class="sd">        Score records</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    flags : tuple[bool]</span>
+<span class="sd">        Used features for a subset.</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    subrela.records.n_missing : Get the number of missing feature subsets.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
+<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
+
+<span class="sd">    &gt;&gt;&gt; s = from_arrays([[True, False, False], [True, False, True]],</span>
+<span class="sd">    ...                 [0.2, 0.8],</span>
+<span class="sd">    ...                 features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; s</span>
+<span class="sd">    A     B      C    </span>
+<span class="sd">    True  False  False    0.2</span>
+<span class="sd">    True  False  True     0.8</span>
+<span class="sd">    dtype: float64</span>
+<span class="sd">    &gt;&gt;&gt; for flags in iterate_missing(s):</span>
+<span class="sd">    ...     print(flags)</span>
+<span class="sd">    ...</span>
+<span class="sd">    (False, True, False)</span>
+<span class="sd">    (True, True, False)</span>
+<span class="sd">    (False, False, True)</span>
+<span class="sd">    (False, True, True)</span>
+<span class="sd">    (True, True, True)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">flags</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="n">repeat</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="ow">not</span> <span class="n">flag</span> <span class="k">for</span> <span class="n">flag</span> <span class="ow">in</span> <span class="n">flags</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">flags</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">flags</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../example.html">Example codes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_hierarchy.html">API</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Home</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.records</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Nobuya Sato.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
+    </div>
+  </body>
+</html>
