@@ -1,7 +1,7 @@
 Change log
 ==========
 
-[0.1][] (2020-4-14)
+[1.0.0][] (2020-9-11)
 ------------------------
 
 ### Added
@@ -10,4 +10,4 @@ Change log
 * Tests.
 * Documentation.
 
-[0.1]: https://github.com/nbsato/subrela/releases/tag/v0.1
+[1.0.0]: https://github.com/nbsato/subrela/releases/tag/v1.0.0
