@@ -259,13 +259,13 @@ def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
         Data of cut lines returned by `subrela.plot.get_dendrogram_data`
         function.
     sr : pandas.DataFrame
-        Strong relevances of groups returned by
+        Strong relevance scores of groups returned by
         `subrela.analysis.get_strong_relevances` function.
     wr : pandas.DataFrame
-        Weak relevances of subgroups, which is a concatenation of returns of
-        `subrela.analysis.get_weak_relevances` function.
+        Weak relevance scores of subgroups, which is a concatenation of returns
+        of `subrela.analysis.get_weak_relevances` function.
     tol : float, optional
-        Tolerance of difference in the weak relevance from a group.
+        Tolerance of difference in the weak relevance score from a group.
 
     Returns
     -------

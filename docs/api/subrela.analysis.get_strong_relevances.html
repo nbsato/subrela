@@ -5,6 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>subrela.analysis.get_strong_relevances function &#8212; SubRelA 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +20,7 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="subrela.analysis.get_weak_relevances function" href="subrela.analysis.get_weak_relevances.html" />
     <link rel="prev" title="subrela.analysis module" href="subrela.analysis.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -42,48 +43,10 @@
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="subrela.analysis.html" accesskey="U">subrela.analysis module</a> &#187;</li> 
+          <li class="nav-item nav-item-3"><a href="subrela.analysis.html" accesskey="U">subrela.analysis module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.analysis.get_strong_relevances function</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.analysis.get_strong_relevances function</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.analysis.get_weak_relevances.html">subrela.analysis.get_weak_relevances function</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="subrela.analysis.html"
-                        title="previous chapter">subrela.analysis module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="subrela.analysis.get_weak_relevances.html"
-                        title="next chapter">subrela.analysis.get_weak_relevances function</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -95,21 +58,21 @@
 <dl class="py function">
 <dt id="subrela.analysis.get_strong_relevances">
 <code class="sig-prename descclassname">subrela.analysis.</code><code class="sig-name descname">get_strong_relevances</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scores</span></em>, <em class="sig-param"><span class="n">Z</span></em>, <em class="sig-param"><span class="n">clusters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">descendants</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/subrela/analysis.html#get_strong_relevances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subrela.analysis.get_strong_relevances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate strong relevances of clusters.</p>
+<dd><p>Calculate strong relevance scores of clusters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>scores</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.0.3)"><em>pandas.Series</em></a>) – Scores for feature subsets.</p></li>
-<li><p><strong>Z</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)"><em>pandas.DataFrame</em></a>) – Data of clusters returned by <a class="reference internal" href="subrela.clustering.get_clusters.html#subrela.clustering.get_clusters" title="subrela.clustering.get_clusters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.clustering.get_clusters</span></code></a>
+<li><p><strong>scores</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.1.2)"><em>pandas.Series</em></a>) – Scores for feature subsets.</p></li>
+<li><p><strong>Z</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of clusters returned by <a class="reference internal" href="subrela.clustering.get_clusters.html#subrela.clustering.get_clusters" title="subrela.clustering.get_clusters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.clustering.get_clusters</span></code></a>
 function.</p></li>
-<li><p><strong>clusters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Cluster indices whose strong relevances are calculated. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
-strong relevances are calculated for all clusters.</p></li>
-<li><p><strong>descendants</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, strong relevances are calculated also for descendant
+<li><p><strong>clusters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Cluster indices whose strong relevance scores are calculated. If
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, strong relevance scores are calculated for all clusters.</p></li>
+<li><p><strong>descendants</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, strong relevance scores are calculated also for descendant
 clusters.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>sr</strong> (<em>pandas.DataFrame</em>) – Strong relevances.</p>
+<dd class="field-even"><p><strong>sr</strong> (<em>pandas.DataFrame</em>) – Strong relevance scores.</p>
 </dd>
 </dl>
 <div class="admonition-notes admonition">
@@ -124,7 +87,7 @@ clusters.</p></li>
 <dt><code class="docutils literal notranslate"><span class="pre">sr['score']</span></code><span class="classifier">float</span></dt><dd><p>Best score among feature subsets not including features in a
 cluster.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">sr['relevance']</span></code><span class="classifier">float</span></dt><dd><p>Strong relevance, which is <code class="docutils literal notranslate"><span class="pre">sr['score_ref']</span> <span class="pre">-</span> <span class="pre">sr['score']</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">sr['relevance']</span></code><span class="classifier">float</span></dt><dd><p>Strong relevance score, which is <code class="docutils literal notranslate"><span class="pre">sr['score_ref']</span> <span class="pre">-</span> <span class="pre">sr['score']</span></code>.</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -181,7 +144,47 @@ cluster.</p>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.analysis.get_strong_relevances function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.analysis.get_weak_relevances.html">subrela.analysis.get_weak_relevances function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="subrela.analysis.html"
+                        title="previous chapter">subrela.analysis module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="subrela.analysis.get_weak_relevances.html"
+                        title="next chapter">subrela.analysis.get_weak_relevances function</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -204,12 +207,13 @@ cluster.</p>
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="subrela.analysis.html" >subrela.analysis module</a> &#187;</li> 
+          <li class="nav-item nav-item-3"><a href="subrela.analysis.html" >subrela.analysis module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.analysis.get_strong_relevances function</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Nobuya Sato.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

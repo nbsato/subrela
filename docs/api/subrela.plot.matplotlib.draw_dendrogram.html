@@ -5,6 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>subrela.plot.matplotlib.draw_dendrogram function &#8212; SubRelA 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +20,7 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="subrela.plot.matplotlib.draw_node_info function" href="subrela.plot.matplotlib.draw_node_info.html" />
     <link rel="prev" title="subrela.plot.matplotlib module" href="subrela.plot.matplotlib.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -43,56 +44,10 @@
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="subrela.plot.html" >subrela.plot module</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="subrela.plot.matplotlib.html" accesskey="U">subrela.plot.matplotlib module</a> &#187;</li> 
+          <li class="nav-item nav-item-4"><a href="subrela.plot.matplotlib.html" accesskey="U">subrela.plot.matplotlib module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.plot.matplotlib.draw_dendrogram function</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="subrela.plot.bokeh.html">subrela.plot.bokeh module</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="subrela.plot.matplotlib.html">subrela.plot.matplotlib module</a><ul class="current">
-<li class="toctree-l5 current"><a class="current reference internal" href="#">subrela.plot.matplotlib.draw_dendrogram function</a></li>
-<li class="toctree-l5"><a class="reference internal" href="subrela.plot.matplotlib.draw_node_info.html">subrela.plot.matplotlib.draw_node_info function</a></li>
-<li class="toctree-l5"><a class="reference internal" href="subrela.plot.matplotlib.draw_node_marker.html">subrela.plot.matplotlib.draw_node_marker function</a></li>
-<li class="toctree-l5"><a class="reference internal" href="subrela.plot.matplotlib.draw_trace.html">subrela.plot.matplotlib.draw_trace function</a></li>
-</ul>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_dendrogram_data.html">subrela.plot.get_dendrogram_data function</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_trace_data.html">subrela.plot.get_trace_data function</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="subrela.plot.matplotlib.html"
-                        title="previous chapter">subrela.plot.matplotlib module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="subrela.plot.matplotlib.draw_node_info.html"
-                        title="next chapter">subrela.plot.matplotlib.draw_node_info function</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -108,20 +63,20 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<a class="reference external" href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v3.2.1)"><em>matplotlib.axes.Axes</em></a>) – Subplot on which a dendrogram is drawn.</p></li>
-<li><p><strong>leaf_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)"><em>pandas.DataFrame</em></a>) – Data of leaves returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
-<li><p><strong>tree_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)"><em>pandas.DataFrame</em></a>) – Data of tree lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
+<li><p><strong>ax</strong> (<a class="reference external" href="https://matplotlib.org/api/axes_api.html#matplotlib.axes.Axes" title="(in Matplotlib v3.3.1)"><em>matplotlib.axes.Axes</em></a>) – Subplot on which a dendrogram is drawn.</p></li>
+<li><p><strong>leaf_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of leaves returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
+<li><p><strong>tree_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of tree lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
 function.</p></li>
-<li><p><strong>cut_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)"><em>pandas.DataFrame</em></a>) – Data of cut lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
+<li><p><strong>cut_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of cut lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
 function.</p></li>
 <li><p><strong>palette</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Color palette for groups. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, taken from
 <code class="docutils literal notranslate"><span class="pre">matplotlib.rcParams['axes.prop_cycle']</span></code>.</p></li>
 <li><p><strong>orientation</strong> (<em>{'vertical'</em><em>, </em><em>'horizontal'}</em><em>, </em><em>optional</em>) – Orientation of a tree. If <code class="docutils literal notranslate"><span class="pre">'vertical'</span></code>, the height direction of a
 tree corresponds to the y axis. If <code class="docutils literal notranslate"><span class="pre">'horizontal'</span></code>, it corresponds to
 the x axis.</p></li>
-<li><p><strong>tree_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword argumsnts passed to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.plot.html#matplotlib.axes.Axes.plot" title="(in Matplotlib v3.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.axes.Axes.plot</span></code></a> method for
+<li><p><strong>tree_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword argumsnts passed to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.plot.html#matplotlib.axes.Axes.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.axes.Axes.plot</span></code></a> method for
 drawing tree lines.</p></li>
-<li><p><strong>cut_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.plot.html#matplotlib.axes.Axes.plot" title="(in Matplotlib v3.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.axes.Axes.plot</span></code></a> method for
+<li><p><strong>cut_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.axes.Axes.plot.html#matplotlib.axes.Axes.plot" title="(in Matplotlib v3.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.axes.Axes.plot</span></code></a> method for
 drawing cut lines.</p></li>
 </ul>
 </dd>
@@ -210,7 +165,55 @@ set to <code class="docutils literal notranslate"><span class="pre">'color'</spa
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.bokeh.html">subrela.plot.bokeh module</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="subrela.plot.matplotlib.html">subrela.plot.matplotlib module</a><ul class="current">
+<li class="toctree-l5 current"><a class="current reference internal" href="#">subrela.plot.matplotlib.draw_dendrogram function</a></li>
+<li class="toctree-l5"><a class="reference internal" href="subrela.plot.matplotlib.draw_node_info.html">subrela.plot.matplotlib.draw_node_info function</a></li>
+<li class="toctree-l5"><a class="reference internal" href="subrela.plot.matplotlib.draw_node_marker.html">subrela.plot.matplotlib.draw_node_marker function</a></li>
+<li class="toctree-l5"><a class="reference internal" href="subrela.plot.matplotlib.draw_trace.html">subrela.plot.matplotlib.draw_trace function</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_dendrogram_data.html">subrela.plot.get_dendrogram_data function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_trace_data.html">subrela.plot.get_trace_data function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="subrela.plot.matplotlib.html"
+                        title="previous chapter">subrela.plot.matplotlib module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="subrela.plot.matplotlib.draw_node_info.html"
+                        title="next chapter">subrela.plot.matplotlib.draw_node_info function</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -234,12 +237,13 @@ set to <code class="docutils literal notranslate"><span class="pre">'color'</spa
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="subrela.plot.html" >subrela.plot module</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="subrela.plot.matplotlib.html" >subrela.plot.matplotlib module</a> &#187;</li> 
+          <li class="nav-item nav-item-4"><a href="subrela.plot.matplotlib.html" >subrela.plot.matplotlib module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.plot.matplotlib.draw_dendrogram function</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Nobuya Sato.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

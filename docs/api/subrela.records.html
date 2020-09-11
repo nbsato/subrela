@@ -5,6 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>subrela.records module &#8212; SubRelA 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +20,7 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="subrela.records.add_features function" href="subrela.records.add_features.html" />
     <link rel="prev" title="subrela.plot.get_trace_data function" href="subrela.plot.get_trace_data.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -41,9 +42,55 @@
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="subrela.html" accesskey="U">subrela package</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="subrela.html" accesskey="U">subrela package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.records module</a></li> 
       </ul>
-    </div>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-subrela.records">
+<span id="subrela-records-module"></span><h1>subrela.records module<a class="headerlink" href="#module-subrela.records" title="Permalink to this headline">¶</a></h1>
+<p>Tools for handling score records.</p>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="subrela.records.add_features.html#subrela.records.add_features" title="subrela.records.add_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_features</span></code></a>(s, features)</p></td>
+<td><p>Add features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subrela.records.from_arrays.html#subrela.records.from_arrays" title="subrela.records.from_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_arrays</span></code></a>(flags, scores[, features])</p></td>
+<td><p>Make score records from flags and scores.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subrela.records.integrate.html#subrela.records.integrate" title="subrela.records.integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integrate</span></code></a>(s1, s2)</p></td>
+<td><p>Integrate two score records.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subrela.records.iterate_missing.html#subrela.records.iterate_missing" title="subrela.records.iterate_missing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iterate_missing</span></code></a>(s)</p></td>
+<td><p>Iterate missing feature subsets.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="subrela.records.n_missing.html#subrela.records.n_missing" title="subrela.records.n_missing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_missing</span></code></a>(s)</p></td>
+<td><p>Get the number of missing feature subsets.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="subrela.records.remove_features.html#subrela.records.remove_features" title="subrela.records.remove_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_features</span></code></a>(s, features)</p></td>
+<td><p>Remove features.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table of Contents</a></h3>
@@ -87,50 +134,6 @@
 <script>$('#searchbox').show(0);</script>
         </div>
       </div>
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="module-subrela.records">
-<span id="subrela-records-module"></span><h1>subrela.records module<a class="headerlink" href="#module-subrela.records" title="Permalink to this headline">¶</a></h1>
-<p>Tools for handling score records.</p>
-<div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="subrela.records.add_features.html#subrela.records.add_features" title="subrela.records.add_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_features</span></code></a>(s, features)</p></td>
-<td><p>Add features.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subrela.records.from_arrays.html#subrela.records.from_arrays" title="subrela.records.from_arrays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_arrays</span></code></a>(flags, scores[, features])</p></td>
-<td><p>Make score records from flags and scores.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subrela.records.integrate.html#subrela.records.integrate" title="subrela.records.integrate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integrate</span></code></a>(s1, s2)</p></td>
-<td><p>Integrate two score records.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subrela.records.iterate_missing.html#subrela.records.iterate_missing" title="subrela.records.iterate_missing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iterate_missing</span></code></a>(s)</p></td>
-<td><p>Iterate missing feature subsets.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="subrela.records.n_missing.html#subrela.records.n_missing" title="subrela.records.n_missing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_missing</span></code></a>(s)</p></td>
-<td><p>Get the number of missing feature subsets.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="subrela.records.remove_features.html#subrela.records.remove_features" title="subrela.records.remove_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_features</span></code></a>(s, features)</p></td>
-<td><p>Remove features.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-
-          </div>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -150,12 +153,13 @@
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.records module</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Nobuya Sato.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

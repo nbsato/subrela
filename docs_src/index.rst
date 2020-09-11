@@ -9,7 +9,7 @@ Python package for the subgroup relevance analysis.
 Requirements
 ------------
 
-* `Python <https://www.python.org/>`_ >= 3.5.3
+* `Python <https://www.python.org/>`_ >= 3.6
 * `pandas <https://pandas.pydata.org/>`_ >= 0.24.0
 * `SciPy <https://www.scipy.org/>`_ >= 1.1.0
 * `Bokeh <https://bokeh.org/>`_ >= 1.1.0, optional

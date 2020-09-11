@@ -5,6 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>subrela.records.integrate function &#8212; SubRelA 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +20,7 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="subrela.records.iterate_missing function" href="subrela.records.iterate_missing.html" />
     <link rel="prev" title="subrela.records.from_arrays function" href="subrela.records.from_arrays.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -42,52 +43,10 @@
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="subrela.records.html" accesskey="U">subrela.records module</a> &#187;</li> 
+          <li class="nav-item nav-item-3"><a href="subrela.records.html" accesskey="U">subrela.records module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.records.integrate function</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="subrela.records.html">subrela.records module</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="subrela.records.add_features.html">subrela.records.add_features function</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.records.from_arrays.html">subrela.records.from_arrays function</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.records.integrate function</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.records.iterate_missing.html">subrela.records.iterate_missing function</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.records.n_missing.html">subrela.records.n_missing function</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.records.remove_features.html">subrela.records.remove_features function</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="subrela.records.from_arrays.html"
-                        title="previous chapter">subrela.records.from_arrays function</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="subrela.records.iterate_missing.html"
-                        title="next chapter">subrela.records.iterate_missing function</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -103,8 +62,8 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s1</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.0.3)"><em>pandas.Series</em></a>) – First score records.</p></li>
-<li><p><strong>s2</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.0.3)"><em>pandas.Series</em></a>) – Second score records.</p></li>
+<li><p><strong>s1</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.1.2)"><em>pandas.Series</em></a>) – First score records.</p></li>
+<li><p><strong>s2</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.1.2)"><em>pandas.Series</em></a>) – Second score records.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -150,7 +109,51 @@
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="subrela.records.html">subrela.records module</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="subrela.records.add_features.html">subrela.records.add_features function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.records.from_arrays.html">subrela.records.from_arrays function</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.records.integrate function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.records.iterate_missing.html">subrela.records.iterate_missing function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.records.n_missing.html">subrela.records.n_missing function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.records.remove_features.html">subrela.records.remove_features function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="subrela.records.from_arrays.html"
+                        title="previous chapter">subrela.records.from_arrays function</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="subrela.records.iterate_missing.html"
+                        title="next chapter">subrela.records.iterate_missing function</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -173,12 +176,13 @@
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="subrela.records.html" >subrela.records module</a> &#187;</li> 
+          <li class="nav-item nav-item-3"><a href="subrela.records.html" >subrela.records module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.records.integrate function</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Nobuya Sato.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

@@ -33,7 +33,7 @@ autosummary_generate_overwrite = False
 # extensions: sphinx.ext.intersphinx
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
-    "numpy": ("https://docs.scipy.org/doc/numpy/", None),
+    "numpy": ("https://numpy.org/doc/stable/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
     "bokeh": ("https://docs.bokeh.org/en/latest", None),

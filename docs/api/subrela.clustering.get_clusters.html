@@ -5,6 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>subrela.clustering.get_clusters function &#8212; SubRelA 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +20,7 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="subrela.clustering.get_groups function" href="subrela.clustering.get_groups.html" />
     <link rel="prev" title="subrela.clustering module" href="subrela.clustering.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -42,49 +43,10 @@
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="subrela.clustering.html" accesskey="U">subrela.clustering module</a> &#187;</li> 
+          <li class="nav-item nav-item-3"><a href="subrela.clustering.html" accesskey="U">subrela.clustering module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.clustering.get_clusters function</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.clustering.get_clusters function</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.clustering.get_groups.html">subrela.clustering.get_groups function</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.clustering.get_subgroups.html">subrela.clustering.get_subgroups function</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="subrela.clustering.html"
-                        title="previous chapter">subrela.clustering module</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="subrela.clustering.get_groups.html"
-                        title="next chapter">subrela.clustering.get_groups function</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -100,13 +62,13 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>(</em><em>M</em><em>, </em><em>N</em><em>) </em><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.17)"><em>numpy.ndarray</em></a>) – Values of N features for M samples.</p></li>
+<li><p><strong>X</strong> (<em>(</em><em>M</em><em>, </em><em>N</em><em>) </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><em>numpy.ndarray</em></a>) – Values of N features for M samples.</p></li>
 <li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><em>callable</em><em>, </em><em>optional</em>) – Metric for measuring a distance between two features. Passed to
-<code class="docutils literal notranslate"><span class="pre">metric</span></code> parameter of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy.linkage</span></code></a> function.</p></li>
+<code class="docutils literal notranslate"><span class="pre">metric</span></code> parameter of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage" title="(in SciPy v1.5.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy.linkage</span></code></a> function.</p></li>
 <li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>optional</em>) – Linkage method for calculating a distance between two clusters. Passed
-to <code class="docutils literal notranslate"><span class="pre">method</span></code> parameter of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy.linkage</span></code></a> function.</p></li>
+to <code class="docutils literal notranslate"><span class="pre">method</span></code> parameter of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage" title="(in SciPy v1.5.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy.linkage</span></code></a> function.</p></li>
 <li><p><strong>optimal_ordering</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>, </em><em>optional</em>) – Leaves are reordered if <code class="docutils literal notranslate"><span class="pre">True</span></code>. Passed to <code class="docutils literal notranslate"><span class="pre">optimal_ordering</span></code>
-parameter of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy.linkage</span></code></a> function.</p></li>
+parameter of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.linkage.html#scipy.cluster.hierarchy.linkage" title="(in SciPy v1.5.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.cluster.hierarchy.linkage</span></code></a> function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -147,7 +109,48 @@ parameter of <a class="reference external" href="https://docs.scipy.org/doc/scip
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.clustering.get_clusters function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.clustering.get_groups.html">subrela.clustering.get_groups function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="subrela.clustering.get_subgroups.html">subrela.clustering.get_subgroups function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="subrela.clustering.html"
+                        title="previous chapter">subrela.clustering module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="subrela.clustering.get_groups.html"
+                        title="next chapter">subrela.clustering.get_groups function</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -170,12 +173,13 @@ parameter of <a class="reference external" href="https://docs.scipy.org/doc/scip
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="subrela.clustering.html" >subrela.clustering module</a> &#187;</li> 
+          <li class="nav-item nav-item-3"><a href="subrela.clustering.html" >subrela.clustering module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.clustering.get_clusters function</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Nobuya Sato.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>

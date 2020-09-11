@@ -30,8 +30,7 @@ Analysis using Bokeh
        X = dataset[features].to_numpy()
        y = dataset[target].to_numpy()
 
-       # This is a dummy. You should perform the linear regression etc. using
-       # 'X' and 'y'.
+       # This is a dummy. You should perform a regression using 'X' and 'y'.
        score = 0.1 * sum(dataset.columns.to_list().index(feature)
                          for feature in features)
 
@@ -46,7 +45,7 @@ Analysis using Bokeh
    Z = subrela.clustering.get_clusters(dataset[features].to_numpy())
    groups = subrela.clustering.get_groups(Z, 4.5)
 
-   # evaluate scores
+   # evaluate scores for feature subsets
    flags = list(itertools.product([False, True], repeat=len(features)))
    flags = flags[1:]  # drop a case in which no features are used
    scores = []
@@ -56,7 +55,7 @@ Analysis using Bokeh
        scores.append(score)
    s = subrela.records.from_arrays(flags, scores)
 
-   # evaluate relevances
+   # evaluate relevance scores
    sr = subrela.analysis.get_strong_relevances(s, Z, clusters=groups,
                                                descendants=True)
    wr = pandas.concat([subrela.analysis.get_weak_relevances(s, Z, group)

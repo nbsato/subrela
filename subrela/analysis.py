@@ -25,7 +25,7 @@ __all__ = ["get_strong_relevances", "get_weak_relevances"]
 
 
 def get_strong_relevances(scores, Z, clusters=None, descendants=False):
-    """Calculate strong relevances of clusters.
+    """Calculate strong relevance scores of clusters.
 
     Parameters
     ----------
@@ -35,16 +35,16 @@ def get_strong_relevances(scores, Z, clusters=None, descendants=False):
         Data of clusters returned by `subrela.clustering.get_clusters`
         function.
     clusters : list[int] or None, optional
-        Cluster indices whose strong relevances are calculated. If ``None``,
-        strong relevances are calculated for all clusters.
+        Cluster indices whose strong relevance scores are calculated. If
+        ``None``, strong relevance scores are calculated for all clusters.
     descendants : bool, optional
-        If ``True``, strong relevances are calculated also for descendant
+        If ``True``, strong relevance scores are calculated also for descendant
         clusters.
 
     Returns
     -------
     sr : pandas.DataFrame
-        Strong relevances.
+        Strong relevance scores.
 
     Notes
     -----
@@ -61,7 +61,7 @@ def get_strong_relevances(scores, Z, clusters=None, descendants=False):
             cluster.
 
         ``sr['relevance']`` : float
-            Strong relevance, which is ``sr['score_ref'] - sr['score']``.
+            Strong relevance score, which is ``sr['score_ref'] - sr['score']``.
 
     Examples
     --------
@@ -133,7 +133,7 @@ def get_strong_relevances(scores, Z, clusters=None, descendants=False):
 
 
 def get_weak_relevances(scores, Z, group, subgroups=None):
-    """Calculate weak relevances of subgroups.
+    """Calculate weak relevance scores of subgroups.
 
     Parameters
     ----------
@@ -145,13 +145,14 @@ def get_weak_relevances(scores, Z, group, subgroups=None):
     group : int
         Cluster index of a group.
     subgroups : list[int] or None, optional
-        Cluster indices of subgroups whose weak relevances are calculated. If
-        ``None``, weak relevances are calculated for all subgroups.
+        Cluster indices of subgroups whose weak relevance scores are
+        calculated. If ``None``, weak relevance scores are calculated for all
+        subgroups.
 
     Returns
     -------
     wr : pandas.DataFrame
-        Weak relevances.
+        Weak relevance scores.
 
     Raises
     ------
@@ -173,7 +174,7 @@ def get_weak_relevances(scores, Z, group, subgroups=None):
             Best score among feature subsets not including features in a group.
 
         ``wr['relevance']`` : float
-            Weak relevance, which is ``wr['score'] - wr['score_ref']``.
+            Weak relevance score, which is ``wr['score'] - wr['score_ref']``.
 
     Examples
     --------

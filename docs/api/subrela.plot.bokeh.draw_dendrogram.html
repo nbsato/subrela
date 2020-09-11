@@ -5,6 +5,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>subrela.plot.bokeh.draw_dendrogram function &#8212; SubRelA 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +20,7 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="subrela.plot.bokeh.draw_node_info function" href="subrela.plot.bokeh.draw_node_info.html" />
     <link rel="prev" title="subrela.plot.bokeh module" href="subrela.plot.bokeh.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -43,9 +44,134 @@
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="subrela.plot.html" >subrela.plot module</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="subrela.plot.bokeh.html" accesskey="U">subrela.plot.bokeh module</a> &#187;</li> 
+          <li class="nav-item nav-item-4"><a href="subrela.plot.bokeh.html" accesskey="U">subrela.plot.bokeh module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.plot.bokeh.draw_dendrogram function</a></li> 
       </ul>
-    </div>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="subrela-plot-bokeh-draw-dendrogram-function">
+<h1>subrela.plot.bokeh.draw_dendrogram function<a class="headerlink" href="#subrela-plot-bokeh-draw-dendrogram-function" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="subrela.plot.bokeh.draw_dendrogram">
+<code class="sig-prename descclassname">subrela.plot.bokeh.</code><code class="sig-name descname">draw_dendrogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fig</span></em>, <em class="sig-param"><span class="n">leaf_data</span></em>, <em class="sig-param"><span class="n">tree_data</span></em>, <em class="sig-param"><span class="n">cut_data</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">orientation</span><span class="o">=</span><span class="default_value">'vertical'</span></em>, <em class="sig-param"><span class="n">tree_kws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cut_kws</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/subrela/plot/bokeh.html#draw_dendrogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subrela.plot.bokeh.draw_dendrogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a dendrogram.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fig</strong> (<em>bokeh.plotting.figure.Figure</em>) – Figure on which a dendrogram is drawn.</p></li>
+<li><p><strong>leaf_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of leaves returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
+<li><p><strong>tree_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of tree lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
+function.</p></li>
+<li><p><strong>cut_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of cut lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
+function.</p></li>
+<li><p><strong>palette</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Color palette for groups. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+<code class="docutils literal notranslate"><span class="pre">bokeh.palettes.Category10[10]</span></code> is used.</p></li>
+<li><p><strong>orientation</strong> (<em>{'vertical'</em><em>, </em><em>'horizontal'}</em><em>, </em><em>optional</em>) – Orientation of a tree. If <code class="docutils literal notranslate"><span class="pre">'vertical'</span></code>, the height direction of a
+tree corresponds to the y axis. If <code class="docutils literal notranslate"><span class="pre">'horizontal'</span></code>, it corresponds to
+the x axis.</p></li>
+<li><p><strong>tree_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword argumsnts passed to <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.Figure.multi_line" title="(in Bokeh v2.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.Figure.multi_line</span></code></a> method
+for drawing tree lines.</p></li>
+<li><p><strong>cut_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.Figure.multi_line" title="(in Bokeh v2.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.Figure.multi_line</span></code></a> method
+for drawing cut lines.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>tree_line</strong> (<em>bokeh.models.renderers.GlyphRenderer</em>) – Renderer for tree lines.</p></li>
+<li><p><strong>cut_line</strong> (<em>bokeh.models.renderers.GlyphRenderer</em>) – Renderer for cut lines.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">tree_kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'xs'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ys'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>. If
+    <code class="docutils literal notranslate"><span class="pre">cut_kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'xs'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ys'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>.</p>
+</dd>
+</dl>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>A default color of a tree is <code class="docutils literal notranslate"><span class="pre">tree_kws['line_color']</span></code>. If it does not
+exist, <code class="docutils literal notranslate"><span class="pre">tree_kws['color']</span></code> is used. If both do not exist, <code class="docutils literal notranslate"><span class="pre">palette[0]</span></code>
+is used and group colors are selected from <code class="docutils literal notranslate"><span class="pre">palette[1:]</span></code>.</p>
+<p>If neither key <code class="docutils literal notranslate"><span class="pre">'line_color'</span></code> nor key <code class="docutils literal notranslate"><span class="pre">'color'</span></code> is in <code class="docutils literal notranslate"><span class="pre">cut_kws</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'black'</span></code> is set to <code class="docutils literal notranslate"><span class="pre">'line_color'</span></code>. The default value for
+<code class="docutils literal notranslate"><span class="pre">cut_kws['line_dash']</span></code> is <code class="docutils literal notranslate"><span class="pre">'dashed'</span></code>.</p>
+</div>
+<p class="rubric">Examples</p>
+
+<script src="bokeh-plot-eb24dad65394410bb7d4d5169f9b146e-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="62915708-2a09-4ff7-a7e4-4e2d06976e5f"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
+<span class="kn">import</span> <span class="nn">bokeh.io</span>
+<span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
+<span class="kn">from</span> <span class="nn">subrela.plot</span> <span class="kn">import</span> <span class="n">get_dendrogram_data</span>
+<span class="kn">from</span> <span class="nn">subrela.plot.bokeh</span> <span class="kn">import</span> <span class="n">draw_dendrogram</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">leaf_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span>
+    <span class="n">Z</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">draw_dendrogram</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">)</span>
+<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Change colors:</p>
+
+<script src="bokeh-plot-9d06b104cb104fb68847e5f5a055d6d7-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="29d8b864-2423-40a9-bd47-1a92232d322c"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
+<span class="kn">import</span> <span class="nn">bokeh.io</span>
+<span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
+<span class="kn">from</span> <span class="nn">subrela.plot</span> <span class="kn">import</span> <span class="n">get_dendrogram_data</span>
+<span class="kn">from</span> <span class="nn">subrela.plot.bokeh</span> <span class="kn">import</span> <span class="n">draw_dendrogram</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">leaf_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span>
+    <span class="n">Z</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">draw_dendrogram</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span>
+                <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;magenta&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan&#39;</span><span class="p">])</span>
+<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Draw horizontally:</p>
+
+<script src="bokeh-plot-1b17cf66fdc8463a9b1a04f4258f57a9-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="bca73208-0bb5-4b0d-9909-d64d880468cb"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
+<span class="kn">import</span> <span class="nn">bokeh.io</span>
+<span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
+<span class="kn">from</span> <span class="nn">subrela.plot</span> <span class="kn">import</span> <span class="n">get_dendrogram_data</span>
+<span class="kn">from</span> <span class="nn">subrela.plot.bokeh</span> <span class="kn">import</span> <span class="n">draw_dendrogram</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">leaf_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span>
+    <span class="n">Z</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">draw_dendrogram</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span>
+                <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
+<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table of Contents</a></h3>
@@ -93,129 +219,6 @@
 <script>$('#searchbox').show(0);</script>
         </div>
       </div>
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="subrela-plot-bokeh-draw-dendrogram-function">
-<h1>subrela.plot.bokeh.draw_dendrogram function<a class="headerlink" href="#subrela-plot-bokeh-draw-dendrogram-function" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt id="subrela.plot.bokeh.draw_dendrogram">
-<code class="sig-prename descclassname">subrela.plot.bokeh.</code><code class="sig-name descname">draw_dendrogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fig</span></em>, <em class="sig-param"><span class="n">leaf_data</span></em>, <em class="sig-param"><span class="n">tree_data</span></em>, <em class="sig-param"><span class="n">cut_data</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">orientation</span><span class="o">=</span><span class="default_value">'vertical'</span></em>, <em class="sig-param"><span class="n">tree_kws</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cut_kws</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/subrela/plot/bokeh.html#draw_dendrogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subrela.plot.bokeh.draw_dendrogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw a dendrogram.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fig</strong> (<a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.figure.Figure" title="(in Bokeh v2.0.2)"><em>bokeh.plotting.figure.Figure</em></a>) – Figure on which a dendrogram is drawn.</p></li>
-<li><p><strong>leaf_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)"><em>pandas.DataFrame</em></a>) – Data of leaves returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
-<li><p><strong>tree_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)"><em>pandas.DataFrame</em></a>) – Data of tree lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
-function.</p></li>
-<li><p><strong>cut_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.0.3)"><em>pandas.DataFrame</em></a>) – Data of cut lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
-function.</p></li>
-<li><p><strong>palette</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Color palette for groups. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
-<code class="docutils literal notranslate"><span class="pre">bokeh.palettes.Category10[10]</span></code> is used.</p></li>
-<li><p><strong>orientation</strong> (<em>{'vertical'</em><em>, </em><em>'horizontal'}</em><em>, </em><em>optional</em>) – Orientation of a tree. If <code class="docutils literal notranslate"><span class="pre">'vertical'</span></code>, the height direction of a
-tree corresponds to the y axis. If <code class="docutils literal notranslate"><span class="pre">'horizontal'</span></code>, it corresponds to
-the x axis.</p></li>
-<li><p><strong>tree_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword argumsnts passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.Figure.multi_line</span></code> method
-for drawing tree lines.</p></li>
-<li><p><strong>cut_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.Figure.multi_line</span></code> method
-for drawing cut lines.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>tree_line</strong> (<em>bokeh.models.renderers.GlyphRenderer</em>) – Renderer for tree lines.</p></li>
-<li><p><strong>cut_line</strong> (<em>bokeh.models.renderers.GlyphRenderer</em>) – Renderer for cut lines.</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">tree_kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'xs'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ys'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>. If
-    <code class="docutils literal notranslate"><span class="pre">cut_kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'xs'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ys'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>.</p>
-</dd>
-</dl>
-<div class="admonition-notes admonition">
-<p class="admonition-title">Notes</p>
-<p>A default color of a tree is <code class="docutils literal notranslate"><span class="pre">tree_kws['line_color']</span></code>. If it does not
-exist, <code class="docutils literal notranslate"><span class="pre">tree_kws['color']</span></code> is used. If both do not exist, <code class="docutils literal notranslate"><span class="pre">palette[0]</span></code>
-is used and group colors are selected from <code class="docutils literal notranslate"><span class="pre">palette[1:]</span></code>.</p>
-<p>If neither key <code class="docutils literal notranslate"><span class="pre">'line_color'</span></code> nor key <code class="docutils literal notranslate"><span class="pre">'color'</span></code> is in <code class="docutils literal notranslate"><span class="pre">cut_kws</span></code>,
-<code class="docutils literal notranslate"><span class="pre">'black'</span></code> is set to <code class="docutils literal notranslate"><span class="pre">'line_color'</span></code>. The default value for
-<code class="docutils literal notranslate"><span class="pre">cut_kws['line_dash']</span></code> is <code class="docutils literal notranslate"><span class="pre">'dashed'</span></code>.</p>
-</div>
-<p class="rubric">Examples</p>
-
-<script src="bokeh-plot-0d2c6f5da08c4c76a84a27a30e82679c-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="03dd7f66-4437-46e9-924e-d5e03d28c570"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-<span class="kn">import</span> <span class="nn">bokeh.io</span>
-<span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
-<span class="kn">from</span> <span class="nn">subrela.plot</span> <span class="kn">import</span> <span class="n">get_dendrogram_data</span>
-<span class="kn">from</span> <span class="nn">subrela.plot.bokeh</span> <span class="kn">import</span> <span class="n">draw_dendrogram</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
-
-<span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">leaf_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span>
-    <span class="n">Z</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">draw_dendrogram</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">)</span>
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Change colors:</p>
-
-<script src="bokeh-plot-6b16ab64ee824cdf8d38650dec6c9bda-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="5e3fda5f-9d9a-4f4e-90a5-dbfe93153710"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-<span class="kn">import</span> <span class="nn">bokeh.io</span>
-<span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
-<span class="kn">from</span> <span class="nn">subrela.plot</span> <span class="kn">import</span> <span class="n">get_dendrogram_data</span>
-<span class="kn">from</span> <span class="nn">subrela.plot.bokeh</span> <span class="kn">import</span> <span class="n">draw_dendrogram</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
-
-<span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">leaf_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span>
-    <span class="n">Z</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">draw_dendrogram</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span>
-                <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;magenta&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan&#39;</span><span class="p">])</span>
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Draw horizontally:</p>
-
-<script src="bokeh-plot-181af10ab06341d7916002fc4d902b7e-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="01095c82-0290-4e6a-ba9a-2d88106714f6"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">bokeh.plotting</span>
-<span class="kn">import</span> <span class="nn">bokeh.io</span>
-<span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
-<span class="kn">from</span> <span class="nn">subrela.plot</span> <span class="kn">import</span> <span class="n">get_dendrogram_data</span>
-<span class="kn">from</span> <span class="nn">subrela.plot.bokeh</span> <span class="kn">import</span> <span class="n">draw_dendrogram</span>
-
-<span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
-
-<span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">leaf_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span>
-    <span class="n">Z</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-<span class="n">draw_dendrogram</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span>
-                <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">)</span>
-<span class="n">bokeh</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</div>
-
-
-          </div>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -237,12 +240,13 @@ is used and group colors are selected from <code class="docutils literal notrans
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="subrela.plot.html" >subrela.plot module</a> &#187;</li>
-          <li class="nav-item nav-item-4"><a href="subrela.plot.bokeh.html" >subrela.plot.bokeh module</a> &#187;</li> 
+          <li class="nav-item nav-item-4"><a href="subrela.plot.bokeh.html" >subrela.plot.bokeh module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.plot.bokeh.draw_dendrogram function</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Nobuya Sato.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.2.1.
     </div>
   </body>
 </html>
