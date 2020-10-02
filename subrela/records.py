@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tools for handling score records."""
+"""Tools for handling scores of feature subsets."""
 
 import itertools
 
@@ -24,7 +24,7 @@ __all__ = ["add_features", "from_arrays", "integrate", "iterate_missing",
 
 
 def from_arrays(flags, scores, features=None):
-    """Make score records from flags and scores.
+    """Make records of feature subsets from flags and scores.
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ def from_arrays(flags, scores, features=None):
 
 
 def integrate(s1, s2):
-    """Integrate two score records.
+    """Integrate two records of feature subsets.
 
     Parameters
     ----------
@@ -167,7 +167,7 @@ def add_features(s, features):
     Parameters
     ----------
     s : pandas.Series
-        Score records
+        Records of feature subsets.
     features : list[str]
         Names of added features.
 
@@ -223,7 +223,7 @@ def remove_features(s, features):
     Parameters
     ----------
     s : pandas.Series
-        Score records.
+        Records of feature subsets.
     features : list[str]
         Names of removed features.
 
@@ -288,7 +288,7 @@ def n_missing(s):
     Parameters
     ----------
     s : pandas.Series
-        Score records.
+        Records of feature subsets.
 
     Returns
     -------
@@ -323,7 +323,7 @@ def iterate_missing(s):
     Parameters
     ----------
     s : pandas.Series
-        Score records
+        Records of feature subsets.
 
     Yields
     ------

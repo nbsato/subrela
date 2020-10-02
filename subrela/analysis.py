@@ -21,15 +21,16 @@ import pandas
 from .clustering import get_subgroups
 
 
-__all__ = ["get_strong_relevances", "get_weak_relevances"]
+__all__ = ["get_strong_relevance_scores", "get_weak_relevance_scores"]
 
 
-def get_strong_relevances(scores, Z, clusters=None, descendants=False):
+def get_strong_relevance_scores(subset_scores, Z, clusters=None,
+                                descendants=False):
     """Calculate strong relevance scores of clusters.
 
     Parameters
     ----------
-    scores : pandas.Series
+    subset_scores : pandas.Series
         Scores for feature subsets.
     Z : pandas.DataFrame
         Data of clusters returned by `subrela.clustering.get_clusters`
@@ -43,70 +44,72 @@ def get_strong_relevances(scores, Z, clusters=None, descendants=False):
 
     Returns
     -------
-    sr : pandas.DataFrame
+    srs : pandas.DataFrame
         Strong relevance scores.
 
     Notes
     -----
-    An index and columns of ``sr`` are as follows:
+    An index and columns of ``srs`` are as follows:
 
-        ``sr.index`` : int
+        ``srs.index`` : int
             Cluster index.
 
-        ``sr['score_ref']`` : float
+        ``srs['subset_score_ref']`` : float
             Best score among all feature subsets.
 
-        ``sr['score']`` : float
+        ``srs['subset_score']`` : float
             Best score among feature subsets not including features in a
             cluster.
 
-        ``sr['relevance']`` : float
-            Strong relevance score, which is ``sr['score_ref'] - sr['score']``.
+        ``srs['relevance_score']`` : float
+            Strong relevance score, which is
+            ``srs['subset_score_ref'] - srs['subset_score']``.
 
     Examples
     --------
     >>> import numpy
     >>> from subrela.records import from_arrays
     >>> from subrela.clustering import get_clusters
-    >>> scores = from_arrays([[False, False, False, True, True],
-    ...                       [True, False, False, True, True],
-    ...                       [False, True, False, True, True],
-    ...                       [True, True, False, True, True],
-    ...                       [False, False, True, True, True],
-    ...                       [True, False, True, True, True],
-    ...                       [False, True, True, True, True],
-    ...                       [True, True, True, True, True]],
-    ...                      [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
+    >>> subset_scores = from_arrays([[False, False, False, True, True],
+    ...                              [True, False, False, True, True],
+    ...                              [False, True, False, True, True],
+    ...                              [True, True, False, True, True],
+    ...                              [False, False, True, True, True],
+    ...                              [True, False, True, True, True],
+    ...                              [False, True, True, True, True],
+    ...                              [True, True, True, True, True]],
+    ...                             [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
     >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
     >>> Z = get_clusters(X)
-    >>> get_strong_relevances(scores, Z)
-             score_ref  score  relevance
-    cluster                             
-    0              1.0    1.0        0.0
-    1              1.0    0.9        0.1
-    2              1.0    0.8        0.2
-    3              1.0    NaN        NaN
-    4              1.0    NaN        NaN
-    5              1.0    0.7        0.3
-    6              1.0    NaN        NaN
-    7              1.0    0.7        0.3
-    8              1.0    NaN        NaN
+    >>> get_strong_relevance_scores(subset_scores, Z)
+             subset_score_ref  subset_score  relevance_score
+    cluster                                                 
+    0                     1.0           1.0              0.0
+    1                     1.0           0.9              0.1
+    2                     1.0           0.8              0.2
+    3                     1.0           NaN              NaN
+    4                     1.0           NaN              NaN
+    5                     1.0           0.7              0.3
+    6                     1.0           NaN              NaN
+    7                     1.0           0.7              0.3
+    8                     1.0           NaN              NaN
 
-    >>> get_strong_relevances(scores, Z, clusters=[5, 6])
-             score_ref  score  relevance
-    cluster                             
-    5              1.0    0.7        0.3
-    6              1.0    NaN        NaN
+    >>> get_strong_relevance_scores(subset_scores, Z, clusters=[5, 6])
+             subset_score_ref  subset_score  relevance_score
+    cluster                                                 
+    5                     1.0           0.7              0.3
+    6                     1.0           NaN              NaN
 
-    >>> get_strong_relevances(scores, Z, clusters=[5, 6], descendants=True)
-             score_ref  score  relevance
-    cluster                             
-    1              1.0    0.9        0.1
-    2              1.0    0.8        0.2
-    3              1.0    NaN        NaN
-    4              1.0    NaN        NaN
-    5              1.0    0.7        0.3
-    6              1.0    NaN        NaN
+    >>> get_strong_relevance_scores(subset_scores, Z, clusters=[5, 6],
+    ...                             descendants=True)
+             subset_score_ref  subset_score  relevance_score
+    cluster                                                 
+    1                     1.0           0.9              0.1
+    2                     1.0           0.8              0.2
+    3                     1.0           NaN              NaN
+    4                     1.0           NaN              NaN
+    5                     1.0           0.7              0.3
+    6                     1.0           NaN              NaN
     """
     if clusters is None:
         clusters = list(range(Z.index.max() + 1))
@@ -115,29 +118,30 @@ def get_strong_relevances(scores, Z, clusters=None, descendants=False):
             get_subgroups(Z, cluster) for cluster in clusters)
         clusters = list(set(clusters))
 
-    flags = scores.index.to_frame().astype(bool)
+    flags = subset_scores.index.to_frame().astype(bool)
 
     ss = []
     for cluster in clusters:
         i_features = (Z.loc[cluster, "leaves"] if cluster in Z.index
                       else [cluster])
         conds = (~flags.iloc[:, i_features]).all(axis="columns")
-        score = scores[conds].max()
-        ss.append(score)
+        subset_score = subset_scores[conds].max()
+        ss.append(subset_score)
 
-    sr = pandas.DataFrame({"score_ref": scores.max(), "score": ss},
-                          index=pandas.Index(clusters, name="cluster"))
-    sr["relevance"] = sr["score_ref"] - sr["score"]
+    srs = pandas.DataFrame({"subset_score_ref": subset_scores.max(),
+                            "subset_score": ss},
+                           index=pandas.Index(clusters, name="cluster"))
+    srs["relevance_score"] = srs["subset_score_ref"] - srs["subset_score"]
 
-    return sr
+    return srs
 
 
-def get_weak_relevances(scores, Z, group, subgroups=None):
+def get_weak_relevance_scores(subset_scores, Z, group, subgroups=None):
     """Calculate weak relevance scores of subgroups.
 
     Parameters
     ----------
-    scores : pandas.Series
+    subset_scores : pandas.Series
         Scores for feature subsets.
     Z : pandas.DataFrame
         Data of clusters returned by `subrela.clustering.get_clusters`
@@ -151,7 +155,7 @@ def get_weak_relevances(scores, Z, group, subgroups=None):
 
     Returns
     -------
-    wr : pandas.DataFrame
+    wrs : pandas.DataFrame
         Weak relevance scores.
 
     Raises
@@ -161,58 +165,59 @@ def get_weak_relevances(scores, Z, group, subgroups=None):
 
     Notes
     -----
-    An index and columns of ``wr`` are as follows:
+    An index and columns of ``wrs`` are as follows:
 
-        ``wr.index`` : int
+        ``wrs.index`` : int
             Cluster index.
 
-        ``wr['score']`` : float
+        ``wrs['subset_score']`` : float
             Best score among feature subsets icluding at least one feature in a
             subgroup but not including features in a group out of subgroup.
 
-        ``wr['score_ref']`` : float
+        ``wrs['subset_score_ref']`` : float
             Best score among feature subsets not including features in a group.
 
-        ``wr['relevance']`` : float
-            Weak relevance score, which is ``wr['score'] - wr['score_ref']``.
+        ``wrs['relevance_score']`` : float
+            Weak relevance score, which is
+            ``wrs['subset_score'] - wrs['subset_score_ref']``.
 
     Examples
     --------
     >>> import numpy
     >>> from subrela.records import from_arrays
     >>> from subrela.clustering import get_clusters
-    >>> scores = from_arrays([[False, False, False, True, True],
-    ...                       [True, False, False, True, True],
-    ...                       [False, True, False, True, True],
-    ...                       [True, True, False, True, True],
-    ...                       [False, False, True, True, True],
-    ...                       [True, False, True, True, True],
-    ...                       [False, True, True, True, True],
-    ...                       [True, True, True, True, True]],
-    ...                      [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
+    >>> subset_scores = from_arrays([[False, False, False, True, True],
+    ...                              [True, False, False, True, True],
+    ...                              [False, True, False, True, True],
+    ...                              [True, True, False, True, True],
+    ...                              [False, False, True, True, True],
+    ...                              [True, False, True, True, True],
+    ...                              [False, True, True, True, True],
+    ...                              [True, True, True, True, True]],
+    ...                             [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
     >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
     >>> Z = get_clusters(X)
-    >>> get_weak_relevances(scores, Z, 5)
-              score  score_ref  relevance
-    subgroup                             
-    5           1.0        0.7        0.3
-    1           0.8        0.7        0.1
-    2           0.9        0.7        0.2
+    >>> get_weak_relevance_scores(subset_scores, Z, 5)
+              subset_score  subset_score_ref  relevance_score
+    subgroup                                                 
+    5                  1.0               0.7              0.3
+    1                  0.8               0.7              0.1
+    2                  0.9               0.7              0.2
 
-    >>> get_weak_relevances(scores, Z, 5, subgroups=[1, 2])
-              score  score_ref  relevance
-    subgroup                             
-    1           0.8        0.7        0.1
-    2           0.9        0.7        0.2
+    >>> get_weak_relevance_scores(subset_scores, Z, 5, subgroups=[1, 2])
+              subset_score  subset_score_ref  relevance_score
+    subgroup                                                 
+    1                  0.8               0.7              0.1
+    2                  0.9               0.7              0.2
     """
     if subgroups is None:
         subgroups = get_subgroups(Z, group)
 
     i_group_features = Z.loc[group, "leaves"] if group in Z.index else [group]
 
-    flags = scores.index.to_frame().astype(bool)
+    flags = subset_scores.index.to_frame().astype(bool)
     conds = (~flags.iloc[:, i_group_features]).all(axis="columns")
-    score_ref = scores[conds].max()
+    subset_score_ref = subset_scores[conds].max()
 
     ss = []
     for subgroup in subgroups:
@@ -226,11 +231,12 @@ def get_weak_relevances(scores, Z, group, subgroups=None):
         conds = (
             flags.iloc[:, i_subgroup_features].any(axis="columns")
             & (~flags.iloc[:, i_subgroup_compl_features]).all(axis="columns"))
-        score = scores[conds].max()
-        ss.append(score)
+        subset_score = subset_scores[conds].max()
+        ss.append(subset_score)
 
-    wr = pandas.DataFrame({"score": ss, "score_ref": score_ref},
-                          index=pandas.Index(subgroups, name="subgroup"))
-    wr["relevance"] = wr["score"] - wr["score_ref"]
+    wrs = pandas.DataFrame({"subset_score": ss,
+                            "subset_score_ref": subset_score_ref},
+                           index=pandas.Index(subgroups, name="subgroup"))
+    wrs["relevance_score"] = wrs["subset_score"] - wrs["subset_score_ref"]
 
-    return wr
+    return wrs

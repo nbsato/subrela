@@ -46,23 +46,23 @@ Analysis using Matplotlib
    # evaluate scores for feature subsets
    flags = list(itertools.product([False, True], repeat=len(features)))
    flags = flags[1:]  # drop a case in which no features are used
-   scores = []
+   subset_scores = []
    for fs in flags:
        feats = [feature for feature, flag in zip(features, fs) if flag]
-       score = perform_regression(dataset, feats, 'target')
-       scores.append(score)
-   s = subrela.records.from_arrays(flags, scores)
+       subset_score = perform_regression(dataset, feats, 'target')
+       subset_scores.append(subset_score)
+   s = subrela.records.from_arrays(flags, subset_scores)
 
    # evaluate relevance scores
-   sr = subrela.analysis.get_strong_relevances(s, Z, clusters=groups,
-                                               descendants=True)
-   wr = pandas.concat([subrela.analysis.get_weak_relevances(s, Z, group)
-                       for group in groups])
+   srs = subrela.analysis.get_strong_relevance_scores(s, Z, clusters=groups,
+                                                      descendants=True)
+   wrs = pandas.concat([subrela.analysis.get_weak_relevance_scores(s, Z, group)
+                        for group in groups])
 
    # prepare data for plots
    leaf_data, node_data, tree_data, cut_data \
        = subrela.plot.get_dendrogram_data(Z, labels=features, groups=groups)
-   trace_data = subrela.plot.get_trace_data(node_data, cut_data, sr, wr,
+   trace_data = subrela.plot.get_trace_data(node_data, cut_data, srs, wrs,
                                             tol=0.1)
 
    # make a figure
@@ -72,17 +72,17 @@ Analysis using Matplotlib
    sr_ax.invert_yaxis()
    subrela.plot.matplotlib.draw_dendrogram(sr_ax, leaf_data, tree_data,
                                            cut_data, orientation='horizontal')
-   subrela.plot.matplotlib.draw_node_info(sr_ax, node_data, sr['relevance'],
-                                          formatter='{:.1f}'.format,
-                                          orientation='horizontal')
+   subrela.plot.matplotlib.draw_node_info(
+       sr_ax, node_data, srs['relevance_score'], formatter='{:.1f}'.format,
+       orientation='horizontal')
    sr_ax.set_xlim(left=0)
    wr_ax.set_title('weak relevance')
    wr_ax.invert_yaxis()
    subrela.plot.matplotlib.draw_dendrogram(wr_ax, leaf_data, tree_data,
                                            cut_data, orientation='horizontal')
-   subrela.plot.matplotlib.draw_node_info(wr_ax, node_data, wr['relevance'],
-                                          formatter='{:.1f}'.format,
-                                          orientation='horizontal')
+   subrela.plot.matplotlib.draw_node_info(
+       wr_ax, node_data, wrs['relevance_score'], formatter='{:.1f}'.format,
+       orientation='horizontal')
    subrela.plot.matplotlib.draw_trace(wr_ax, trace_data,
                                       orientation='horizontal')
    wr_ax.set_xlim(left=0)

@@ -248,7 +248,7 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
     return leaf_data, node_data, tree_data, cut_data
 
 
-def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
+def get_trace_data(node_data, cut_data, srs, wrs, tol=0.):
     """Calculate data for drawing trace lines.
 
     Parameters
@@ -258,14 +258,14 @@ def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
     cut_data : pandas.DataFrame
         Data of cut lines returned by `subrela.plot.get_dendrogram_data`
         function.
-    sr : pandas.DataFrame
+    srs : pandas.DataFrame
         Strong relevance scores of groups returned by
-        `subrela.analysis.get_strong_relevances` function.
-    wr : pandas.DataFrame
+        `subrela.analysis.get_strong_relevance_scores` function.
+    wrs : pandas.DataFrame
         Weak relevance scores of subgroups, which is a concatenation of returns
-        of `subrela.analysis.get_weak_relevances` function.
+        of `subrela.analysis.get_weak_relevance_scores` function.
     tol : float, optional
-        Tolerance of difference in the weak relevance score from a group.
+        Tolerance of difference in the relevance score.
 
     Returns
     -------
@@ -295,26 +295,27 @@ def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
     >>> import numpy
     >>> from subrela.records import from_arrays
     >>> from subrela.clustering import get_clusters
-    >>> from subrela.analysis import get_strong_relevances, get_weak_relevances
-    >>> scores = from_arrays([[False, False, False, True, True],
-    ...                       [True, False, False, True, True],
-    ...                       [False, True, False, True, True],
-    ...                       [True, True, False, True, True],
-    ...                       [False, False, True, True, True],
-    ...                       [True, False, True, True, True],
-    ...                       [False, True, True, True, True],
-    ...                       [True, True, True, True, True]],
-    ...                      [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
+    >>> from subrela.analysis import (get_strong_relevance_scores,
+    ...                               get_weak_relevance_scores)
+    >>> subset_scores = from_arrays([[False, False, False, True, True],
+    ...                              [True, False, False, True, True],
+    ...                              [False, True, False, True, True],
+    ...                              [True, True, False, True, True],
+    ...                              [False, False, True, True, True],
+    ...                              [True, False, True, True, True],
+    ...                              [False, True, True, True, True],
+    ...                              [True, True, True, True, True]],
+    ...                             [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
     >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
     >>> Z = get_clusters(X)
     >>> _, node_data, _, cut_data = get_dendrogram_data(Z, groups=[5])
-    >>> sr = get_strong_relevances(scores, Z, clusters=[5])
-    >>> wr = get_weak_relevances(scores, Z, 5)
-    >>> get_trace_data(node_data, cut_data, sr, wr)
+    >>> srs = get_strong_relevance_scores(subset_scores, Z, clusters=[5])
+    >>> wrs = get_weak_relevance_scores(subset_scores, Z, 5)
+    >>> get_trace_data(node_data, cut_data, srs, wrs)
          breadths                    heights  group
     0  [3.5, 3.5]  [3.5495097567963922, 2.0]      5
 
-    >>> get_trace_data(node_data, cut_data, sr, wr, tol=0.1)
+    >>> get_trace_data(node_data, cut_data, srs, wrs, tol=0.1)
               breadths                    heights  group
     0       [3.5, 3.5]  [3.5495097567963922, 2.0]      5
     1  [3.5, 4.0, 4.0]            [2.0, 2.0, 0.0]      5
@@ -326,13 +327,13 @@ def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
     heights = []
     for group in groups:
         traces = _get_traces(node_data, group)
-        if group not in sr.index:
+        if group not in srs.index:
             continue
-        if group not in wr.index:
+        if group not in wrs.index:
             continue
-        group_sr = sr.loc[group, "relevance"]
-        group_wr = wr.loc[group, "relevance"]
-        if group_wr < group_sr:
+        group_srs = srs.loc[group, "relevance_score"]
+        group_wrs = wrs.loc[group, "relevance_score"]
+        if group_wrs < group_srs:
             continue
         group_b, group_h = node_data.loc[group, ["breadth", "height"]]
         cut_h = cut_data.loc[group, "heights"][0]
@@ -342,10 +343,10 @@ def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
         for trace in traces:
             b, h = group_b, group_h
             for cluster in trace[1:]:
-                if cluster not in wr.index:
+                if cluster not in wrs.index:
                     break
-                cluster_wr = wr.loc[cluster, "relevance"]
-                if tol < group_wr - cluster_wr:
+                cluster_wrs = wrs.loc[cluster, "relevance"]
+                if tol < group_wrs - cluster_wrs:
                     break
                 prev_b, prev_h = b, h
                 b, h = node_data.loc[cluster, ["breadth", "height"]]
