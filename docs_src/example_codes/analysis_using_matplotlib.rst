@@ -29,7 +29,7 @@ Analysis using Matplotlib
        y = dataset[target].to_numpy()
 
        # This is a dummy. You should perform a regression using 'X' and 'y'.
-       score = 0.1 * sum(dataset.columns.to_list().index(feature)
+       score = 0.1 * sum(dataset.columns.to_list().index(feature) - 1
                          for feature in features)
 
        return score
