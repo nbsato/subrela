@@ -326,33 +326,38 @@ def get_trace_data(node_data, cut_data, srs, wrs, tol=0.):
     breadths = []
     heights = []
     for group in groups:
-        traces = _get_traces(node_data, group)
         if group not in srs.index:
             continue
         if group not in wrs.index:
             continue
         group_srs = srs.loc[group, "relevance_score"]
         group_wrs = wrs.loc[group, "relevance_score"]
-        if group_wrs < group_srs:
+        if group_wrs < group_srs - tol:
             continue
         group_b, group_h = node_data.loc[group, ["breadth", "height"]]
         cut_h = cut_data.loc[group, "heights"][0]
         gs.append(group)
         breadths.append([group_b, group_b])
         heights.append([cut_h, group_h])
-        for trace in traces:
-            b, h = group_b, group_h
-            for cluster in trace[1:]:
-                if cluster not in wrs.index:
-                    break
-                cluster_wrs = wrs.loc[cluster, "relevance"]
-                if tol < group_wrs - cluster_wrs:
-                    break
-                prev_b, prev_h = b, h
-                b, h = node_data.loc[cluster, ["breadth", "height"]]
+        clusters = [group]
+        while clusters:
+            cluster = clusters.pop(0)
+            children = node_data.loc[cluster, "children"]
+            if not children:
+                continue
+            cluster_wrs = wrs.loc[cluster, "relevance_score"]
+            children_wrss = wrs.loc[children, "relevance_score"]
+            is_decreasing = children_wrss < cluster_wrs - tol
+            if (~is_decreasing).any():
+                children = is_decreasing.loc[~is_decreasing].index.to_list()
+            cluster_b, cluster_h = node_data.loc[cluster,
+                                                 ["breadth", "height"]]
+            for child in children:
+                child_b, child_h = node_data.loc[child, ["breadth", "height"]]
                 gs.append(group)
-                breadths.append([prev_b, b, b])
-                heights.append([prev_h, prev_h, h])
+                breadths.append([cluster_b, child_b, child_b])
+                heights.append([cluster_h, cluster_h, child_h])
+            clusters.extend(children)
 
     trace_data = pandas.DataFrame({"breadths": breadths, "heights": heights,
                                    "group": gs})
@@ -543,29 +548,3 @@ def _get_cluster_coords(Z, leaf_data):
 
     return pandas.DataFrame({"breadth": breadths, "height": Z["distance"]},
                             index=Z.index)
-
-
-def _get_traces(node_data, group):
-    """Return data of trace lines.
-
-    Parameters
-    ----------
-    node_data : pandas.DataFrame
-    group : int
-
-    Returns
-    -------
-    traces : list[list[int]]
-    """
-    traces = [[group]]
-    k = 0
-    while k < len(traces):
-        front = traces[k][-1]
-        if node_data.loc[front, "children"]:
-            traces[k:k+1] = [traces[k] + [child]
-                             for child in node_data.loc[front, "children"]]
-        else:
-            k += 1
-            continue
-
-    return traces
