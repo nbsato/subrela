@@ -198,7 +198,7 @@ def draw_node_marker(ax, node_data, orientation="vertical", kws=None):
 
     Notes
     -----
-    The default value for ``kws['marker']`` is ``'None'``.
+    The default value for ``kws['marker']`` is ``'none'``.
 
     Examples
     --------
@@ -223,7 +223,7 @@ def draw_node_marker(ax, node_data, orientation="vertical", kws=None):
     is_vertical = check_orientation(orientation)
 
     kws = dict(kws) if kws is not None else {}
-    kws.setdefault("marker", "None")
+    kws.setdefault("marker", "none")
 
     x, y = node_data[["breadth", "height"]].to_numpy().T
     if not is_vertical:

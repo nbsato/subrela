@@ -56,20 +56,17 @@ def from_arrays(flags, scores, features=None):
 
     Examples
     --------
-    >>> # just for the output format
-    >>> pandas.set_option('display.multi_sparse', False)
-
     >>> from_arrays([[True, False, False], [True, False, True]], [0.2, 0.8])
     feature_0  feature_1  feature_2
     True       False      False        0.2
-    True       False      True         0.8
+                          True         0.8
     dtype: float64
 
     >>> from_arrays([[True, False, False], [True, False, True]], [0.2, 0.8],
     ...             features=['A', 'B', 'C'])
     A     B      C    
     True  False  False    0.2
-    True  False  True     0.8
+                 True     0.8
     dtype: float64
     """
     flags = list(flags)
@@ -96,20 +93,17 @@ def integrate(s1, s2):
     Parameters
     ----------
     s1 : pandas.Series
-        First score records.
+        First records.
     s2 : pandas.Series
-        Second score records.
+        Second records.
 
     Returns
     -------
     pandas.Series
-        Integrated score records.
+        Integrated records.
 
     Examples
     --------
-    >>> # just for the output format
-    >>> pandas.set_option('display.multi_sparse', False)
-
     >>> s1 = from_arrays([[True, False]], [0.2], features=['A', 'B'])
     >>> s2 = from_arrays([[False, True]], [0.4], features=['A', 'B'])
     >>> s1
@@ -134,7 +128,7 @@ def integrate(s1, s2):
     >>> integrate(s1, s3)
     A     B      C    
     True  False  False    0.2
-    True  False  True     0.8
+                 True     0.8
     dtype: float64
     """
     s1 = s1.copy()
@@ -162,7 +156,7 @@ def integrate(s1, s2):
 
 
 def add_features(s, features):
-    """Add features.
+    """Add features to records.
 
     Parameters
     ----------
@@ -174,7 +168,7 @@ def add_features(s, features):
     Returns
     -------
     pandas.Series
-        New score records.
+        New records.
 
     Raises
     ------
@@ -183,25 +177,22 @@ def add_features(s, features):
 
     See also
     --------
-    subrela.records.remove_features
+    subrela.records.remove_features : Remove features from records.
 
     Examples
     --------
-    >>> # just for the output format
-    >>> pandas.set_option('display.multi_sparse', False)
-
     >>> s = from_arrays([[True, False, False], [True, False, True]],
     ...                 [0.2, 0.8],
     ...                 features=['A', 'B', 'C'])
     >>> s
     A     B      C    
     True  False  False    0.2
-    True  False  True     0.8
+                 True     0.8
     dtype: float64
     >>> add_features(s, ['X', 'Y'])
     A     B      C      X      Y    
     True  False  False  False  False    0.2
-    True  False  True   False  False    0.8
+                 True   False  False    0.8
     dtype: float64
     """
     for feature in features:
@@ -218,7 +209,7 @@ def add_features(s, features):
 
 
 def remove_features(s, features):
-    """Remove features.
+    """Remove features from records.
 
     Parameters
     ----------
@@ -230,7 +221,7 @@ def remove_features(s, features):
     Returns
     -------
     pandas.Series
-        New score records.
+        New records.
 
     Raises
     ------
@@ -239,7 +230,7 @@ def remove_features(s, features):
 
     See also
     --------
-    subrela.records.add_features
+    subrela.records.add_features : Add features to records.
 
     Notes
     -----
@@ -247,21 +238,18 @@ def remove_features(s, features):
 
     Examples
     --------
-    >>> # just for the output format
-    >>> pandas.set_option('display.multi_sparse', False)
-
     >>> s = from_arrays([[True, False, False], [True, False, True]],
     ...                 [0.2, 0.8],
     ...                 features=['A', 'B', 'C'])
     >>> s
     A     B      C    
     True  False  False    0.2
-    True  False  True     0.8
+                 True     0.8
     dtype: float64
     >>> remove_features(s, ['B'])
     A     C    
     True  False    0.2
-    True  True     0.8
+          True     0.8
     dtype: float64
 
     >>> remove_features(s, ['B', 'C'])
@@ -300,16 +288,13 @@ def n_missing(s):
 
     Examples
     --------
-    >>> # just for the output format
-    >>> pandas.set_option('display.multi_sparse', False)
-
     >>> s = from_arrays([[True, False, False], [True, False, True]],
     ...                 [0.2, 0.8],
     ...                 features=['A', 'B', 'C'])
     >>> s
     A     B      C    
     True  False  False    0.2
-    True  False  True     0.8
+                 True     0.8
     dtype: float64
     >>> n_missing(s)
     5
@@ -336,16 +321,13 @@ def iterate_missing(s):
 
     Examples
     --------
-    >>> # just for the output format
-    >>> pandas.set_option('display.multi_sparse', False)
-
     >>> s = from_arrays([[True, False, False], [True, False, True]],
     ...                 [0.2, 0.8],
     ...                 features=['A', 'B', 'C'])
     >>> s
     A     B      C    
     True  False  False    0.2
-    True  False  True     0.8
+                 True     0.8
     dtype: float64
     >>> for flags in iterate_missing(s):
     ...     print(flags)

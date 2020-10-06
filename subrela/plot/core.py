@@ -129,13 +129,11 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
 
     Examples
     --------
-    >>> # just for the output format
-    >>> pandas.set_option('display.max_colwidth', 29)
-
     >>> import numpy
     >>> from subrela.clustering import get_clusters
     >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
     >>> Z = get_clusters(X)
+
     >>> leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)
     >>> leaf_data
          label  breadth
@@ -158,15 +156,15 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
     7          2.750  5.099020   [0, 5]   last     False
     8          1.625  6.324555   [6, 7]   last     False
     >>> tree_data
-       cluster   side             breadths                       heights  group
-    0        5  first          [3.5, 3, 3]               [2.0, 2.0, 0.0]   <NA>
-    1        5   last          [3.5, 4, 4]               [2.0, 2.0, 0.0]   <NA>
-    2        6  first          [0.5, 0, 0]               [4.0, 4.0, 0.0]   <NA>
-    3        6   last          [0.5, 1, 1]               [4.0, 4.0, 0.0]   <NA>
-    4        7  first         [2.75, 2, 2]  [5.0990195135927845, 5.09...   <NA>
-    5        7   last     [2.75, 3.5, 3.5]  [5.0990195135927845, 5.09...   <NA>
-    6        8  first    [1.625, 0.5, 0.5]  [6.324555320336759, 6.324...   <NA>
-    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324...   <NA>
+       cluster   side             breadths                                            heights  group
+    0        5  first          [3.5, 3, 3]                                    [2.0, 2.0, 0.0]   <NA>
+    1        5   last          [3.5, 4, 4]                                    [2.0, 2.0, 0.0]   <NA>
+    2        6  first          [0.5, 0, 0]                                    [4.0, 4.0, 0.0]   <NA>
+    3        6   last          [0.5, 1, 1]                                    [4.0, 4.0, 0.0]   <NA>
+    4        7  first         [2.75, 2, 2]      [5.0990195135927845, 5.0990195135927845, 0.0]   <NA>
+    5        7   last     [2.75, 3.5, 3.5]      [5.0990195135927845, 5.0990195135927845, 2.0]   <NA>
+    6        8  first    [1.625, 0.5, 0.5]        [6.324555320336759, 6.324555320336759, 4.0]   <NA>
+    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324555320336759, 5.09901...   <NA>
     >>> cut_data
     Empty DataFrame
     Columns: [breadths, heights]
@@ -198,30 +196,30 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
     7          2.750  5.099020   [0, 5]   last     False
     8          1.625  6.324555   [6, 7]   last     False
     >>> tree_data
-       cluster   side             breadths                       heights  group
-    0        5  first          [3.5, 3, 3]               [2.0, 2.0, 0.0]      5
-    1        5   last          [3.5, 4, 4]               [2.0, 2.0, 0.0]      5
-    2        6  first          [0.5, 0, 0]               [4.0, 4.0, 0.0]      6
-    3        6   last          [0.5, 1, 1]               [4.0, 4.0, 0.0]      6
-    4        7  first         [2.75, 2, 2]  [5.0990195135927845, 5.09...   <NA>
-    5        7   last     [2.75, 3.5, 3.5]  [5.0990195135927845, 5.09...   <NA>
-    6        8  first    [1.625, 0.5, 0.5]  [6.324555320336759, 6.324...   <NA>
-    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324...   <NA>
+       cluster   side             breadths                                            heights  group
+    0        5  first          [3.5, 3, 3]                                    [2.0, 2.0, 0.0]      5
+    1        5   last          [3.5, 4, 4]                                    [2.0, 2.0, 0.0]      5
+    2        6  first          [0.5, 0, 0]                                    [4.0, 4.0, 0.0]      6
+    3        6   last          [0.5, 1, 1]                                    [4.0, 4.0, 0.0]      6
+    4        7  first         [2.75, 2, 2]      [5.0990195135927845, 5.0990195135927845, 0.0]   <NA>
+    5        7   last     [2.75, 3.5, 3.5]      [5.0990195135927845, 5.0990195135927845, 2.0]   <NA>
+    6        8  first    [1.625, 0.5, 0.5]        [6.324555320336759, 6.324555320336759, 4.0]   <NA>
+    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324555320336759, 5.09901...   <NA>
     >>> cut_data
-              breadths                       heights
-    group                                           
-    0       [1.5, 2.5]  [4.549509756796392, 4.549...
-    5       [2.5, 4.5]  [4.549509756796392, 4.549...
-    6      [-0.5, 1.5]  [4.549509756796392, 4.549...
+              breadths                                 heights
+    group                                                     
+    0       [1.5, 2.5]  [4.549509756796392, 4.549509756796392]
+    5       [2.5, 4.5]  [4.549509756796392, 4.549509756796392]
+    6      [-0.5, 1.5]  [4.549509756796392, 4.549509756796392]
 
     >>> _, _, _, cut_data = get_dendrogram_data(
     ...     Z, groups=[0, 5, 6], cut_bounds_min=1.5)
     >>> cut_data
-              breadths                       heights
-    group                                           
-    0       [1.5, 2.5]  [3.5495097567963922, 3.54...
-    5       [2.5, 4.5]  [3.5495097567963922, 3.54...
-    6      [-0.5, 1.5]  [5.16227766016838, 5.1622...
+              breadths                                   heights
+    group                                                       
+    0       [1.5, 2.5]  [3.5495097567963922, 3.5495097567963922]
+    5       [2.5, 4.5]  [3.5495097567963922, 3.5495097567963922]
+    6      [-0.5, 1.5]      [5.16227766016838, 5.16227766016838]
     """
     if labels is None:
         labels = [str(leaf) for leaf in range(Z.index.min())]
@@ -311,9 +309,12 @@ def get_trace_data(node_data, cut_data, srs, wrs, tol=0.):
     >>> _, node_data, _, cut_data = get_dendrogram_data(Z, groups=[5])
     >>> srs = get_strong_relevance_scores(subset_scores, Z, clusters=[5])
     >>> wrs = get_weak_relevance_scores(subset_scores, Z, 5)
+
     >>> get_trace_data(node_data, cut_data, srs, wrs)
-         breadths                    heights  group
-    0  [3.5, 3.5]  [3.5495097567963922, 2.0]      5
+              breadths                    heights  group
+    0       [3.5, 3.5]  [3.5495097567963922, 2.0]      5
+    1  [3.5, 3.0, 3.0]            [2.0, 2.0, 0.0]      5
+    2  [3.5, 4.0, 4.0]            [2.0, 2.0, 0.0]      5
 
     >>> get_trace_data(node_data, cut_data, srs, wrs, tol=0.1)
               breadths                    heights  group

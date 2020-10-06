@@ -81,6 +81,7 @@ def get_strong_relevance_scores(subset_scores, Z, clusters=None,
     ...                             [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
     >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
     >>> Z = get_clusters(X)
+
     >>> get_strong_relevance_scores(subset_scores, Z)
              subset_score_ref  subset_score  relevance_score
     cluster                                                 
@@ -197,6 +198,7 @@ def get_weak_relevance_scores(subset_scores, Z, group, subgroups=None):
     ...                             [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
     >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
     >>> Z = get_clusters(X)
+
     >>> get_weak_relevance_scores(subset_scores, Z, 5)
               subset_score  subset_score_ref  relevance_score
     subgroup                                                 
