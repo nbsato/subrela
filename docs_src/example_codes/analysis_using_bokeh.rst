@@ -64,8 +64,7 @@ Analysis using Bokeh
    # prepare data for plots
    leaf_data, node_data, tree_data, cut_data \
        = subrela.plot.get_dendrogram_data(Z, labels=features, groups=groups)
-   trace_data = subrela.plot.get_trace_data(node_data, cut_data, srs, wrs,
-                                            tol=0.1)
+   trace_data = subrela.plot.get_trace_data(node_data, cut_data, wrs, tol=0.1)
 
    # make figures
    sr_fig = bokeh.plotting.Figure(title='strong relevance', plot_width=300,

@@ -62,8 +62,7 @@ Analysis using Matplotlib
    # prepare data for plots
    leaf_data, node_data, tree_data, cut_data \
        = subrela.plot.get_dendrogram_data(Z, labels=features, groups=groups)
-   trace_data = subrela.plot.get_trace_data(node_data, cut_data, srs, wrs,
-                                            tol=0.1)
+   trace_data = subrela.plot.get_trace_data(node_data, cut_data, wrs, tol=0.1)
 
    # make a figure
    _, (sr_ax, wr_ax) = matplotlib.pyplot.subplots(nrows=1, ncols=2,
