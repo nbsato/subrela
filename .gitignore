@@ -1,4 +1,6 @@
 __pycache__/
+build/
+*.egg-info/
 
 /docs_src/api/*.rst
 !/docs_src/api/subrela.rst

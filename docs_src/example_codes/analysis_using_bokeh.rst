@@ -31,7 +31,7 @@ Analysis using Bokeh
        y = dataset[target].to_numpy()
 
        # This is a dummy. You should perform a regression using 'X' and 'y'.
-       score = 0.1 * sum(dataset.columns.to_list().index(feature)
+       score = 0.1 * sum(dataset.columns.to_list().index(feature) - 1
                          for feature in features)
 
        return score
@@ -48,24 +48,23 @@ Analysis using Bokeh
    # evaluate scores for feature subsets
    flags = list(itertools.product([False, True], repeat=len(features)))
    flags = flags[1:]  # drop a case in which no features are used
-   scores = []
+   subset_scores = []
    for fs in flags:
        feats = [feature for feature, flag in zip(features, fs) if flag]
-       score = perform_regression(dataset, feats, 'target')
-       scores.append(score)
-   s = subrela.records.from_arrays(flags, scores)
+       subset_score = perform_regression(dataset, feats, 'target')
+       subset_scores.append(subset_score)
+   s = subrela.records.from_arrays(flags, subset_scores)
 
    # evaluate relevance scores
-   sr = subrela.analysis.get_strong_relevances(s, Z, clusters=groups,
-                                               descendants=True)
-   wr = pandas.concat([subrela.analysis.get_weak_relevances(s, Z, group)
-                       for group in groups])
+   srs = subrela.analysis.get_strong_relevance_scores(s, Z, clusters=groups,
+                                                      descendants=True)
+   wrs = pandas.concat([subrela.analysis.get_weak_relevance_scores(s, Z, group)
+                        for group in groups])
 
    # prepare data for plots
    leaf_data, node_data, tree_data, cut_data \
        = subrela.plot.get_dendrogram_data(Z, labels=features, groups=groups)
-   trace_data = subrela.plot.get_trace_data(node_data, cut_data, sr, wr,
-                                            tol=0.1)
+   trace_data = subrela.plot.get_trace_data(node_data, cut_data, wrs, tol=0.1)
 
    # make figures
    sr_fig = bokeh.plotting.Figure(title='strong relevance', plot_width=300,
@@ -74,7 +73,7 @@ Analysis using Bokeh
    sr_fig.y_range.flipped = True
    subrela.plot.bokeh.draw_dendrogram(sr_fig, leaf_data, tree_data, cut_data,
                                       orientation='horizontal')
-   subrela.plot.bokeh.draw_node_info(sr_fig, node_data, sr['relevance'],
+   subrela.plot.bokeh.draw_node_info(sr_fig, node_data, srs['relevance_score'],
                                      formatter='{:.1f}'.format,
                                      orientation='horizontal')
    wr_fig = bokeh.plotting.Figure(title='weak relevance', plot_width=300,
@@ -83,7 +82,7 @@ Analysis using Bokeh
    wr_fig.y_range.flipped = True
    subrela.plot.bokeh.draw_dendrogram(wr_fig, leaf_data, tree_data, cut_data,
                                       orientation='horizontal')
-   subrela.plot.bokeh.draw_node_info(wr_fig, node_data, wr['relevance'],
+   subrela.plot.bokeh.draw_node_info(wr_fig, node_data, wrs['relevance_score'],
                                      formatter='{:.1f}'.format,
                                      orientation='horizontal')
    subrela.plot.bokeh.draw_trace(wr_fig, trace_data, orientation='horizontal')

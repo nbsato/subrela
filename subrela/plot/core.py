@@ -129,13 +129,11 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
 
     Examples
     --------
-    >>> # just for the output format
-    >>> pandas.set_option('display.max_colwidth', 29)
-
     >>> import numpy
     >>> from subrela.clustering import get_clusters
     >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
     >>> Z = get_clusters(X)
+
     >>> leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(Z)
     >>> leaf_data
          label  breadth
@@ -158,15 +156,15 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
     7          2.750  5.099020   [0, 5]   last     False
     8          1.625  6.324555   [6, 7]   last     False
     >>> tree_data
-       cluster   side             breadths                       heights  group
-    0        5  first          [3.5, 3, 3]               [2.0, 2.0, 0.0]   <NA>
-    1        5   last          [3.5, 4, 4]               [2.0, 2.0, 0.0]   <NA>
-    2        6  first          [0.5, 0, 0]               [4.0, 4.0, 0.0]   <NA>
-    3        6   last          [0.5, 1, 1]               [4.0, 4.0, 0.0]   <NA>
-    4        7  first         [2.75, 2, 2]  [5.0990195135927845, 5.09...   <NA>
-    5        7   last     [2.75, 3.5, 3.5]  [5.0990195135927845, 5.09...   <NA>
-    6        8  first    [1.625, 0.5, 0.5]  [6.324555320336759, 6.324...   <NA>
-    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324...   <NA>
+       cluster   side             breadths                                            heights  group
+    0        5  first          [3.5, 3, 3]                                    [2.0, 2.0, 0.0]   <NA>
+    1        5   last          [3.5, 4, 4]                                    [2.0, 2.0, 0.0]   <NA>
+    2        6  first          [0.5, 0, 0]                                    [4.0, 4.0, 0.0]   <NA>
+    3        6   last          [0.5, 1, 1]                                    [4.0, 4.0, 0.0]   <NA>
+    4        7  first         [2.75, 2, 2]      [5.0990195135927845, 5.0990195135927845, 0.0]   <NA>
+    5        7   last     [2.75, 3.5, 3.5]      [5.0990195135927845, 5.0990195135927845, 2.0]   <NA>
+    6        8  first    [1.625, 0.5, 0.5]        [6.324555320336759, 6.324555320336759, 4.0]   <NA>
+    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324555320336759, 5.09901...   <NA>
     >>> cut_data
     Empty DataFrame
     Columns: [breadths, heights]
@@ -198,30 +196,30 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
     7          2.750  5.099020   [0, 5]   last     False
     8          1.625  6.324555   [6, 7]   last     False
     >>> tree_data
-       cluster   side             breadths                       heights  group
-    0        5  first          [3.5, 3, 3]               [2.0, 2.0, 0.0]      5
-    1        5   last          [3.5, 4, 4]               [2.0, 2.0, 0.0]      5
-    2        6  first          [0.5, 0, 0]               [4.0, 4.0, 0.0]      6
-    3        6   last          [0.5, 1, 1]               [4.0, 4.0, 0.0]      6
-    4        7  first         [2.75, 2, 2]  [5.0990195135927845, 5.09...   <NA>
-    5        7   last     [2.75, 3.5, 3.5]  [5.0990195135927845, 5.09...   <NA>
-    6        8  first    [1.625, 0.5, 0.5]  [6.324555320336759, 6.324...   <NA>
-    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324...   <NA>
+       cluster   side             breadths                                            heights  group
+    0        5  first          [3.5, 3, 3]                                    [2.0, 2.0, 0.0]      5
+    1        5   last          [3.5, 4, 4]                                    [2.0, 2.0, 0.0]      5
+    2        6  first          [0.5, 0, 0]                                    [4.0, 4.0, 0.0]      6
+    3        6   last          [0.5, 1, 1]                                    [4.0, 4.0, 0.0]      6
+    4        7  first         [2.75, 2, 2]      [5.0990195135927845, 5.0990195135927845, 0.0]   <NA>
+    5        7   last     [2.75, 3.5, 3.5]      [5.0990195135927845, 5.0990195135927845, 2.0]   <NA>
+    6        8  first    [1.625, 0.5, 0.5]        [6.324555320336759, 6.324555320336759, 4.0]   <NA>
+    7        8   last  [1.625, 2.75, 2.75]  [6.324555320336759, 6.324555320336759, 5.09901...   <NA>
     >>> cut_data
-              breadths                       heights
-    group                                           
-    0       [1.5, 2.5]  [4.549509756796392, 4.549...
-    5       [2.5, 4.5]  [4.549509756796392, 4.549...
-    6      [-0.5, 1.5]  [4.549509756796392, 4.549...
+              breadths                                 heights
+    group                                                     
+    0       [1.5, 2.5]  [4.549509756796392, 4.549509756796392]
+    5       [2.5, 4.5]  [4.549509756796392, 4.549509756796392]
+    6      [-0.5, 1.5]  [4.549509756796392, 4.549509756796392]
 
     >>> _, _, _, cut_data = get_dendrogram_data(
     ...     Z, groups=[0, 5, 6], cut_bounds_min=1.5)
     >>> cut_data
-              breadths                       heights
-    group                                           
-    0       [1.5, 2.5]  [3.5495097567963922, 3.54...
-    5       [2.5, 4.5]  [3.5495097567963922, 3.54...
-    6      [-0.5, 1.5]  [5.16227766016838, 5.1622...
+              breadths                                   heights
+    group                                                       
+    0       [1.5, 2.5]  [3.5495097567963922, 3.5495097567963922]
+    5       [2.5, 4.5]  [3.5495097567963922, 3.5495097567963922]
+    6      [-0.5, 1.5]      [5.16227766016838, 5.16227766016838]
     """
     if labels is None:
         labels = [str(leaf) for leaf in range(Z.index.min())]
@@ -248,7 +246,7 @@ def get_dendrogram_data(Z, labels=None, groups=None, cut_bounds_min=0.):
     return leaf_data, node_data, tree_data, cut_data
 
 
-def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
+def get_trace_data(node_data, cut_data, wrs, tol=0.):
     """Calculate data for drawing trace lines.
 
     Parameters
@@ -258,14 +256,11 @@ def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
     cut_data : pandas.DataFrame
         Data of cut lines returned by `subrela.plot.get_dendrogram_data`
         function.
-    sr : pandas.DataFrame
-        Strong relevance scores of groups returned by
-        `subrela.analysis.get_strong_relevances` function.
-    wr : pandas.DataFrame
+    wrs : pandas.DataFrame
         Weak relevance scores of subgroups, which is a concatenation of returns
-        of `subrela.analysis.get_weak_relevances` function.
+        of `subrela.analysis.get_weak_relevance_scores` function.
     tol : float, optional
-        Tolerance of difference in the weak relevance score from a group.
+        Tolerance of difference in the relevance score.
 
     Returns
     -------
@@ -295,26 +290,28 @@ def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
     >>> import numpy
     >>> from subrela.records import from_arrays
     >>> from subrela.clustering import get_clusters
-    >>> from subrela.analysis import get_strong_relevances, get_weak_relevances
-    >>> scores = from_arrays([[False, False, False, True, True],
-    ...                       [True, False, False, True, True],
-    ...                       [False, True, False, True, True],
-    ...                       [True, True, False, True, True],
-    ...                       [False, False, True, True, True],
-    ...                       [True, False, True, True, True],
-    ...                       [False, True, True, True, True],
-    ...                       [True, True, True, True, True]],
-    ...                      [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
+    >>> from subrela.analysis import get_weak_relevance_scores
+    >>> subset_scores = from_arrays([[False, False, False, True, True],
+    ...                              [True, False, False, True, True],
+    ...                              [False, True, False, True, True],
+    ...                              [True, True, False, True, True],
+    ...                              [False, False, True, True, True],
+    ...                              [True, False, True, True, True],
+    ...                              [False, True, True, True, True],
+    ...                              [True, True, True, True, True]],
+    ...                             [0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1., 1.])
     >>> X = numpy.array([[0, -5, -5, 6, 6], [0, -1, 1, -2, 2]])
     >>> Z = get_clusters(X)
     >>> _, node_data, _, cut_data = get_dendrogram_data(Z, groups=[5])
-    >>> sr = get_strong_relevances(scores, Z, clusters=[5])
-    >>> wr = get_weak_relevances(scores, Z, 5)
-    >>> get_trace_data(node_data, cut_data, sr, wr)
-         breadths                    heights  group
-    0  [3.5, 3.5]  [3.5495097567963922, 2.0]      5
+    >>> wrs = get_weak_relevance_scores(subset_scores, Z, 5)
 
-    >>> get_trace_data(node_data, cut_data, sr, wr, tol=0.1)
+    >>> get_trace_data(node_data, cut_data, wrs)
+              breadths                    heights  group
+    0       [3.5, 3.5]  [3.5495097567963922, 2.0]      5
+    1  [3.5, 3.0, 3.0]            [2.0, 2.0, 0.0]      5
+    2  [3.5, 4.0, 4.0]            [2.0, 2.0, 0.0]      5
+
+    >>> get_trace_data(node_data, cut_data, wrs, tol=0.1)
               breadths                    heights  group
     0       [3.5, 3.5]  [3.5495097567963922, 2.0]      5
     1  [3.5, 4.0, 4.0]            [2.0, 2.0, 0.0]      5
@@ -325,33 +322,35 @@ def get_trace_data(node_data, cut_data, sr, wr, tol=0.):
     breadths = []
     heights = []
     for group in groups:
-        traces = _get_traces(node_data, group)
-        if group not in sr.index:
+        if group not in wrs.index:
             continue
-        if group not in wr.index:
-            continue
-        group_sr = sr.loc[group, "relevance"]
-        group_wr = wr.loc[group, "relevance"]
-        if group_wr < group_sr:
+        group_wrs = wrs.loc[group, "relevance_score"]
+        if group_wrs < -tol:
             continue
         group_b, group_h = node_data.loc[group, ["breadth", "height"]]
         cut_h = cut_data.loc[group, "heights"][0]
         gs.append(group)
         breadths.append([group_b, group_b])
         heights.append([cut_h, group_h])
-        for trace in traces:
-            b, h = group_b, group_h
-            for cluster in trace[1:]:
-                if cluster not in wr.index:
-                    break
-                cluster_wr = wr.loc[cluster, "relevance"]
-                if tol < group_wr - cluster_wr:
-                    break
-                prev_b, prev_h = b, h
-                b, h = node_data.loc[cluster, ["breadth", "height"]]
+        clusters = [group]
+        while clusters:
+            cluster = clusters.pop(0)
+            children = node_data.loc[cluster, "children"]
+            if not children:
+                continue
+            cluster_wrs = wrs.loc[cluster, "relevance_score"]
+            children_wrss = wrs.loc[children, "relevance_score"]
+            is_decreasing = children_wrss < cluster_wrs - tol
+            if (~is_decreasing).any():
+                children = is_decreasing.loc[~is_decreasing].index.to_list()
+            cluster_b, cluster_h = node_data.loc[cluster,
+                                                 ["breadth", "height"]]
+            for child in children:
+                child_b, child_h = node_data.loc[child, ["breadth", "height"]]
                 gs.append(group)
-                breadths.append([prev_b, b, b])
-                heights.append([prev_h, prev_h, h])
+                breadths.append([cluster_b, child_b, child_b])
+                heights.append([cluster_h, cluster_h, child_h])
+            clusters.extend(children)
 
     trace_data = pandas.DataFrame({"breadths": breadths, "heights": heights,
                                    "group": gs})
@@ -542,29 +541,3 @@ def _get_cluster_coords(Z, leaf_data):
 
     return pandas.DataFrame({"breadth": breadths, "height": Z["distance"]},
                             index=Z.index)
-
-
-def _get_traces(node_data, group):
-    """Return data of trace lines.
-
-    Parameters
-    ----------
-    node_data : pandas.DataFrame
-    group : int
-
-    Returns
-    -------
-    traces : list[list[int]]
-    """
-    traces = [[group]]
-    k = 0
-    while k < len(traces):
-        front = traces[k][-1]
-        if node_data.loc[front, "children"]:
-            traces[k:k+1] = [traces[k] + [child]
-                             for child in node_data.loc[front, "children"]]
-        else:
-            k += 1
-            continue
-
-    return traces

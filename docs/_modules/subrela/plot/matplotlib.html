@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.plot.matplotlib &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.plot.matplotlib &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -244,7 +244,7 @@
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    The default value for ``kws[&#39;marker&#39;]`` is ``&#39;None&#39;``.</span>
+<span class="sd">    The default value for ``kws[&#39;marker&#39;]`` is ``&#39;none&#39;``.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -269,7 +269,7 @@
     <span class="n">is_vertical</span> <span class="o">=</span> <span class="n">check_orientation</span><span class="p">(</span><span class="n">orientation</span><span class="p">)</span>
 
     <span class="n">kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kws</span><span class="p">)</span> <span class="k">if</span> <span class="n">kws</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
-    <span class="n">kws</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;marker&quot;</span><span class="p">,</span> <span class="s2">&quot;None&quot;</span><span class="p">)</span>
+    <span class="n">kws</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;marker&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">)</span>
 
     <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">node_data</span><span class="p">[[</span><span class="s2">&quot;breadth&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_vertical</span><span class="p">:</span>
@@ -515,7 +515,8 @@
 <span class="sd">       import matplotlib.pyplot</span>
 <span class="sd">       from subrela.records import from_arrays</span>
 <span class="sd">       from subrela.clustering import get_clusters</span>
-<span class="sd">       from subrela.analysis import get_strong_relevances, get_weak_relevances</span>
+<span class="sd">       from subrela.analysis import (get_strong_relevance_scores,</span>
+<span class="sd">                                     get_weak_relevance_scores)</span>
 <span class="sd">       from subrela.plot import get_dendrogram_data, get_trace_data</span>
 <span class="sd">       from subrela.plot.matplotlib import draw_dendrogram, draw_trace</span>
 
@@ -533,9 +534,9 @@
 <span class="sd">       Z = get_clusters(X)</span>
 <span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(</span>
 <span class="sd">           Z, groups=[0, 5, 6])</span>
-<span class="sd">       sr = get_strong_relevances(scores, Z, clusters=[5])</span>
-<span class="sd">       wr = get_weak_relevances(scores, Z, 5)</span>
-<span class="sd">       trace_data = get_trace_data(node_data, cut_data, sr, wr, tol=0.1)</span>
+<span class="sd">       srs = get_strong_relevance_scores(scores, Z, clusters=[5])</span>
+<span class="sd">       wrs = get_weak_relevance_scores(scores, Z, 5)</span>
+<span class="sd">       trace_data = get_trace_data(node_data, cut_data, wrs, tol=0.1)</span>
 
 <span class="sd">       _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))</span>
 <span class="sd">       draw_dendrogram(ax, leaf_data, tree_data, cut_data)</span>
