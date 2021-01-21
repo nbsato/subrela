@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.records.iterate_missing function &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.records.iterate_missing function &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -61,7 +61,7 @@
 <dd><p>Iterate missing feature subsets.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.1.2)"><em>pandas.Series</em></a>) – Score records</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.2.1)"><em>pandas.Series</em></a>) – Records of feature subsets.</p>
 </dd>
 <dt class="field-even">Yields</dt>
 <dd class="field-even"><p><strong>flags</strong> (<em>tuple[bool]</em>) – Used features for a subset.</p>
@@ -75,17 +75,13 @@
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># just for the output format</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pandas</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.multi_sparse&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">from_arrays</span><span class="p">([[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]],</span>
 <span class="gp">... </span>                <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">],</span>
 <span class="gp">... </span>                <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span>
 <span class="go">A     B      C</span>
 <span class="go">True  False  False    0.2</span>
-<span class="go">True  False  True     0.8</span>
+<span class="go">             True     0.8</span>
 <span class="go">dtype: float64</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">flags</span> <span class="ow">in</span> <span class="n">iterate_missing</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>

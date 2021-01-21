@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.plot.bokeh.draw_dendrogram function &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.plot.bokeh.draw_dendrogram function &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -64,19 +64,19 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fig</strong> (<em>bokeh.plotting.figure.Figure</em>) – Figure on which a dendrogram is drawn.</p></li>
-<li><p><strong>leaf_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of leaves returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
-<li><p><strong>tree_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of tree lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
+<li><p><strong>leaf_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of leaves returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
+<li><p><strong>tree_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of tree lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
 function.</p></li>
-<li><p><strong>cut_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of cut lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
+<li><p><strong>cut_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of cut lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
 function.</p></li>
-<li><p><strong>palette</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Color palette for groups. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+<li><p><strong>palette</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>optional</em>) – Color palette for groups. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
 <code class="docutils literal notranslate"><span class="pre">bokeh.palettes.Category10[10]</span></code> is used.</p></li>
 <li><p><strong>orientation</strong> (<em>{'vertical'</em><em>, </em><em>'horizontal'}</em><em>, </em><em>optional</em>) – Orientation of a tree. If <code class="docutils literal notranslate"><span class="pre">'vertical'</span></code>, the height direction of a
 tree corresponds to the y axis. If <code class="docutils literal notranslate"><span class="pre">'horizontal'</span></code>, it corresponds to
 the x axis.</p></li>
-<li><p><strong>tree_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword argumsnts passed to <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.Figure.multi_line" title="(in Bokeh v2.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.Figure.multi_line</span></code></a> method
+<li><p><strong>tree_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword argumsnts passed to <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.Figure.multi_line" title="(in Bokeh v2.2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.Figure.multi_line</span></code></a> method
 for drawing tree lines.</p></li>
-<li><p><strong>cut_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.Figure.multi_line" title="(in Bokeh v2.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.Figure.multi_line</span></code></a> method
+<li><p><strong>cut_kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <a class="reference external" href="https://docs.bokeh.org/en/latest/docs/reference/plotting.html#bokeh.plotting.Figure.multi_line" title="(in Bokeh v2.2.3)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.Figure.multi_line</span></code></a> method
 for drawing cut lines.</p></li>
 </ul>
 </dd>
@@ -88,7 +88,7 @@ for drawing cut lines.</p></li>
 </p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">tree_kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'xs'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ys'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>. If
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">tree_kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'xs'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ys'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>. If
     <code class="docutils literal notranslate"><span class="pre">cut_kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'xs'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ys'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>.</p>
 </dd>
 </dl>
@@ -103,7 +103,7 @@ is used and group colors are selected from <code class="docutils literal notrans
 </div>
 <p class="rubric">Examples</p>
 
-<script src="bokeh-plot-99f59874b1d943fe934258bdd49a9dbb-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="5f9cbd95-f055-48bc-a294-b3e3bc2169bc"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-6a5aa0f7f7fe449a84f5424f8c141413-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="5f29d74d-55ee-400b-8205-325653ef2d54"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
 <span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
@@ -123,7 +123,7 @@ is used and group colors are selected from <code class="docutils literal notrans
 </div>
 <p>Change colors:</p>
 
-<script src="bokeh-plot-ec49d2aa7b7e46b38de510a266ba0dc9-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="61970f63-99ac-4569-a4b0-e8273c51ffc1"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-bee2a9e8d61e42a1bfcd8e6b819ecd3e-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="2812f7e4-55ba-4f0e-84ba-467c25902946"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
 <span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
@@ -144,7 +144,7 @@ is used and group colors are selected from <code class="docutils literal notrans
 </div>
 <p>Draw horizontally:</p>
 
-<script src="bokeh-plot-37e48c19890d460e8127d4f43b422204-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="8821ca7f-0bbf-4f84-ac9a-05c4935e445d"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-d7d493c6d1fc4cc59ef8fa7e0abb195f-external-api-subrela.plot.bokeh.draw_dendrogram.js" id="3c464be8-2c36-4f92-8947-e90f3e429633"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
 <span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>

@@ -490,7 +490,7 @@ def draw_trace(ax, trace_data, orientation="vertical", kws=None):
            Z, groups=[0, 5, 6])
        srs = get_strong_relevance_scores(scores, Z, clusters=[5])
        wrs = get_weak_relevance_scores(scores, Z, 5)
-       trace_data = get_trace_data(node_data, cut_data, srs, wrs, tol=0.1)
+       trace_data = get_trace_data(node_data, cut_data, wrs, tol=0.1)
 
        _, ax = matplotlib.pyplot.subplots(figsize=(4, 4))
        draw_dendrogram(ax, leaf_data, tree_data, cut_data)

@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.plot.bokeh &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.plot.bokeh &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -573,7 +573,8 @@
 <span class="sd">       import bokeh.io</span>
 <span class="sd">       from subrela.records import from_arrays</span>
 <span class="sd">       from subrela.clustering import get_clusters</span>
-<span class="sd">       from subrela.analysis import get_strong_relevances, get_weak_relevances</span>
+<span class="sd">       from subrela.analysis import (get_strong_relevance_scores,</span>
+<span class="sd">                                     get_weak_relevance_scores)</span>
 <span class="sd">       from subrela.plot import get_dendrogram_data, get_trace_data</span>
 <span class="sd">       from subrela.plot.bokeh import draw_dendrogram, draw_trace</span>
 
@@ -591,9 +592,8 @@
 <span class="sd">       Z = get_clusters(X)</span>
 <span class="sd">       leaf_data, node_data, tree_data, cut_data = get_dendrogram_data(</span>
 <span class="sd">           Z, groups=[0, 5, 6])</span>
-<span class="sd">       sr = get_strong_relevances(scores, Z, clusters=[5])</span>
-<span class="sd">       wr = get_weak_relevances(scores, Z, 5)</span>
-<span class="sd">       trace_data = get_trace_data(node_data, cut_data, sr, wr, tol=0.1)</span>
+<span class="sd">       wrs = get_weak_relevance_scores(scores, Z, 5)</span>
+<span class="sd">       trace_data = get_trace_data(node_data, cut_data, wrs, tol=0.1)</span>
 
 <span class="sd">       fig = bokeh.plotting.Figure(plot_width=300, plot_height=300)</span>
 <span class="sd">       draw_dendrogram(fig, leaf_data, tree_data, cut_data)</span>

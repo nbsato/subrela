@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.plot.bokeh.draw_node_marker function &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.plot.bokeh.draw_node_marker function &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -64,11 +64,11 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fig</strong> (<em>bokeh.plotting.figure.Figure</em>) – Figure on which markers are drawn.</p></li>
-<li><p><strong>node_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of nodes returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
+<li><p><strong>node_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of nodes returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
 <li><p><strong>orientation</strong> (<em>{'vertical'</em><em>, </em><em>'horizontal'}</em><em>, </em><em>optional</em>) – Orientation of a tree. If <code class="docutils literal notranslate"><span class="pre">'vertical'</span></code>, the height direction of a
 tree corresponds to the y axis. If <code class="docutils literal notranslate"><span class="pre">'horizontal'</span></code>, it corresponds to
 the x axis.</p></li>
-<li><p><strong>kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure.scatter</span></code>
+<li><p><strong>kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure.scatter</span></code>
 method.</p></li>
 </ul>
 </dd>
@@ -76,7 +76,7 @@ method.</p></li>
 <dd class="field-even"><p><strong>scatter</strong> (<em>bokeh.models.renderers.GlyphRenderer</em>) – Renderer for markers.</p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kws</span></code> contains keys <code class="docutils literal notranslate"><span class="pre">'x'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>.</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kws</span></code> contains keys <code class="docutils literal notranslate"><span class="pre">'x'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'source'</span></code>.</p>
 </dd>
 </dl>
 <div class="admonition-notes admonition">
@@ -85,7 +85,7 @@ method.</p></li>
 </div>
 <p class="rubric">Examples</p>
 
-<script src="bokeh-plot-e7f769b2380f43aeba36b5849d4fc931-external-api-subrela.plot.bokeh.draw_node_marker.js" id="401bff13-84de-49d2-87bf-28dfd2d4a8ff"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-a81edaf1691043e385a5f1b00b13eb65-external-api-subrela.plot.bokeh.draw_node_marker.js" id="c041dddd-13df-40c2-9c56-2c04a56637c8"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
 <span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>

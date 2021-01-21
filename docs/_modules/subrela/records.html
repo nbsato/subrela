@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.records &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.records &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
@@ -58,7 +58,7 @@
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
 
-<span class="sd">&quot;&quot;&quot;Tools for handling score records.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Tools for handling scores of feature subsets.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">itertools</span>
 
@@ -70,7 +70,7 @@
 
 
 <div class="viewcode-block" id="from_arrays"><a class="viewcode-back" href="../../api/subrela.records.from_arrays.html#subrela.records.from_arrays">[docs]</a><span class="k">def</span> <span class="nf">from_arrays</span><span class="p">(</span><span class="n">flags</span><span class="p">,</span> <span class="n">scores</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Make score records from flags and scores.</span>
+    <span class="sd">&quot;&quot;&quot;Make records of feature subsets from flags and scores.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -102,20 +102,17 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
-<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
-
 <span class="sd">    &gt;&gt;&gt; from_arrays([[True, False, False], [True, False, True]], [0.2, 0.8])</span>
 <span class="sd">    feature_0  feature_1  feature_2</span>
 <span class="sd">    True       False      False        0.2</span>
-<span class="sd">    True       False      True         0.8</span>
+<span class="sd">                          True         0.8</span>
 <span class="sd">    dtype: float64</span>
 
 <span class="sd">    &gt;&gt;&gt; from_arrays([[True, False, False], [True, False, True]], [0.2, 0.8],</span>
 <span class="sd">    ...             features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
 <span class="sd">    A     B      C    </span>
 <span class="sd">    True  False  False    0.2</span>
-<span class="sd">    True  False  True     0.8</span>
+<span class="sd">                 True     0.8</span>
 <span class="sd">    dtype: float64</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">flags</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span>
@@ -137,25 +134,22 @@
 
 
 <div class="viewcode-block" id="integrate"><a class="viewcode-back" href="../../api/subrela.records.integrate.html#subrela.records.integrate">[docs]</a><span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Integrate two score records.</span>
+    <span class="sd">&quot;&quot;&quot;Integrate two records of feature subsets.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    s1 : pandas.Series</span>
-<span class="sd">        First score records.</span>
+<span class="sd">        First records.</span>
 <span class="sd">    s2 : pandas.Series</span>
-<span class="sd">        Second score records.</span>
+<span class="sd">        Second records.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pandas.Series</span>
-<span class="sd">        Integrated score records.</span>
+<span class="sd">        Integrated records.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
-<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
-
 <span class="sd">    &gt;&gt;&gt; s1 = from_arrays([[True, False]], [0.2], features=[&#39;A&#39;, &#39;B&#39;])</span>
 <span class="sd">    &gt;&gt;&gt; s2 = from_arrays([[False, True]], [0.4], features=[&#39;A&#39;, &#39;B&#39;])</span>
 <span class="sd">    &gt;&gt;&gt; s1</span>
@@ -180,7 +174,7 @@
 <span class="sd">    &gt;&gt;&gt; integrate(s1, s3)</span>
 <span class="sd">    A     B      C    </span>
 <span class="sd">    True  False  False    0.2</span>
-<span class="sd">    True  False  True     0.8</span>
+<span class="sd">                 True     0.8</span>
 <span class="sd">    dtype: float64</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">s1</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -208,19 +202,19 @@
 
 
 <div class="viewcode-block" id="add_features"><a class="viewcode-back" href="../../api/subrela.records.add_features.html#subrela.records.add_features">[docs]</a><span class="k">def</span> <span class="nf">add_features</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Add features.</span>
+    <span class="sd">&quot;&quot;&quot;Add features to records.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    s : pandas.Series</span>
-<span class="sd">        Score records</span>
+<span class="sd">        Records of feature subsets.</span>
 <span class="sd">    features : list[str]</span>
 <span class="sd">        Names of added features.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pandas.Series</span>
-<span class="sd">        New score records.</span>
+<span class="sd">        New records.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
@@ -229,25 +223,22 @@
 
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>
-<span class="sd">    subrela.records.remove_features</span>
+<span class="sd">    subrela.records.remove_features : Remove features from records.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
-<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
-
 <span class="sd">    &gt;&gt;&gt; s = from_arrays([[True, False, False], [True, False, True]],</span>
 <span class="sd">    ...                 [0.2, 0.8],</span>
 <span class="sd">    ...                 features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
 <span class="sd">    &gt;&gt;&gt; s</span>
 <span class="sd">    A     B      C    </span>
 <span class="sd">    True  False  False    0.2</span>
-<span class="sd">    True  False  True     0.8</span>
+<span class="sd">                 True     0.8</span>
 <span class="sd">    dtype: float64</span>
 <span class="sd">    &gt;&gt;&gt; add_features(s, [&#39;X&#39;, &#39;Y&#39;])</span>
 <span class="sd">    A     B      C      X      Y    </span>
 <span class="sd">    True  False  False  False  False    0.2</span>
-<span class="sd">    True  False  True   False  False    0.8</span>
+<span class="sd">                 True   False  False    0.8</span>
 <span class="sd">    dtype: float64</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
@@ -264,19 +255,19 @@
 
 
 <div class="viewcode-block" id="remove_features"><a class="viewcode-back" href="../../api/subrela.records.remove_features.html#subrela.records.remove_features">[docs]</a><span class="k">def</span> <span class="nf">remove_features</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">features</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Remove features.</span>
+    <span class="sd">&quot;&quot;&quot;Remove features from records.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    s : pandas.Series</span>
-<span class="sd">        Score records.</span>
+<span class="sd">        Records of feature subsets.</span>
 <span class="sd">    features : list[str]</span>
 <span class="sd">        Names of removed features.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pandas.Series</span>
-<span class="sd">        New score records.</span>
+<span class="sd">        New records.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
@@ -285,7 +276,7 @@
 
 <span class="sd">    See also</span>
 <span class="sd">    --------</span>
-<span class="sd">    subrela.records.add_features</span>
+<span class="sd">    subrela.records.add_features : Add features to records.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -293,21 +284,18 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
-<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
-
 <span class="sd">    &gt;&gt;&gt; s = from_arrays([[True, False, False], [True, False, True]],</span>
 <span class="sd">    ...                 [0.2, 0.8],</span>
 <span class="sd">    ...                 features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
 <span class="sd">    &gt;&gt;&gt; s</span>
 <span class="sd">    A     B      C    </span>
 <span class="sd">    True  False  False    0.2</span>
-<span class="sd">    True  False  True     0.8</span>
+<span class="sd">                 True     0.8</span>
 <span class="sd">    dtype: float64</span>
 <span class="sd">    &gt;&gt;&gt; remove_features(s, [&#39;B&#39;])</span>
 <span class="sd">    A     C    </span>
 <span class="sd">    True  False    0.2</span>
-<span class="sd">    True  True     0.8</span>
+<span class="sd">          True     0.8</span>
 <span class="sd">    dtype: float64</span>
 
 <span class="sd">    &gt;&gt;&gt; remove_features(s, [&#39;B&#39;, &#39;C&#39;])</span>
@@ -334,7 +322,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    s : pandas.Series</span>
-<span class="sd">        Score records.</span>
+<span class="sd">        Records of feature subsets.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -346,16 +334,13 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
-<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
-
 <span class="sd">    &gt;&gt;&gt; s = from_arrays([[True, False, False], [True, False, True]],</span>
 <span class="sd">    ...                 [0.2, 0.8],</span>
 <span class="sd">    ...                 features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
 <span class="sd">    &gt;&gt;&gt; s</span>
 <span class="sd">    A     B      C    </span>
 <span class="sd">    True  False  False    0.2</span>
-<span class="sd">    True  False  True     0.8</span>
+<span class="sd">                 True     0.8</span>
 <span class="sd">    dtype: float64</span>
 <span class="sd">    &gt;&gt;&gt; n_missing(s)</span>
 <span class="sd">    5</span>
@@ -369,7 +354,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    s : pandas.Series</span>
-<span class="sd">        Score records</span>
+<span class="sd">        Records of feature subsets.</span>
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
@@ -382,16 +367,13 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # just for the output format</span>
-<span class="sd">    &gt;&gt;&gt; pandas.set_option(&#39;display.multi_sparse&#39;, False)</span>
-
 <span class="sd">    &gt;&gt;&gt; s = from_arrays([[True, False, False], [True, False, True]],</span>
 <span class="sd">    ...                 [0.2, 0.8],</span>
 <span class="sd">    ...                 features=[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;])</span>
 <span class="sd">    &gt;&gt;&gt; s</span>
 <span class="sd">    A     B      C    </span>
 <span class="sd">    True  False  False    0.2</span>
-<span class="sd">    True  False  True     0.8</span>
+<span class="sd">                 True     0.8</span>
 <span class="sd">    dtype: float64</span>
 <span class="sd">    &gt;&gt;&gt; for flags in iterate_missing(s):</span>
 <span class="sd">    ...     print(flags)</span>

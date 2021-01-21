@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.records.from_arrays function &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.records.from_arrays function &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -58,14 +58,14 @@
 <dl class="py function">
 <dt id="subrela.records.from_arrays">
 <code class="sig-prename descclassname">subrela.records.</code><code class="sig-name descname">from_arrays</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">flags</span></em>, <em class="sig-param"><span class="n">scores</span></em>, <em class="sig-param"><span class="n">features</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/subrela/records.html#from_arrays"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subrela.records.from_arrays" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make score records from flags and scores.</p>
+<dd><p>Make records of feature subsets from flags and scores.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>flags</strong> (<em>(</em><em>M</em><em>, </em><em>N</em><em>) </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a><em>]</em><em>]</em>) – Used features in subsets. Each row corresponds to a subset. Each
+<li><p><strong>flags</strong> (<em>(</em><em>M</em><em>, </em><em>N</em><em>) </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a><em>]</em><em>]</em>) – Used features in subsets. Each row corresponds to a subset. Each
 column corresponds to a feature.</p></li>
-<li><p><strong>scores</strong> (<em>(</em><em>M</em><em>,</em><em>) </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>]</em>) – Scores for feature subsets.</p></li>
-<li><p><strong>features</strong> (<em>(</em><em>N</em><em>,</em><em>) </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Feature names. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, features are named as <code class="docutils literal notranslate"><span class="pre">feature_0</span></code>,
+<li><p><strong>scores</strong> (<em>(</em><em>M</em><em>,</em><em>) </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>]</em>) – Scores for feature subsets.</p></li>
+<li><p><strong>features</strong> (<em>(</em><em>N</em><em>,</em><em>) </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>optional</em>) – Feature names. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, features are named as <code class="docutils literal notranslate"><span class="pre">feature_0</span></code>,
 <code class="docutils literal notranslate"><span class="pre">feature_1</span></code>, etc.</p></li>
 </ul>
 </dd>
@@ -73,25 +73,21 @@ column corresponds to a feature.</p></li>
 <dd class="field-even"><p><em>pandas.Series</em> – Score records.</p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If the number of rows in <code class="docutils literal notranslate"><span class="pre">flags</span></code> is not equal to the size of
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If the number of rows in <code class="docutils literal notranslate"><span class="pre">flags</span></code> is not equal to the size of
     <code class="docutils literal notranslate"><span class="pre">scores</span></code>. If the number of columns in <code class="docutils literal notranslate"><span class="pre">flags</span></code> is not equal to the
     size of <code class="docutils literal notranslate"><span class="pre">features</span></code>.</p>
 </dd>
 </dl>
 <div class="admonition-notes admonition">
 <p class="admonition-title">Notes</p>
-<p>An index of returned <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.Series</span></code></a> is a <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.MultiIndex.html#pandas.MultiIndex" title="(in pandas v1.1.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.MultiIndex</span></code></a> indicating
+<p>An index of returned <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.Series</span></code></a> is a <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.MultiIndex.html#pandas.MultiIndex" title="(in pandas v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.MultiIndex</span></code></a> indicating
 used features. Levels of the index are features.</p>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># just for the output format</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pandas</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.multi_sparse&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">from_arrays</span><span class="p">([[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
 <span class="go">feature_0  feature_1  feature_2</span>
 <span class="go">True       False      False        0.2</span>
-<span class="go">True       False      True         0.8</span>
+<span class="go">                      True         0.8</span>
 <span class="go">dtype: float64</span>
 </pre></div>
 </div>
@@ -99,7 +95,7 @@ used features. Levels of the index are features.</p>
 <span class="gp">... </span>            <span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">])</span>
 <span class="go">A     B      C</span>
 <span class="go">True  False  False    0.2</span>
-<span class="go">True  False  True     0.8</span>
+<span class="go">             True     0.8</span>
 <span class="go">dtype: float64</span>
 </pre></div>
 </div>

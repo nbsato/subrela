@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.plot.get_trace_data function &#8212; SubRelA 2.0.0 documentation</title>
+    <title>subrela.analysis.get_weak_relevance_scores function &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -18,8 +18,8 @@
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="subrela.records module" href="subrela.records.html" />
-    <link rel="prev" title="subrela.plot.get_dendrogram_data function" href="subrela.plot.get_dendrogram_data.html" />
+    <link rel="next" title="subrela.clustering module" href="subrela.clustering.html" />
+    <link rel="prev" title="subrela.analysis.get_strong_relevance_scores function" href="subrela.analysis.get_strong_relevance_scores.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
@@ -35,16 +35,16 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="subrela.records.html" title="subrela.records module"
+          <a href="subrela.clustering.html" title="subrela.clustering module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="subrela.plot.get_dendrogram_data.html" title="subrela.plot.get_dendrogram_data function"
+          <a href="subrela.analysis.get_strong_relevance_scores.html" title="subrela.analysis.get_strong_relevance_scores function"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="subrela.plot.html" accesskey="U">subrela.plot module</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">subrela.plot.get_trace_data function</a></li> 
+          <li class="nav-item nav-item-3"><a href="subrela.analysis.html" accesskey="U">subrela.analysis module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.analysis.get_weak_relevance_scores function</a></li> 
       </ul>
     </div>  
 
@@ -53,41 +53,45 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="subrela-plot-get-trace-data-function">
-<h1>subrela.plot.get_trace_data function<a class="headerlink" href="#subrela-plot-get-trace-data-function" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="subrela-analysis-get-weak-relevance-scores-function">
+<h1>subrela.analysis.get_weak_relevance_scores function<a class="headerlink" href="#subrela-analysis-get-weak-relevance-scores-function" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="subrela.plot.get_trace_data">
-<code class="sig-prename descclassname">subrela.plot.</code><code class="sig-name descname">get_trace_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">node_data</span></em>, <em class="sig-param"><span class="n">cut_data</span></em>, <em class="sig-param"><span class="n">wrs</span></em>, <em class="sig-param"><span class="n">tol</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/subrela/plot/core.html#get_trace_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subrela.plot.get_trace_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate data for drawing trace lines.</p>
+<dt id="subrela.analysis.get_weak_relevance_scores">
+<code class="sig-prename descclassname">subrela.analysis.</code><code class="sig-name descname">get_weak_relevance_scores</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">subset_scores</span></em>, <em class="sig-param"><span class="n">Z</span></em>, <em class="sig-param"><span class="n">group</span></em>, <em class="sig-param"><span class="n">subgroups</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/subrela/analysis.html#get_weak_relevance_scores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#subrela.analysis.get_weak_relevance_scores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate weak relevance scores of subgroups.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>node_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of nodes returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
-<li><p><strong>cut_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of cut lines returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a>
+<li><p><strong>subset_scores</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.2.1)"><em>pandas.Series</em></a>) – Scores for feature subsets.</p></li>
+<li><p><strong>Z</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of clusters returned by <a class="reference internal" href="subrela.clustering.get_clusters.html#subrela.clustering.get_clusters" title="subrela.clustering.get_clusters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.clustering.get_clusters</span></code></a>
 function.</p></li>
-<li><p><strong>wrs</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Weak relevance scores of subgroups, which is a concatenation of returns
-of <a class="reference internal" href="subrela.analysis.get_weak_relevance_scores.html#subrela.analysis.get_weak_relevance_scores" title="subrela.analysis.get_weak_relevance_scores"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.analysis.get_weak_relevance_scores</span></code></a> function.</p></li>
-<li><p><strong>tol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Tolerance of difference in the relevance score.</p></li>
+<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Cluster index of a group.</p></li>
+<li><p><strong>subgroups</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>] or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>optional</em>) – Cluster indices of subgroups whose weak relevance scores are
+calculated. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, weak relevance scores are calculated for all
+subgroups.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>trace_data</strong> (<em>pandas.DataFrame</em>) – Data of trace lines.</p>
+<dd class="field-even"><p><strong>wrs</strong> (<em>pandas.DataFrame</em>) – Weak relevance scores.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If a cluster in <code class="docutils literal notranslate"><span class="pre">subgroups</span></code> is not a subgroup of cluster <code class="docutils literal notranslate"><span class="pre">group</span></code>.</p>
 </dd>
 </dl>
 <div class="admonition-notes admonition">
 <p class="admonition-title">Notes</p>
-<p>An index and columns of <code class="docutils literal notranslate"><span class="pre">trace_data</span></code> are as follows:</p>
+<p>An index and columns of <code class="docutils literal notranslate"><span class="pre">wrs</span></code> are as follows:</p>
 <blockquote>
 <div><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">trace_data.index</span></code></dt><dd><p>No meaning.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">wrs.index</span></code><span class="classifier">int</span></dt><dd><p>Cluster index.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">trace_data['breadths']</span></code><span class="classifier">list[float]</span></dt><dd><p>Positions of start, corner, and end points along the breadth
-direction.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">wrs['subset_score']</span></code><span class="classifier">float</span></dt><dd><p>Best score among feature subsets icluding at least one feature in a
+subgroup but not including features in a group out of subgroup.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">trace_data['heights']</span></code><span class="classifier">list[float]</span></dt><dd><p>Positions of start, corner, and end points along the heights
-direction.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">wrs['subset_score_ref']</span></code><span class="classifier">float</span></dt><dd><p>Best score among feature subsets not including features in a group.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">trace_data['group']</span></code><span class="classifier">int</span></dt><dd><p>Cluster index of a group to which a trace line belongs</p>
+<dt><code class="docutils literal notranslate"><span class="pre">wrs['relevance_score']</span></code><span class="classifier">float</span></dt><dd><p>Weak relevance score, which is
+<code class="docutils literal notranslate"><span class="pre">wrs['subset_score']</span> <span class="pre">-</span> <span class="pre">wrs['subset_score_ref']</span></code>.</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -96,7 +100,6 @@ direction.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">subrela.records</span> <span class="kn">import</span> <span class="n">from_arrays</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">subrela.analysis</span> <span class="kn">import</span> <span class="n">get_weak_relevance_scores</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">subset_scores</span> <span class="o">=</span> <span class="n">from_arrays</span><span class="p">([[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
 <span class="gp">... </span>                             <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
 <span class="gp">... </span>                             <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
@@ -108,21 +111,21 @@ direction.</p>
 <span class="gp">... </span>                            <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span><span class="p">,</span> <span class="n">node_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">wrs</span> <span class="o">=</span> <span class="n">get_weak_relevance_scores</span><span class="p">(</span><span class="n">subset_scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_trace_data</span><span class="p">(</span><span class="n">node_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span> <span class="n">wrs</span><span class="p">)</span>
-<span class="go">          breadths                    heights  group</span>
-<span class="go">0       [3.5, 3.5]  [3.5495097567963922, 2.0]      5</span>
-<span class="go">1  [3.5, 3.0, 3.0]            [2.0, 2.0, 0.0]      5</span>
-<span class="go">2  [3.5, 4.0, 4.0]            [2.0, 2.0, 0.0]      5</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_weak_relevance_scores</span><span class="p">(</span><span class="n">subset_scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="go">          subset_score  subset_score_ref  relevance_score</span>
+<span class="go">subgroup</span>
+<span class="go">5                  1.0               0.7              0.3</span>
+<span class="go">1                  0.8               0.7              0.1</span>
+<span class="go">2                  0.9               0.7              0.2</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_trace_data</span><span class="p">(</span><span class="n">node_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span> <span class="n">wrs</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-<span class="go">          breadths                    heights  group</span>
-<span class="go">0       [3.5, 3.5]  [3.5495097567963922, 2.0]      5</span>
-<span class="go">1  [3.5, 4.0, 4.0]            [2.0, 2.0, 0.0]      5</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_weak_relevance_scores</span><span class="p">(</span><span class="n">subset_scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">subgroups</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">          subset_score  subset_score_ref  relevance_score</span>
+<span class="go">subgroup</span>
+<span class="go">1                  0.8               0.7              0.1</span>
+<span class="go">2                  0.9               0.7              0.2</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -141,15 +144,13 @@ direction.</p>
 <li class="toctree-l1"><a class="reference internal" href="../example.html">Example codes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api_hierarchy.html">API</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="subrela.html">subrela package</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="subrela.plot.bokeh.html">subrela.plot.bokeh module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.plot.matplotlib.html">subrela.plot.matplotlib module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="subrela.plot.get_dendrogram_data.html">subrela.plot.get_dendrogram_data function</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.plot.get_trace_data function</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="subrela.analysis.html">subrela.analysis module</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="subrela.analysis.get_strong_relevance_scores.html">subrela.analysis.get_strong_relevance_scores function</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">subrela.analysis.get_weak_relevance_scores function</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.clustering.html">subrela.clustering module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="subrela.plot.html">subrela.plot module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="subrela.records.html">subrela.records module</a></li>
 </ul>
 </li>
@@ -158,11 +159,11 @@ direction.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="subrela.plot.get_dendrogram_data.html"
-                        title="previous chapter">subrela.plot.get_dendrogram_data function</a></p>
+  <p class="topless"><a href="subrela.analysis.get_strong_relevance_scores.html"
+                        title="previous chapter">subrela.analysis.get_strong_relevance_scores function</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="subrela.records.html"
-                        title="next chapter">subrela.records module</a></p>
+  <p class="topless"><a href="subrela.clustering.html"
+                        title="next chapter">subrela.clustering module</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -187,16 +188,16 @@ direction.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="subrela.records.html" title="subrela.records module"
+          <a href="subrela.clustering.html" title="subrela.clustering module"
              >next</a> |</li>
         <li class="right" >
-          <a href="subrela.plot.get_dendrogram_data.html" title="subrela.plot.get_dendrogram_data function"
+          <a href="subrela.analysis.get_strong_relevance_scores.html" title="subrela.analysis.get_strong_relevance_scores function"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">Home</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../api_hierarchy.html" >API</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="subrela.html" >subrela package</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="subrela.plot.html" >subrela.plot module</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">subrela.plot.get_trace_data function</a></li> 
+          <li class="nav-item nav-item-3"><a href="subrela.analysis.html" >subrela.analysis module</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subrela.analysis.get_weak_relevance_scores function</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

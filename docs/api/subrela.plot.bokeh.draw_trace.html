@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.plot.bokeh.draw_trace function &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.plot.bokeh.draw_trace function &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -64,11 +64,11 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fig</strong> (<em>bokeh.plotting.figure.Figure</em>) – Figure on which trace lines are drawn.</p></li>
-<li><p><strong>trace_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of trace lines returned by <a class="reference internal" href="subrela.plot.get_trace_data.html#subrela.plot.get_trace_data" title="subrela.plot.get_trace_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_trace_data</span></code></a> function.</p></li>
+<li><p><strong>trace_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of trace lines returned by <a class="reference internal" href="subrela.plot.get_trace_data.html#subrela.plot.get_trace_data" title="subrela.plot.get_trace_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_trace_data</span></code></a> function.</p></li>
 <li><p><strong>orientation</strong> (<em>{'vertical'</em><em>, </em><em>'horizontal'}</em><em>, </em><em>optional</em>) – Orientation of a tree. If <code class="docutils literal notranslate"><span class="pre">'vertical'</span></code>, the height direction of a
 tree corresponds to the y axis. If <code class="docutils literal notranslate"><span class="pre">'horizontal'</span></code>, it corresponds to
 the x axis.</p></li>
-<li><p><strong>kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure.multi_line</span></code>
+<li><p><strong>kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure.multi_line</span></code>
 method.</p></li>
 </ul>
 </dd>
@@ -84,13 +84,14 @@ method.</p></li>
 </div>
 <p class="rubric">Examples</p>
 
-<script src="bokeh-plot-9b39f1b43d1b4f999c2ae783517b4651-external-api-subrela.plot.bokeh.draw_trace.js" id="af365503-33cb-4014-bd4f-c914efcafce5"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-855188ef919f4d1a991355bbfd2a3d56-external-api-subrela.plot.bokeh.draw_trace.js" id="abd69ed2-9f4c-4cf1-83c5-e2d1de4fa983"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.layouts</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
 <span class="kn">from</span> <span class="nn">subrela.records</span> <span class="kn">import</span> <span class="n">from_arrays</span>
 <span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
-<span class="kn">from</span> <span class="nn">subrela.analysis</span> <span class="kn">import</span> <span class="n">get_strong_relevances</span><span class="p">,</span> <span class="n">get_weak_relevances</span>
+<span class="kn">from</span> <span class="nn">subrela.analysis</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_strong_relevance_scores</span><span class="p">,</span>
+                              <span class="n">get_weak_relevance_scores</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">subrela.plot</span> <span class="kn">import</span> <span class="n">get_dendrogram_data</span><span class="p">,</span> <span class="n">get_trace_data</span>
 <span class="kn">from</span> <span class="nn">subrela.plot.bokeh</span> <span class="kn">import</span> <span class="n">draw_dendrogram</span><span class="p">,</span> <span class="n">draw_trace</span>
 
@@ -108,9 +109,8 @@ method.</p></li>
 <span class="n">Z</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="n">leaf_data</span><span class="p">,</span> <span class="n">node_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span> <span class="o">=</span> <span class="n">get_dendrogram_data</span><span class="p">(</span>
     <span class="n">Z</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
-<span class="n">sr</span> <span class="o">=</span> <span class="n">get_strong_relevances</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">clusters</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
-<span class="n">wr</span> <span class="o">=</span> <span class="n">get_weak_relevances</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">trace_data</span> <span class="o">=</span> <span class="n">get_trace_data</span><span class="p">(</span><span class="n">node_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">wr</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">wrs</span> <span class="o">=</span> <span class="n">get_weak_relevance_scores</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">trace_data</span> <span class="o">=</span> <span class="n">get_trace_data</span><span class="p">(</span><span class="n">node_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">,</span> <span class="n">wrs</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">bokeh</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">plot_width</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">plot_height</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 <span class="n">draw_dendrogram</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">leaf_data</span><span class="p">,</span> <span class="n">tree_data</span><span class="p">,</span> <span class="n">cut_data</span><span class="p">)</span>

@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>subrela.plot.bokeh.draw_node_info function &#8212; SubRelA 1.0.0 documentation</title>
+    <title>subrela.plot.bokeh.draw_node_info function &#8212; SubRelA 2.0.0 documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
@@ -64,34 +64,34 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fig</strong> (<em>bokeh.plotting.figure.Figure</em>) – Figure on which texts are drawn.</p></li>
-<li><p><strong>node_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.1.2)"><em>pandas.DataFrame</em></a>) – Data of nodes returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
-<li><p><strong>info</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.1.2)"><em>pandas.Series</em></a>) – Node information. Its index is a cluster index.</p></li>
-<li><p><strong>formatter</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function for converting a value of <code class="docutils literal notranslate"><span class="pre">info</span></code> into <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>.</p></li>
+<li><p><strong>node_data</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v1.2.1)"><em>pandas.DataFrame</em></a>) – Data of nodes returned by <a class="reference internal" href="subrela.plot.get_dendrogram_data.html#subrela.plot.get_dendrogram_data" title="subrela.plot.get_dendrogram_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subrela.plot.get_dendrogram_data</span></code></a> function.</p></li>
+<li><p><strong>info</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.Series.html#pandas.Series" title="(in pandas v1.2.1)"><em>pandas.Series</em></a>) – Node information. Its index is a cluster index.</p></li>
+<li><p><strong>formatter</strong> (<em>callable</em><em>, </em><em>optional</em>) – Function for converting a value of <code class="docutils literal notranslate"><span class="pre">info</span></code> into <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>.</p></li>
 <li><p><strong>angle</strong> (<em>{0</em><em>, </em><em>90</em><em>, </em><em>-90}</em><em>, </em><em>optional</em>) – Angle of a text from the x axis in degrees.</p></li>
 <li><p><strong>location</strong> (<em>{'first'</em><em>, </em><em>'last'</em><em>, </em><em>'inner'</em><em>, </em><em>'outer'}</em><em>, </em><em>optional</em>) – Side on which a text is located. If ‘first’ and ‘last’, a text is
 located on the side near to the first and the last leaf, respectively.
 If ‘inner’, and ‘outer’, a text is located on the side near to and far
 from a parent node, respectively.</p></li>
-<li><p><strong>x_offset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><em>optional</em>) – Offset from a tree line along the x axis in screen units.</p></li>
-<li><p><strong>y_offset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><em>optional</em>) – Offset from a tree line along the y axis in screen units.</p></li>
+<li><p><strong>x_offset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Offset from a tree line along the x axis in screen units.</p></li>
+<li><p><strong>y_offset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>, </em><em>optional</em>) – Offset from a tree line along the y axis in screen units.</p></li>
 <li><p><strong>orientation</strong> (<em>{'vertical'</em><em>, </em><em>'horizontal'}</em><em>, </em><em>optional</em>) – Orientation of a tree. If <code class="docutils literal notranslate"><span class="pre">'vertical'</span></code>, the height direction of a
 tree corresponds to the y axis. If <code class="docutils literal notranslate"><span class="pre">'horizontal'</span></code>, it corresponds to
 the x axis.</p></li>
-<li><p><strong>kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure.text</span></code> method.</p></li>
+<li><p><strong>kws</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a><em>, </em><em>optional</em>) – Keyword arguments passed to <code class="xref py py-obj docutils literal notranslate"><span class="pre">bokeh.plotting.figure.Figure.text</span></code> method.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>texts</strong> (<em>(2,) list[bokeh.models.renderers.GlyphRenderer]</em>) – Renderers for texts of the first and the last sibling nodes.</p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'x'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y'</span></code>, <code class="docutils literal notranslate"><span class="pre">'text'</span></code>, <code class="docutils literal notranslate"><span class="pre">'angle'</span></code>,
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">kws</span></code> contains key <code class="docutils literal notranslate"><span class="pre">'x'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y'</span></code>, <code class="docutils literal notranslate"><span class="pre">'text'</span></code>, <code class="docutils literal notranslate"><span class="pre">'angle'</span></code>,
     <code class="docutils literal notranslate"><span class="pre">'angle_units`'',</span> <span class="pre">``'x_offset'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y_offset'</span></code>, <code class="docutils literal notranslate"><span class="pre">'text_align'</span></code>,
     <code class="docutils literal notranslate"><span class="pre">'text_baseline'</span></code>, <code class="docutils literal notranslate"><span class="pre">'source'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'view'</span></code>.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 
-<script src="bokeh-plot-e83c1982f789437591154de27fabd1d7-external-api-subrela.plot.bokeh.draw_node_info.js" id="4e52d29d-da8f-47f5-8c6e-b3a5b3959c61"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-50e18156cf224c6c913a3b91616b1ce0-external-api-subrela.plot.bokeh.draw_node_info.js" id="a2cea9c4-8f6f-42f7-ada9-170ea1990bfc"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
 <span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
@@ -111,7 +111,7 @@ the x axis.</p></li>
 </div>
 <p>Change a format of texts:</p>
 
-<script src="bokeh-plot-0ea96eab2e814d6b85ab14ddd12360eb-external-api-subrela.plot.bokeh.draw_node_info.js" id="590f7aa8-09e5-43ef-875c-77febe78cd87"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-2c0d1309c0584f328bba3d73635c9c1b-external-api-subrela.plot.bokeh.draw_node_info.js" id="f1b1dd8a-01df-449f-ba72-7533fecc6fb2"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
 <span class="kn">from</span> <span class="nn">subrela.clustering</span> <span class="kn">import</span> <span class="n">get_clusters</span>
@@ -132,7 +132,7 @@ the x axis.</p></li>
 </div>
 <p>Rotate texts:</p>
 
-<script src="bokeh-plot-daa275a4f1d84dcdb7d49ebdd17d5a08-external-api-subrela.plot.bokeh.draw_node_info.js" id="f0f91f82-e9dd-4bbf-b8ad-0598b8a53279"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-85a0871f21de4eb292d0bb61ec1b674f-external-api-subrela.plot.bokeh.draw_node_info.js" id="6d2ec5fa-150e-44bb-a74e-03a2d851e3b5"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.layouts</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
@@ -158,7 +158,7 @@ the x axis.</p></li>
 </div>
 <p>Change locations of texts:</p>
 
-<script src="bokeh-plot-56d4a30e3db042e68a55447e2616883c-external-api-subrela.plot.bokeh.draw_node_info.js" id="4b4398a4-da97-49f9-a71f-70c837dbdc55"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-c25632cee9604d22ab6ddd356e27b006-external-api-subrela.plot.bokeh.draw_node_info.js" id="5d2c076d-8c65-46c1-9b01-cd2bc90bcc5f"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.layouts</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
@@ -185,7 +185,7 @@ the x axis.</p></li>
 </div>
 <p>Offset texts:</p>
 
-<script src="bokeh-plot-71e98f6da03a4cd6a7b58da34b1f33ff-external-api-subrela.plot.bokeh.draw_node_info.js" id="0b1fc28a-eb82-452a-924b-a5597ba0f07b"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+<script src="bokeh-plot-ca1e1f275f724a37be004c046c37da94-external-api-subrela.plot.bokeh.draw_node_info.js" id="7519b613-b4df-4eae-bafc-72ac985dc36a"></script><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">bokeh.plotting</span>
 <span class="kn">import</span> <span class="nn">bokeh.layouts</span>
 <span class="kn">import</span> <span class="nn">bokeh.io</span>
